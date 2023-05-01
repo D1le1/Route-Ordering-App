@@ -23,16 +23,6 @@ public class ServerWork  {
                 Log.v("ALERTT", "Connected");
                 output = new PrintWriter(socket.getOutputStream());
                 input = new Scanner(socket.getInputStream());
-//                new Thread(() -> {
-//                    while (null != (response = input.nextLine()))
-//                    {
-////                        switch (response)
-////                        {
-////                            case "AUTH--OK":
-////
-////                        }
-//                    }
-//                }).start();
             }catch (IOException e)
             {
                 e.printStackTrace();
@@ -40,28 +30,12 @@ public class ServerWork  {
         }).start();
     }
 
-    private void authorization(String login)
-    {
-        new Thread(() -> {
-            if(output != null) {
-                output.println("AUTH--" + login);
-                output.flush();
-            }
-//            if(response.equals("AUTH--OK"))
-
-        }).start();
-
-    }
-
     public String sendRequest(String request) throws IOException
     {
-
-        new Thread(() -> {
-            if(output != null) {
-                output.println(request);
-                output.flush();
-            }
-        }).start();
+        if(output != null) {
+            output.println(request);
+            output.flush();
+        }
         if(input != null && input.hasNextLine())
             return input.nextLine();
         return null;
@@ -76,18 +50,6 @@ public class ServerWork  {
             }
         }).start();
         return input.nextLine();
-    }
-
-    public String sendMessage(String mes)
-    {
-        if(output != null)
-        {
-            output.println(mes);
-            output.flush();
-        }
-        while (input.hasNextLine())
-            return input.nextLine();
-        return null;
     }
 
     public String getResponse()

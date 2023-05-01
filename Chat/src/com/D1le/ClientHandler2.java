@@ -30,6 +30,9 @@ public class ClientHandler2 implements Runnable {
                 {
                     case "AUTH":
                         getAuth(parts[1]);
+                        break;
+                    default:
+                        out.println("Hello");
                 }
             }
         } catch (IOException e) {
@@ -52,6 +55,10 @@ public class ClientHandler2 implements Runnable {
         {
             out.println("AUTH--OK");
             out.flush();
+        }
+        else
+        {
+            out.println("AUTH--DENY");
         }
     }
 

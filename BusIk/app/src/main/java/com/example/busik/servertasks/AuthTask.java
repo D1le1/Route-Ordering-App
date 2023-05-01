@@ -28,10 +28,11 @@ public class AuthTask extends AsyncTask<Void,Void,String> {
     @Override
     protected String doInBackground(Void... voids) {
         String request = "AUTH--" + username;
-        serverWork.sendMessage("123");
-//        serverWork.sendMessageToServer("123");
-//        return serverWork.sendMessageToServer("123");
-//            return serverWork.sendRequest(request);
+        try {
+            return serverWork.sendRequest(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
