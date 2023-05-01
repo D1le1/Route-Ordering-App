@@ -1,0 +1,16 @@
+<style name="SpinnerStyle" parent="Widget.AppCompat.Spinner">
+    <item name="android:background">@drawable/spinner_background</item>
+    <item name="android:paddingLeft">12dp</item>
+    <item name="android:paddingRight">12dp</item>
+    <item name="android:popupBackground">#F0F0F0</item>
+    <item name="android:dropDownSelector">#CCCCCC</item>
+    <item name="android:dropDownWidth">match_parent</item>
+    <item name="android:dropDownVerticalOffset">48dp</item>
+    <item name="android:dropDownHorizontalOffset">-16dp</item>
+    <item name="android:gravity">center_vertical|start</item>
+    <item name="android:spinnerMode">dropdown</item>
+    <item name="android:overlapAnchor">false</item>
+    <item name="android:textColor">#333333</item>
+    <item name="android:textSize">14sp</item>
+    <item name="android:fontFamily">@font/my_custom_font</item>
+</style>

@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome, Operator!"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"/>
+
+    <Button
+        android:id="@+id/btn_view_trips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Просмотреть список всех рейсов"
+        android:layout_margin="16dp"/>
+
+    <Button
+        android:id="@+id/btn_assign_driver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Закрепить водителя за маршрутом"
+        android:layout_margin="16dp"/>
+
+    <Button
+        android:id="@+id/btn_manage_drivers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Управление водителями"
+        android:layout_margin="16dp"/>
+
+    <Button
+        android:id="@+id/btn_manage_operators"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Управление операторами"
+        android:layout_margin="16dp"/>
+
+</LinearLayout>

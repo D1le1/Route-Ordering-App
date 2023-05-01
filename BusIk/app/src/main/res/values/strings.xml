@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">BusIk</string>
+    <string name="username_hint">Введите номер телефона</string>
+    <string name="password_hint">Введите пароль</string>
+    <string name="login_button_text">Авторизоваться</string>
+    <string name="register_text">Зарегестрироваться</string>
+    <string name="register_title">Регистрация</string>
+    <string name="client_role">Клиент</string>
+    <string name="driver_role">Водитель</string>
+    <string name="operator_role">Оператор</string>
+    <string name="select_route">Выбрать маршрут</string>
+    <string name="select_button_text">Поиск</string>
+    <string name="passenger_count">0</string>
+    <string name="trip_date">05.04.2023</string>
+    <string name="date_picker_text">Выбрать дату</string>
+</resources>
