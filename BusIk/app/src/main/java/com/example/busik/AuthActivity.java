@@ -1,20 +1,28 @@
 package com.example.busik;
 
 import android.content.Intent;
-import android.content.SearchRecentSuggestionsProvider;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.busik.servertasks.AuthTask;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
 
 public class AuthActivity extends AppCompatActivity {
 
-    private Button register;
+    private Button registerButton;
+    private Button loginButton;
+
+    private EditText login;
+
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,19 +30,28 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auth);
 
         fillLayout();
+        ServerWork serverWork = new ServerWork();
+        serverWork.connectToServer(title);
 
-        ServerWork.connectToServer();
 
-        register.setOnClickListener(v -> {
+        registerButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
+        });
+
+        loginButton.setOnClickListener(v -> {
+//            serverWork.sendMessageToServer("AUTH--" + login.getText().toString());
+            new AuthTask(login.getText().toString(),serverWork, this).execute();
         });
 
     }
 
     private void fillLayout()
     {
-        register = findViewById(R.id.register_button);
+        registerButton = findViewById(R.id.register_button);
+        loginButton = findViewById(R.id.login_button);
+        login = findViewById(R.id.username_edit_text);
+        title = findViewById(R.id.title);
     }
 
 }

@@ -29,27 +29,30 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
         try{
-            while (true)
-            {
-                username = input.nextLine();
-                server.sendNotificationToAllClients("User: " + username + " is connected", this);
-                break;
-            }
+            System.out.println("New User connected");
+//            String message = input.nextLine();
+//            System.out.println("Receive: " + message);
+//            output.println("Hello user");
+//            output.flush();
+//            while (true)
+//            {
+//                username = input.nextLine();
+//                server.sendNotificationToAllClients("User: " + username + " is connected", this);
+//                break;
+//            }
             String message;
             while ((message = input.nextLine()) != null)
             {
-                System.out.println(username +": " + message);
-                server.sendMessageToAllClients(message, this);
+//                System.out.println(username +": " + message);
+                System.out.println("Receive: " + message);
+//                server.sendMessageToAllClients(message, this);
                 Thread.sleep(10);
             }
 
-        }catch (InterruptedException e)
-        {
-            System.out.println("Error2");
-            e.printStackTrace();
-        }catch (Exception e)
+        } catch (Exception e)
         {
             System.out.println("Error3");
+            e.printStackTrace();
         }
         finally {
             this.close();
@@ -88,5 +91,6 @@ public class ClientHandler implements Runnable{
         }
         server.removeClient(this);
         server.sendNotificationToAllClients(username + " leave the server", this);
+        System.out.println("Closed");
     }
 }

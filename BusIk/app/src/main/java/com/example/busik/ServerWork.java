@@ -1,75 +1,98 @@
 package com.example.busik;
 
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
-import java.util.Spliterator;
 
-public class ServerWork {
-    private static Socket clientSocket;
-    private static Scanner input;
-    private static PrintWriter output;
-    private static String username;
-    private static boolean isConnected = false;
+public class ServerWork  {
+    private Socket socket;
+    private Scanner input;
+    private PrintWriter output;
+    private String response;
 
-    public static void connectToServer()
+    public void connectToServer(TextView tw)
     {
-        int port = 8001;
-
-        System.out.println("Connecting...");
-        Log.v("ALERTT", "Connecting...");
-        try{
-            clientSocket = new Socket("localhost", port);
-            Log.v("ALERTT", "Connected");
-            isConnected = true;
-//            Thread inputThread = new Thread(() -> {
-//                try{
-//                    while (isConnected)
+        new Thread(() -> {
+            try {
+                socket = new Socket("192.168.100.6", 8001);
+                Log.v("ALERTT", "Connected");
+                output = new PrintWriter(socket.getOutputStream());
+                input = new Scanner(socket.getInputStream());
+//                new Thread(() -> {
+//                    while (null != (response = input.nextLine()))
 //                    {
-//                        if(clientSocket.isClosed())
-//                        {
-//                            break;
-//                        }
-//                        if(input.hasNext())
-//                        {
-//                            String inMsg = input.nextLine();
-//                            System.out.println(inMsg);
-//                        }
+////                        switch (response)
+////                        {
+////                            case "AUTH--OK":
+////
+////                        }
 //                    }
-//                }catch (Exception e)
-//                {
-//                    e.printStackTrace();
-//                }
-//            });
-//            inputThread.start();
-//            while(true) {
-//                String msg = scn.nextLine();
-//                if(msg.equalsIgnoreCase("quit"))
-//                {
-//                    output.println("##shutdown##");
-//                    output.flush();
-//                    System.out.println("You're disconnected");
-//                    isConnected = false;
-//                    break;
-//                }
-//                else {
-//                    output.println(msg);
-//                    output.flush();
-//                }
-//            }
-
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+//                }).start();
+            }catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
-    public static void main(String[] args)
+    private void authorization(String login)
+    {
+        new Thread(() -> {
+            if(output != null) {
+                output.println("AUTH--" + login);
+                output.flush();
+            }
+//            if(response.equals("AUTH--OK"))
+
+        }).start();
+
+    }
+
+    public String sendRequest(String request) throws IOException
     {
 
+        new Thread(() -> {
+            if(output != null) {
+                output.println(request);
+                output.flush();
+            }
+        }).start();
+        if(input != null && input.hasNextLine())
+            return input.nextLine();
+        return null;
+    }
+
+    public String sendMessageToServer(String message)
+    {
+        new Thread(() -> {
+            if(output != null) {
+                output.println(message);
+                output.flush();
+            }
+        }).start();
+        return input.nextLine();
+    }
+
+    public String sendMessage(String mes)
+    {
+        if(output != null)
+        {
+            output.println(mes);
+            output.flush();
+        }
+        while (input.hasNextLine())
+            return input.nextLine();
+        return null;
+    }
+
+    public String getResponse()
+    {
+        return response;
     }
 }
 

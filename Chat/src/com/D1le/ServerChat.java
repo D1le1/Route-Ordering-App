@@ -64,8 +64,9 @@ public class ServerChat {
     {
         for(ClientHandler c : clients)
         {
-            if(!c.equals(client))
-                c.sendMsg(not);
+            c.sendMsg(not);
+//            if(!c.equals(client))
+//                c.sendMsg(not);
         }
     }
 
