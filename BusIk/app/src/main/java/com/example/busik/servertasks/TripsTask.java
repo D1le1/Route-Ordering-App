@@ -4,29 +4,30 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.view.View;
+import android.util.Log;
 import android.widget.TextView;
 
-import com.example.busik.AuthActivity;
 import com.example.busik.R;
 import com.example.busik.ServerWork;
 import com.example.busik.client.ClientActivity;
-import com.example.busik.driver.DriverActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.IOException;
 
-public class AuthTask extends AsyncTask<Void,Void,String> {
-    private String username;
+public class TripsTask extends AsyncTask<Void,Void,String> {
+
+    private ServerWork serverWork;
     private Context context;
 
-    public AuthTask(String username, Context context) {
-        this.username = username;
+    public TripsTask(Context context) {
         this.context = context;
     }
 
     @Override
     protected String doInBackground(Void... voids) {
-        String request = "AUTH--" + username;
+        String request = "TRIPS--GET";
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -38,12 +39,11 @@ public class AuthTask extends AsyncTask<Void,Void,String> {
     @Override
     protected void onPostExecute(String response) {
         if(response != null) {
-            if (response.equals("AUTH--OK")) {
-                Intent intent = new Intent(context, DriverActivity.class);
-                context.startActivity(intent);
-            } else {
-                TextView title = ((Activity) context).findViewById(R.id.title);
-                title.setText("Неправильный логин");
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                Log.v("JSONO", jsonArray.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
     }

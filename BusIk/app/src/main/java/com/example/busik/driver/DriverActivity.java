@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
+import com.example.busik.ServerWork;
 import com.example.busik.Trip;
+import com.example.busik.servertasks.TripsTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,9 @@ public class DriverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver);
 
+//        ServerWork serverWork = new ServerWork();
+//        ServerWork.connectToServer();
+
         // Заполнение списка рейсов данными
         mTrips = new ArrayList<>();
         mTrips.add(new Trip("Москва - Санкт-Петербург", "10:00"));
@@ -34,8 +39,9 @@ public class DriverActivity extends AppCompatActivity {
         mTrips.add(new Trip("Новосибирск - Санкт-Петербург", "20:00"));
 
         DriverTripListAdapter.OnTripClickListener onTripClickListener = (mTrips) -> {
-            Intent intent = new Intent(this, MarkClientsActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, MarkClientsActivity.class);
+//            startActivity(intent);
+            new TripsTask(this).execute();
         };
 
         // Настройка RecyclerView и адаптера

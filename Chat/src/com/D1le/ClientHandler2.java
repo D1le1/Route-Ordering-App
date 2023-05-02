@@ -1,9 +1,13 @@
 package com.D1le;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ClientHandler2 implements Runnable {
@@ -30,6 +34,9 @@ public class ClientHandler2 implements Runnable {
                 {
                     case "AUTH":
                         getAuth(parts[1]);
+                        break;
+                    case "TRIPS":
+                        getTrips();
                         break;
                     default:
                         out.println("Hello");
@@ -60,6 +67,29 @@ public class ClientHandler2 implements Runnable {
         {
             out.println("AUTH--DENY");
         }
+    }
+
+    private void getTrips()
+    {
+        List<Trip> mTrips = new ArrayList<>();
+        mTrips.add(new Trip("Москва - Санкт-Петербург", "10:00"));
+        mTrips.add(new Trip("Санкт-Петербург - Москва", "12:00"));
+        mTrips.add(new Trip("Москва - Новосибирск", "14:00"));
+        mTrips.add(new Trip("Новосибирск - Москва", "16:00"));
+        mTrips.add(new Trip("Санкт-Петербург - Новосибирск", "18:00"));
+        mTrips.add(new Trip("Новосибирск - Санкт-Петербург", "20:00"));
+
+        JSONArray jsonArray = new JSONArray();
+        for(Trip trip : mTrips)
+        {
+            JSONObject object = new JSONObject();
+            object.put("route", trip.getRoute());
+            object.put("time", trip.getTime());
+            jsonArray.add(object);
+        }
+
+        out.println(jsonArray);
+        out.flush();
     }
 
     private void close()

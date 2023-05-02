@@ -30,9 +30,8 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auth);
 
         fillLayout();
-        ServerWork serverWork = new ServerWork();
-        serverWork.connectToServer(title);
 
+        ServerWork.connectToServer();
 
         registerButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, RegisterActivity.class);
@@ -40,8 +39,7 @@ public class AuthActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(v -> {
-//            serverWork.sendMessageToServer("AUTH--" + login.getText().toString());
-            new AuthTask(login.getText().toString(),serverWork, this).execute();
+            new AuthTask(login.getText().toString(),this).execute();
         });
 
     }

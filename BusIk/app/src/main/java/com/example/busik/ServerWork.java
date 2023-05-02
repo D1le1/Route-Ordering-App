@@ -10,16 +10,16 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ServerWork  {
-    private Socket socket;
-    private Scanner input;
-    private PrintWriter output;
-    private String response;
+    private static Socket socket;
+    private static Scanner input;
+    private static PrintWriter output;
+    private static String response;
 
-    public void connectToServer(TextView tw)
+    public static void connectToServer()
     {
         new Thread(() -> {
             try {
-                socket = new Socket("192.168.100.6", 8001);
+                socket = new Socket("192.168.43.102", 8001);
                 Log.v("ALERTT", "Connected");
                 output = new PrintWriter(socket.getOutputStream());
                 input = new Scanner(socket.getInputStream());
@@ -30,7 +30,7 @@ public class ServerWork  {
         }).start();
     }
 
-    public String sendRequest(String request) throws IOException
+    public static String sendRequest(String request) throws IOException
     {
         if(output != null) {
             output.println(request);
