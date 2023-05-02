@@ -26,28 +26,8 @@ public class DriverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver);
 
-//        ServerWork serverWork = new ServerWork();
-//        ServerWork.connectToServer();
-
-        // Заполнение списка рейсов данными
         mTrips = new ArrayList<>();
-        mTrips.add(new Trip("Москва - Санкт-Петербург", "10:00"));
-        mTrips.add(new Trip("Санкт-Петербург - Москва", "12:00"));
-        mTrips.add(new Trip("Москва - Новосибирск", "14:00"));
-        mTrips.add(new Trip("Новосибирск - Москва", "16:00"));
-        mTrips.add(new Trip("Санкт-Петербург - Новосибирск", "18:00"));
-        mTrips.add(new Trip("Новосибирск - Санкт-Петербург", "20:00"));
 
-        DriverTripListAdapter.OnTripClickListener onTripClickListener = (mTrips) -> {
-//            Intent intent = new Intent(this, MarkClientsActivity.class);
-//            startActivity(intent);
-            new TripsTask(this).execute();
-        };
-
-        // Настройка RecyclerView и адаптера
-        mRecyclerView = findViewById(R.id.recycler_view_trips);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new DriverTripListAdapter(mTrips, onTripClickListener);
-        mRecyclerView.setAdapter(mAdapter);
+        new TripsTask(mTrips, this).execute();
     }
 }

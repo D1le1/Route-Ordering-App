@@ -19,7 +19,7 @@ public class ServerWork  {
     {
         new Thread(() -> {
             try {
-                socket = new Socket("192.168.43.102", 8001);
+                socket = new Socket("192.168.99.99", 8001);
                 Log.v("ALERTT", "Connected");
                 output = new PrintWriter(socket.getOutputStream());
                 input = new Scanner(socket.getInputStream());
