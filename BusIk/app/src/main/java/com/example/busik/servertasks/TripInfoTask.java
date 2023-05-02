@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.busik.R;
 import com.example.busik.ServerWork;
 import com.example.busik.Trip;
-import com.example.busik.client.ClientActivity;
 import com.example.busik.driver.DriverTripListAdapter;
 import com.example.busik.driver.MarkClientsActivity;
 
@@ -24,19 +21,19 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
 
-public class TripsTask extends AsyncTask<Void,Void,String> {
+public class TripInfoTask extends AsyncTask<Void,Void,String> {
 
     private Context context;
-    private List<Trip> mTrips;
+    private int tripId;
 
-    public TripsTask(List<Trip> mTrips, Context context) {
-        this.mTrips = mTrips;
+    public TripInfoTask(int tripId, Context context) {
+        this.tripId = tripId;
         this.context = context;
     }
 
     @Override
     protected String doInBackground(Void... voids) {
-        String request = "TRIPS--GET";
+        String request = "TRIP--" + voids[0];
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -59,9 +56,8 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                     );
                     mTrips.add(trip);
                 }
-                DriverTripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
+                DriverTripListAdapter.OnTripClickListener onTripClickListener = (mTrips) -> {
                       Intent intent = new Intent(context, MarkClientsActivity.class);
-                      intent.putExtra("trip_id", trip.getmId());
                       context.startActivity(intent);
                 };
 

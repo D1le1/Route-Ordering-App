@@ -13,6 +13,7 @@ public class Trip implements Serializable {
     private boolean mArrived;
     private List<Client> mPassengerList;
     private String mDriver;
+    private int mId;
 
     public Trip(String route, String time) {
         mRoute = route;
@@ -22,6 +23,10 @@ public class Trip implements Serializable {
     }
 
     public Trip(String route, String time, ArrayList<Object> objects) {
+    }
+
+    public int getmId() {
+        return mId;
     }
 
     public String getRoute() {

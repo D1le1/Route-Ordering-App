@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.example.busik.R;
 import com.example.busik.client.Client;
 import com.example.busik.client.ClientListAdapter;
+import com.example.busik.servertasks.TripInfoTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,8 @@ public class MarkClientsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mark_clients);
+
+        new TripInfoTask(getIntent().getIntExtra("trip_id", -1), this);
         // Создание списка клиентов
         List<Client> clientList = new ArrayList<>();
         clientList.add(new Client("Иван Иванов", "ул. Пушкина, д. 10, кв. 25", "+7 999 123-45-67"));

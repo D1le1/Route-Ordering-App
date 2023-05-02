@@ -33,7 +33,7 @@ public class DriverTripListAdapter extends RecyclerView.Adapter<DriverTripListAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Trip trip = mTrips.get(position);
-        holder.bind(trip, mClickListener);
+        holder.bind(trip, mClickListener, position);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class DriverTripListAdapter extends RecyclerView.Adapter<DriverTripListAd
             mTextPassengersCount = itemView.findViewById(R.id.text_passengers_count);
         }
 
-        public void bind(Trip trip, OnTripClickListener clickListener) {
+        public void bind(Trip trip, OnTripClickListener clickListener, int position) {
             mTextRoute.setText(trip.getRoute());
             mTextTime.setText(trip.getTime());
             int passengersCount = trip.getPassengerList().size();

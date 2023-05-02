@@ -11,7 +11,7 @@ public class Server {
 
             while (true) {
                 Socket socket = server.accept();
-                new Thread(new ClientHandler2(socket)).start();
+                new Thread(new ClientHandler(socket)).start();
                 System.out.println("Client connected.");
             }
         } catch (IOException e) {

@@ -6,20 +6,23 @@ import java.util.List;
 
 public class Trip implements Serializable {
 
+    private int mId;
     private String mRoute;
     private String mTime;
     private boolean mArrived;
     private List<Client> mPassengerList;
     private String mDriver;
 
-    public Trip(String route, String time) {
+    public Trip(String route, String time, int id) {
         mRoute = route;
         mTime = time;
         mArrived = false;
         mPassengerList = new ArrayList<>();
+        mId = id;
     }
 
-    public Trip(String route, String time, ArrayList<Object> objects) {
+    public int getmId() {
+        return mId;
     }
 
     public String getRoute() {

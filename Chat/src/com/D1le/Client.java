@@ -1,75 +1,54 @@
 package com.D1le;
 
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;
-import java.util.Spliterator;
-
 public class Client {
-    private static Socket clientSocket;
-    private static Scanner input;
-    private static PrintWriter output;
-    private static String username;
-    private static Scanner scn = new Scanner(System.in);
-    private static boolean isConnected = false;
 
-    public static void main(String[] args)
-    {
-        int port = args.length == 0 ? 8001 : Integer.parseInt(args[0]);
+    private int mId;
+    private String mName;
+    private String mAddress;
+    private String mPhone;
+    private boolean mArrived;
 
-        System.out.print("Enter username: ");
-        username = scn.nextLine();
+    public Client(String name, String address, String phone, int id) {
+        mName = name;
+        mAddress = address;
+        mPhone = phone;
+        mArrived = false;
+        mId = id;
+    }
 
-        System.out.println("Connecting...");
-        try{
-            clientSocket = new Socket("192.168.24.99", port);
-            input = new Scanner(clientSocket.getInputStream());
-            output = new PrintWriter(clientSocket.getOutputStream());
-            System.out.println("Connection successful");
-            isConnected = true;
-            output.println(username);
-            output.flush();
-            Thread inputThread = new Thread(() -> {
-                try{
-                    while (isConnected)
-                    {
-                        if(clientSocket.isClosed())
-                        {
-                            break;
-                        }
-                        if(input.hasNext())
-                        {
-                            String inMsg = input.nextLine();
-                            System.out.println(inMsg);
-                        }
-                    }
-                }catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            });
-            inputThread.start();
-            while(true) {
-                String msg = scn.nextLine();
-                if(msg.equalsIgnoreCase("quit"))
-                {
-                    output.println("##shutdown##");
-                    output.flush();
-                    System.out.println("You're disconnected");
-                    isConnected = false;
-                    break;
-                }
-                else {
-                    output.println(msg);
-                    output.flush();
-                }
-            }
+    public int getmId() {
+        return mId;
+    }
 
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public String getAddress() {
+        return mAddress;
+    }
+
+    public void setAddress(String address) {
+        mAddress = address;
+    }
+
+    public String getPhone() {
+        return mPhone;
+    }
+
+    public void setPhone(String phone) {
+        mPhone = phone;
+    }
+
+    public boolean hasArrived() {
+        return mArrived;
+    }
+
+    public void setArrived(boolean arrived) {
+        mArrived = arrived;
     }
 }
