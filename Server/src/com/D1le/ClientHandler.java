@@ -1,7 +1,7 @@
 package com.D1le;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,10 +15,6 @@ public class ClientHandler implements Runnable {
     private final DbHandler dbHandler;
     private PrintWriter out;
     private Scanner in;
-
-    private List<Client> mClients;
-    private List<Trip> mTrips;
-    private List<ClientRoutes> mClientRoutes;
 
     public ClientHandler(Socket clientSocket, DbHandler dbHandler) {
         this.clientSocket = clientSocket;
@@ -42,7 +38,7 @@ public class ClientHandler implements Runnable {
                         getAuth(parts[1]);
                         break;
                     case "TRIPS":
-                        getTrips();
+                        getTrips(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                         break;
                     case "TRIP":
                         getTripInfo();
@@ -65,7 +61,7 @@ public class ClientHandler implements Runnable {
             JSONObject object = new JSONObject();
             object.put("route", trip.getRoute());
             object.put("time", trip.getTime());
-            jsonArray.add(object);
+            jsonArray.put(object);
         }
 
         out.println(jsonArray);
@@ -76,12 +72,7 @@ public class ClientHandler implements Runnable {
     {
         Client client = dbHandler.getAuth(login);
         if(client != null) {
-            JSONObject object = new JSONObject();
-            object.put("id", client.getId());
-            object.put("name", client.getName());
-            object.put("address", client.getAddress());
-            object.put("phone", client.getPhone());
-            object.put("role", client.getRole());
+            MyJSONObject object = new MyJSONObject(client);
             out.println(object);
         }
         else
@@ -96,17 +87,23 @@ public class ClientHandler implements Runnable {
 
     }
 
-    private void getTrips()
+    private void getTrips(int id, int role)
     {
         JSONArray jsonArray = new JSONArray();
-        for(Trip trip : dbHandler.getTrips())
+        List<Trip> trips = null;
+        if(role == 2)
         {
-            JSONObject object = new JSONObject();
-            object.put("route", trip.getRoute());
-            object.put("time", trip.getTime());
-            jsonArray.add(object);
+            trips = dbHandler.getDriverTrips(id);
         }
-
+        else
+        {
+            trips = dbHandler.getTrips();
+        }
+        for(Trip trip : trips)
+        {
+            MyJSONObject object = new MyJSONObject(trip);
+            jsonArray.put(object);
+        }
         out.println(jsonArray);
         out.flush();
     }

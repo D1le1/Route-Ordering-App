@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.busik.R;
 import com.example.busik.ServerWork;
 import com.example.busik.Trip;
+import com.example.busik.client.Client;
 import com.example.busik.servertasks.TripsTask;
 
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ public class DriverActivity extends AppCompatActivity {
 
         mTrips = new ArrayList<>();
 
-        new TripsTask(mTrips, this).execute();
+        Client client = (Client) getIntent().getSerializableExtra("client");
+
+        new TripsTask(mTrips, this, client).execute();
     }
 }

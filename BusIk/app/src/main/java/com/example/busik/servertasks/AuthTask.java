@@ -43,16 +43,18 @@ public class AuthTask extends AsyncTask<Void,Void,String> {
     protected void onPostExecute(String response) {
         if(response != null) {
             try {
-                JSONObject object = new JSONObject(response);
-                Client client = JSONParser.parseToClient(object);
+                MyJSONObject object = new MyJSONObject(response);
+                Client client = object.parseToClient();
                 Intent intent;
                 switch (client.getRole()) {
                     case 1:
                         intent = new Intent(context, ClientActivity.class);
+                        intent.putExtra("client", client);
                         context.startActivity(intent);
                         break;
                     case 2:
                         intent = new Intent(context, DriverActivity.class);
+                        intent.putExtra("client", client);
                         context.startActivity(intent);
                         break;
                     default:

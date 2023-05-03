@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.busik.R;
 import com.example.busik.ServerWork;
 import com.example.busik.Trip;
-import com.example.busik.client.ClientActivity;
+import com.example.busik.client.Client;
 import com.example.busik.driver.DriverTripListAdapter;
 import com.example.busik.driver.MarkClientsActivity;
 
@@ -27,16 +25,18 @@ import java.util.List;
 public class TripsTask extends AsyncTask<Void,Void,String> {
 
     private Context context;
-    private List<Trip> mTrips;
+    private List<Trip> trips;
+    private Client client;
 
-    public TripsTask(List<Trip> mTrips, Context context) {
-        this.mTrips = mTrips;
+    public TripsTask(List<Trip> trips, Context context, Client client) {
+        this.trips = trips;
         this.context = context;
+        this.client = client;
     }
 
     @Override
     protected String doInBackground(Void... voids) {
-        String request = "TRIPS--GET";
+        String request = "TRIPS--" + client.getId() + "--" + client.getRole();
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -53,19 +53,19 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
 
                 for(int i=0; i<jsonArray.length(); i++)
                 {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    Trip trip = JSONParser.parseToTrip(object);
-                    mTrips.add(trip);
+                    MyJSONObject object = new MyJSONObject(jsonArray.getJSONObject(i));
+                    Trip trip = object.parseToTrip();
+                    trips.add(trip);
                 }
                 DriverTripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
                       Intent intent = new Intent(context, MarkClientsActivity.class);
-                      intent.putExtra("trip_id", trip.getmId());
+                      intent.putExtra("trip_id", trip.getId());
                       context.startActivity(intent);
                 };
 
                 RecyclerView mRecyclerView = ((Activity) context).findViewById(R.id.recycler_view_trips);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                DriverTripListAdapter mAdapter = new DriverTripListAdapter(mTrips, onTripClickListener);
+                DriverTripListAdapter mAdapter = new DriverTripListAdapter(trips, onTripClickListener);
                 mRecyclerView.setAdapter(mAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();

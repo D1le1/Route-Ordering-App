@@ -1,6 +1,8 @@
 package com.example.busik.client;
 
-public class Client {
+import java.io.Serializable;
+
+public class Client implements Serializable {
 
     private int mId;
     private String mName;
@@ -52,5 +54,9 @@ public class Client {
 
     public int getRole() {
         return mRole;
+    }
+
+    public int getId() {
+        return mId;
     }
 }

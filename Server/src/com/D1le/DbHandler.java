@@ -40,6 +40,28 @@ public class DbHandler {
         return null;
     }
 
+    public List<Trip> getDriverTrips(int driverId)
+    {
+        try {
+            ResultSet rs = statement.executeQuery("Select * from trips where driver_id = " + driverId);
+            List<Trip> trips = new ArrayList<>();
+            while (rs.next())
+            {
+                trips.add(new Trip(
+                        rs.getString("route"),
+                        rs.getString("time"),
+                        rs.getInt("id")
+                ));
+            }
+            return trips;
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public List<Trip> getTrips() {
         try {
             ResultSet rs = statement.executeQuery("Select * from trips");

@@ -15,17 +15,18 @@ public class Trip implements Serializable {
     private String mDriver;
     private int mId;
 
-    public Trip(String route, String time) {
+    public Trip(String route, String time, int id) {
         mRoute = route;
         mTime = time;
         mArrived = false;
         mPassengerList = new ArrayList<>();
+        mId = id;
     }
 
     public Trip(String route, String time, ArrayList<Object> objects) {
     }
 
-    public int getmId() {
+    public int getId() {
         return mId;
     }
 

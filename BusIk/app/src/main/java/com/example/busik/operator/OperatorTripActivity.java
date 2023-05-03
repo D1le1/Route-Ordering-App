@@ -27,13 +27,6 @@ public class OperatorTripActivity extends AppCompatActivity {
         setContentView(R.layout.activity_driver);
 
         // Заполнение списка рейсов данными
-        mTrips = new ArrayList<>();
-        mTrips.add(new Trip("Москва - Санкт-Петербург", "10:00"));
-        mTrips.add(new Trip("Санкт-Петербург - Москва", "12:00"));
-        mTrips.add(new Trip("Москва - Новосибирск", "14:00"));
-        mTrips.add(new Trip("Новосибирск - Москва", "16:00"));
-        mTrips.add(new Trip("Санкт-Петербург - Новосибирск", "18:00"));
-        mTrips.add(new Trip("Новосибирск - Санкт-Петербург", "20:00"));
 
         DriverTripListAdapter.OnTripClickListener onTripClickListener = (mTrips) -> {
             Intent intent = new Intent(this, MarkClientsActivity.class);

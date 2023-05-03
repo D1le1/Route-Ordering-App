@@ -21,7 +21,7 @@ public class Trip implements Serializable {
         mId = id;
     }
 
-    public int getmId() {
+    public int getId() {
         return mId;
     }
 
