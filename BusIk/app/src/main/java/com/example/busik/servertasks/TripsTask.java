@@ -54,9 +54,7 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                 for(int i=0; i<jsonArray.length(); i++)
                 {
                     JSONObject object = jsonArray.getJSONObject(i);
-                    Trip trip = new Trip(
-                            object.getString("route"), object.getString("time")
-                    );
+                    Trip trip = JSONParser.parseToTrip(object);
                     mTrips.add(trip);
                 }
                 DriverTripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {

@@ -10,8 +10,12 @@ import android.widget.TextView;
 import com.example.busik.AuthActivity;
 import com.example.busik.R;
 import com.example.busik.ServerWork;
+import com.example.busik.client.Client;
 import com.example.busik.client.ClientActivity;
 import com.example.busik.driver.DriverActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -38,12 +42,25 @@ public class AuthTask extends AsyncTask<Void,Void,String> {
     @Override
     protected void onPostExecute(String response) {
         if(response != null) {
-            if (response.equals("AUTH--OK")) {
-                Intent intent = new Intent(context, DriverActivity.class);
-                context.startActivity(intent);
-            } else {
-                TextView title = ((Activity) context).findViewById(R.id.title);
-                title.setText("Неправильный логин");
+            try {
+                JSONObject object = new JSONObject(response);
+                Client client = JSONParser.parseToClient(object);
+                Intent intent;
+                switch (client.getRole()) {
+                    case 1:
+                        intent = new Intent(context, ClientActivity.class);
+                        context.startActivity(intent);
+                        break;
+                    case 2:
+                        intent = new Intent(context, DriverActivity.class);
+                        context.startActivity(intent);
+                        break;
+                    default:
+                        TextView title = ((Activity) context).findViewById(R.id.title);
+                        title.setText("Неправильный логин");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
     }

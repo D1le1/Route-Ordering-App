@@ -6,17 +6,17 @@ public class Client {
     private String mName;
     private String mAddress;
     private String mPhone;
-    private boolean mArrived;
+    private int mRole;
 
-    public Client(String name, String address, String phone, int id) {
+    public Client(String name, String address, String phone, int id, int role) {
         mName = name;
         mAddress = address;
         mPhone = phone;
-        mArrived = false;
         mId = id;
+        mRole = role;
     }
 
-    public int getmId() {
+    public int getId() {
         return mId;
     }
 
@@ -32,10 +32,6 @@ public class Client {
         return mAddress;
     }
 
-    public void setAddress(String address) {
-        mAddress = address;
-    }
-
     public String getPhone() {
         return mPhone;
     }
@@ -44,11 +40,7 @@ public class Client {
         mPhone = phone;
     }
 
-    public boolean hasArrived() {
-        return mArrived;
-    }
-
-    public void setArrived(boolean arrived) {
-        mArrived = arrived;
+    public int getRole() {
+        return mRole;
     }
 }

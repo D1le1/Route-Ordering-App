@@ -2,16 +2,20 @@ package com.example.busik.client;
 
 public class Client {
 
+    private int mId;
     private String mName;
     private String mAddress;
     private String mPhone;
     private boolean mArrived;
+    private int mRole;
 
-    public Client(String name, String address, String phone) {
+    public Client(String name, String address, String phone, int id, int role) {
         mName = name;
         mAddress = address;
         mPhone = phone;
         mArrived = false;
+        mRole = role;
+        mId = id;
     }
 
     public String getName() {
@@ -44,5 +48,9 @@ public class Client {
 
     public void setArrived(boolean arrived) {
         mArrived = arrived;
+    }
+
+    public int getRole() {
+        return mRole;
     }
 }
