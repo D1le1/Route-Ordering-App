@@ -12,7 +12,6 @@ public class Server {
 
             DbHandler dbHandler = new DbHandler();
             dbHandler.connectToDb();
-            dbHandler.getAuth("375445058007");
 
             while (true) {
                 Socket socket = server.accept();

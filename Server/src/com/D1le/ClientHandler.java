@@ -30,7 +30,10 @@ public class ClientHandler implements Runnable {
             while (null != (inputLine = in.nextLine())) {
                 System.out.println("Receive: " + inputLine);
                 String[] parts = inputLine.split("--");
-                System.out.println(parts[0]);
+                if(parts.length < 2) {
+                    out.println("Nothing to send");
+                    continue;
+                }
 
                 switch (parts[0])
                 {

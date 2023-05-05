@@ -1,16 +1,18 @@
 package com.D1le;
 
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DbHandler {
-    private static final String CON_STR = "jdbc:sqlite:D:\\BSUIR\\Route-Ordering-App\\Server\\database.db";
+    private static final String CON_STR = "jdbc:sqlite:database.db";
     private Connection connection = null;
     private Statement statement = null;
 
     public void connectToDb() throws SQLException, ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
+        File file = new File("database.db");
         connection = DriverManager.getConnection(CON_STR);
         statement = connection.createStatement();
         System.out.println("Database connected");

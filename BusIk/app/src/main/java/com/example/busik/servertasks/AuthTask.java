@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,10 +23,12 @@ import java.io.IOException;
 public class AuthTask extends AsyncTask<Void,Void,String> {
     private String username;
     private Context context;
+    private Activity activity;
 
     public AuthTask(String username, Context context) {
         this.username = username;
         this.context = context;
+        activity = (Activity) context;
     }
 
     @Override
@@ -45,6 +48,7 @@ public class AuthTask extends AsyncTask<Void,Void,String> {
             try {
                 MyJSONObject object = new MyJSONObject(response);
                 Client client = object.parseToClient();
+                Log.d("D1le", client.getAddress());
                 Intent intent;
                 switch (client.getRole()) {
                     case 1:
@@ -63,6 +67,8 @@ public class AuthTask extends AsyncTask<Void,Void,String> {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                TextView title = activity.findViewById(R.id.title);
+                title.setText("Неправильный логин");
             }
         }
     }
