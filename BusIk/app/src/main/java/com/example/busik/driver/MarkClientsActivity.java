@@ -23,6 +23,7 @@ public class MarkClientsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mark_clients);
 
+        int tripId = getIntent().getIntExtra("trip_id", -1);
 //        new TripInfoTask(getIntent().getIntExtra("trip_id", -1), this);
         // Создание списка клиентов
         List<Client> clientList = new ArrayList<>();

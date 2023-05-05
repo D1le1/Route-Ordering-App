@@ -1,6 +1,7 @@
 package com.D1le;
 
 import java.io.File;
+import java.lang.ref.ReferenceQueue;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,6 @@ public class DbHandler {
 
     public void connectToDb() throws SQLException, ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
-        File file = new File("database.db");
         connection = DriverManager.getConnection(CON_STR);
         statement = connection.createStatement();
         System.out.println("Database connected");
@@ -34,6 +34,28 @@ public class DbHandler {
                         rs.getInt("role_id")
                 );
                 return client;
+            }
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Client> getTripInfo(int tripId)
+    {
+        try{
+            ResultSet rs = statement.executeQuery("Select name, number  from users t1 inner join clientstrips t2 " +
+                    "on t1.id = t2.user_id where t2.trip_id = " + tripId);
+            List<Client> clients = new ArrayList<>();
+            while (rs.next())
+            {
+                clients.add(new Client(
+                        rs.getString("name"),
+                        "Nothing",
+                        rs.getString("number")
+                ));
+                return clients;
             }
         }catch (SQLException e)
         {

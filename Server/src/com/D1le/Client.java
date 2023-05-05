@@ -16,6 +16,12 @@ public class Client {
         mRole = role;
     }
 
+    public Client(String mName, String mAddress, String mPhone) {
+        this.mName = mName;
+        this.mAddress = mAddress;
+        this.mPhone = mPhone;
+    }
+
     public int getId() {
         return mId;
     }

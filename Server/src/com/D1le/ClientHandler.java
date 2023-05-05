@@ -44,7 +44,7 @@ public class ClientHandler implements Runnable {
                         getTrips(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                         break;
                     case "TRIP":
-                        getTripInfo();
+                        getTripInfo(Integer.parseInt(parts[1]));
                     default:
                         out.println("Nothing to send");
                 }
@@ -57,18 +57,8 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void getTripInfo() {
-        JSONArray jsonArray = new JSONArray();
-        for(Trip trip : dbHandler.getTrips())
-        {
-            JSONObject object = new JSONObject();
-            object.put("route", trip.getRoute());
-            object.put("time", trip.getTime());
-            jsonArray.put(object);
-        }
+    private void getTripInfo(int tripId) {
 
-        out.println(jsonArray);
-        out.flush();
     }
 
     private void getAuth(String login)
@@ -85,15 +75,10 @@ public class ClientHandler implements Runnable {
         out.flush();
     }
 
-    private void getDriverTrips()
-    {
-
-    }
-
     private void getTrips(int id, int role)
     {
         JSONArray jsonArray = new JSONArray();
-        List<Trip> trips = null;
+        List<Trip> trips;
         if(role == 2)
         {
             trips = dbHandler.getDriverTrips(id);

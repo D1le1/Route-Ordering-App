@@ -23,9 +23,6 @@ public class Trip implements Serializable {
         mId = id;
     }
 
-    public Trip(String route, String time, ArrayList<Object> objects) {
-    }
-
     public int getId() {
         return mId;
     }
