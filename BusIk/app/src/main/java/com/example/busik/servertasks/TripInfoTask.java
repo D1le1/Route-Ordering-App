@@ -22,15 +22,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TripInfoTask extends AsyncTask<Integer,Void,String> {
 
     private Context context;
+    private Activity activity;
 
     public TripInfoTask(Context context) {
         this.context = context;
+        activity = (Activity) context;
     }
 
     @Override
@@ -46,13 +49,12 @@ public class TripInfoTask extends AsyncTask<Integer,Void,String> {
 
     @Override
     protected void onPostExecute(String response) {
-        if(response != null) {
+        if (response != null) {
             try {
                 JSONArray jsonArray = new JSONArray(response);
                 List<Client> clients = new ArrayList<>();
 
-                for(int i=0; i<jsonArray.length(); i++)
-                {
+                for (int i = 0; i < jsonArray.length(); i++) {
                     MyJSONObject object = new MyJSONObject(jsonArray.getJSONObject(i));
                     clients.add(object.parseToClient());
                 }
@@ -60,7 +62,7 @@ public class TripInfoTask extends AsyncTask<Integer,Void,String> {
                 ClientListAdapter mClientListAdapter = new ClientListAdapter(clients);
 
                 // Настройка RecyclerView
-                RecyclerView mClientListView = ((Activity) context).findViewById(R.id.client_list);
+                RecyclerView mClientListView = activity.findViewById(R.id.client_list);
                 mClientListView.setLayoutManager(new LinearLayoutManager(context));
                 mClientListView.setAdapter(mClientListAdapter);
             } catch (JSONException e) {

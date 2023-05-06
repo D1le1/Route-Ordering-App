@@ -1,11 +1,13 @@
 package com.example.busik.client;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
@@ -37,15 +39,18 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
         holder.mArrivedButton.setOnClickListener(view -> {
             // Обработчик нажатия на кнопку "Пришел"
             client.setArrived(true);
+            holder.mClientCard.setCardBackgroundColor(holder.itemView.getResources().getColor(android.R.color.holo_green_dark));
+            holder.mClientCard.setCardBackgroundColor(0xFF00D603);
             // Вызов метода для обновления отображения элемента списка
-            notifyItemChanged(position);
+            notifyDataSetChanged();
         });
 
         holder.mNotArrivedButton.setOnClickListener(view -> {
             // Обработчик нажатия на кнопку "Не пришел"
             client.setArrived(false);
+            holder.mClientCard.setCardBackgroundColor(holder.itemView.getResources().getColor(android.R.color.holo_red_dark));
             // Вызов метода для обновления отображения элемента списка
-            notifyItemChanged(position);
+            notifyDataSetChanged();
         });
     }
 
@@ -61,6 +66,7 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
         public TextView mPhoneTextView;
         public Button mArrivedButton;
         public Button mNotArrivedButton;
+        public CardView mClientCard;
 
         public ClientViewHolder(View itemView) {
             super(itemView);
@@ -69,6 +75,7 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
             mPhoneTextView = itemView.findViewById(R.id.client_phone);
             mArrivedButton = itemView.findViewById(R.id.arrived_button);
             mNotArrivedButton = itemView.findViewById(R.id.not_arrived_button);
+            mClientCard = itemView.findViewById(R.id.client_card);
         }
     }
 }
