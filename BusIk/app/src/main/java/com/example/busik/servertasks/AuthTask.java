@@ -20,20 +20,18 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class AuthTask extends AsyncTask<Void,Void,String> {
-    private String username;
+public class AuthTask extends AsyncTask<String,Void,String> {
     private Context context;
     private Activity activity;
 
-    public AuthTask(String username, Context context) {
-        this.username = username;
+    public AuthTask(Context context) {
         this.context = context;
         activity = (Activity) context;
     }
 
     @Override
-    protected String doInBackground(Void... voids) {
-        String request = "AUTH--" + username;
+    protected String doInBackground(String... strings) {
+        String request = "AUTH--" + strings[0];
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -48,7 +46,6 @@ public class AuthTask extends AsyncTask<Void,Void,String> {
             try {
                 MyJSONObject object = new MyJSONObject(response);
                 Client client = object.parseToClient();
-                Log.d("D1le", client.getAddress());
                 Intent intent;
                 switch (client.getRole()) {
                     case 1:
@@ -61,9 +58,6 @@ public class AuthTask extends AsyncTask<Void,Void,String> {
                         intent.putExtra("client", client);
                         context.startActivity(intent);
                         break;
-                    default:
-                        TextView title = ((Activity) context).findViewById(R.id.title);
-                        title.setText("Неправильный логин");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

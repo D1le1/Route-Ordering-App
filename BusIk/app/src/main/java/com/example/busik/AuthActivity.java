@@ -38,10 +38,8 @@ public class AuthActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        loginButton.setOnClickListener(v -> {
-            new AuthTask(login.getText().toString(),this).execute();
-        });
-
+        loginButton.setOnClickListener(v ->
+                new AuthTask(this).execute(login.getText().toString()));
     }
 
     private void fillLayout()

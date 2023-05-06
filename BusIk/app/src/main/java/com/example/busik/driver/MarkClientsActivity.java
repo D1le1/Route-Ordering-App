@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.example.busik.R;
 import com.example.busik.client.Client;
 import com.example.busik.client.ClientListAdapter;
+import com.example.busik.servertasks.TripInfoTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +25,16 @@ public class MarkClientsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mark_clients);
 
         int tripId = getIntent().getIntExtra("trip_id", -1);
-//        new TripInfoTask(getIntent().getIntExtra("trip_id", -1), this);
+        new TripInfoTask(this).execute(tripId);
         // Создание списка клиентов
-        List<Client> clientList = new ArrayList<>();
-
-        // Создание адаптера для списка клиентов
-        mClientListAdapter = new ClientListAdapter(clientList);
-
-        // Настройка RecyclerView
-        mClientListView = findViewById(R.id.client_list);
-        mClientListView.setLayoutManager(new LinearLayoutManager(this));
-        mClientListView.setAdapter(mClientListAdapter);
+//        List<Client> clientList = new ArrayList<>();
+//
+//        // Создание адаптера для списка клиентов
+//        mClientListAdapter = new ClientListAdapter(clientList);
+//
+//        // Настройка RecyclerView
+//        mClientListView = findViewById(R.id.client_list);
+//        mClientListView.setLayoutManager(new LinearLayoutManager(this));
+//        mClientListView.setAdapter(mClientListAdapter);
     }
 }

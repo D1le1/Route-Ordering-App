@@ -20,16 +20,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TripsTask extends AsyncTask<Void,Void,String> {
 
     private Context context;
-    private List<Trip> trips;
     private Client client;
 
-    public TripsTask(List<Trip> trips, Context context, Client client) {
-        this.trips = trips;
+    public TripsTask(Context context, Client client) {
         this.context = context;
         this.client = client;
     }
@@ -50,12 +49,12 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
         if(response != null) {
             try {
                 JSONArray jsonArray = new JSONArray(response);
+                List<Trip> trips = new ArrayList<>();
 
                 for(int i=0; i<jsonArray.length(); i++)
                 {
                     MyJSONObject object = new MyJSONObject(jsonArray.getJSONObject(i));
-                    Trip trip = object.parseToTrip();
-                    trips.add(trip);
+                    trips.add(object.parseToTrip());
                 }
                 DriverTripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
                       Intent intent = new Intent(context, MarkClientsActivity.class);

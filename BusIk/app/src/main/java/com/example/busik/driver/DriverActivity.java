@@ -27,10 +27,8 @@ public class DriverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver);
 
-        mTrips = new ArrayList<>();
-
         Client client = (Client) getIntent().getSerializableExtra("client");
 
-        new TripsTask(mTrips, this, client).execute();
+        new TripsTask(this, client).execute();
     }
 }

@@ -55,8 +55,8 @@ public class DbHandler {
                         "Nothing",
                         rs.getString("number")
                 ));
-                return clients;
             }
+            return clients;
         }catch (SQLException e)
         {
             e.printStackTrace();

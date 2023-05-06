@@ -45,8 +45,10 @@ public class ClientHandler implements Runnable {
                         break;
                     case "TRIP":
                         getTripInfo(Integer.parseInt(parts[1]));
+                        break;
                     default:
                         out.println("Nothing to send");
+                        out.flush();
                 }
             }
         } catch (IOException e) {
@@ -58,7 +60,16 @@ public class ClientHandler implements Runnable {
     }
 
     private void getTripInfo(int tripId) {
-
+        JSONArray jsonArray = new JSONArray();
+        List<Client> clients;
+        clients = dbHandler.getTripInfo(tripId);
+        for(Client client : clients)
+        {
+            MyJSONObject object = new MyJSONObject(client);
+            jsonArray.put(object);
+        }
+        out.println(jsonArray);
+        out.flush();
     }
 
     private void getAuth(String login)
