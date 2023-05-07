@@ -39,8 +39,7 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
         holder.mArrivedButton.setOnClickListener(view -> {
             // Обработчик нажатия на кнопку "Пришел"
             client.setArrived(true);
-            holder.mClientCard.setCardBackgroundColor(holder.itemView.getResources().getColor(android.R.color.holo_green_dark));
-            holder.mClientCard.setCardBackgroundColor(0xFF00D603);
+            holder.mClientCard.setCardBackgroundColor(0xCC1AF876);
             // Вызов метода для обновления отображения элемента списка
             notifyDataSetChanged();
         });
@@ -48,7 +47,7 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
         holder.mNotArrivedButton.setOnClickListener(view -> {
             // Обработчик нажатия на кнопку "Не пришел"
             client.setArrived(false);
-            holder.mClientCard.setCardBackgroundColor(holder.itemView.getResources().getColor(android.R.color.holo_red_dark));
+            holder.mClientCard.setCardBackgroundColor(0xCCFF0000);
             // Вызов метода для обновления отображения элемента списка
             notifyDataSetChanged();
         });

@@ -12,7 +12,7 @@
         android:id="@+id/client_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/teal_200"
+        app:cardBackgroundColor="#CC03DAC5"
         app:cardCornerRadius="20dp">
 
         <LinearLayout
