@@ -50,11 +50,6 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
         });
     }
 
-    public Client getClient(int pos)
-    {
-        return mClientList.get(pos);
-    }
-
     @Override
     public int getItemCount() {
         return mClientList.size();

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:textColor="@color/white"
         android:layout_height="wrap_content"
-        android:background="@color/teal_200"
+        android:background="?attr/colorPrimary"
         android:padding="16dp"/>
 
     <!-- Список клиентов -->

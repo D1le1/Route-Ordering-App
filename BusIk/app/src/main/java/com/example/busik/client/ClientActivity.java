@@ -34,6 +34,12 @@ public class ClientActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
 
+        fillLayout();
+
+    }
+
+    public void fillLayout()
+    {
         departureSpinner = findViewById(R.id.departure_spinner);
         destinationSpinner = findViewById(R.id.destination_spinner);
         searchButton = findViewById(R.id.select_button);
@@ -54,35 +60,22 @@ public class ClientActivity extends AppCompatActivity {
         destinationSpinner.setAdapter(destinationAdapter);
         passengersSpinner.setAdapter(passengerAdapter);
 
-        // Set up the search button onClickListener
-        searchButton.setOnClickListener(v -> {
-                String departure = departureSpinner.getSelectedItem().toString();
-                String destination = destinationSpinner.getSelectedItem().toString();
-
-        });
-
         Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM", new Locale("ru", "RU"));
-        String startDate = dateFormat.format(calendar.getTime());
-        date.setText(startDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM", new Locale("ru", "RU"));
+        date.setText(dateFormat.format(calendar.getTime()));
 
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(ClientActivity.this, R.style.MyDatePickerDialogStyle, ((view, year1, month1, dayOfMonth) -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, ((view, year, month, day) -> {
 
                 Calendar selectedDate = Calendar.getInstance();
-                selectedDate.set(Calendar.YEAR, year1);
-                selectedDate.set(Calendar.MONTH, month1);
-                selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                selectedDate.set(Calendar.YEAR, year);
+                selectedDate.set(Calendar.MONTH, month);
+                selectedDate.set(Calendar.DAY_OF_MONTH, day);
 
-                String formattedDate = dateFormat.format(selectedDate.getTime());
-
-                date.setText(formattedDate);
-            }), year, month, day);
+                date.setText(dateFormat.format(selectedDate.getTime()));
+            }), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
             datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
             calendar.add(Calendar.WEEK_OF_MONTH, 2);
@@ -92,10 +85,5 @@ public class ClientActivity extends AppCompatActivity {
                 datePickerDialog.show();
             });
         }
-    }
-
-    private void performSearch(String departure, String destination, int passengers, String date) {
-        // Perform the search based on the selected trip information
-        // ...
     }
 }

@@ -9,7 +9,7 @@
         android:padding="16dp"
         android:text="Список маршрутов"
         android:textColor="@color/white"
-        android:background="@color/teal_200"
+        android:background="?attr/colorPrimary"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -19,7 +19,6 @@
         android:layout_height="match_parent"
         android:padding="16dp"
         android:layout_below="@id/title"
-        android:clipToPadding="false"
-        android:background="@android:color/white"/>
+        android:clipToPadding="false"/>
 
 </RelativeLayout>

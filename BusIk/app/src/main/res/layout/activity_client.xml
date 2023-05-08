@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="Выбрать маршрут"
-        android:background="@color/teal_200"
+        android:background="?attr/colorPrimary"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -31,12 +31,14 @@
             android:orientation="horizontal">
 
             <TextView
+                android:width="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Откуда"/>
 
             <TextView
+                android:width="0dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -72,7 +74,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="10dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
@@ -104,9 +106,9 @@
                 android:id="@+id/date_text"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:textColor="@color/black"
+                android:textColor="?attr/myColor"
                 android:layout_weight="1"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:padding="15dp"
                 android:gravity="center_vertical"
                 android:background="@drawable/spinner_bg"/>
