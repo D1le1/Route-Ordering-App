@@ -8,16 +8,36 @@ public class Client implements Serializable {
     private String mName;
     private String mAddress;
     private String mPhone;
-    private boolean mArrived;
     private int mRole;
+    private int arrived;
 
     public Client(String name, String address, String phone, int id, int role) {
         mName = name;
         mAddress = address;
         mPhone = phone;
-        mArrived = false;
-        mRole = role;
         mId = id;
+        mRole = role;
+    }
+
+    public Client(String name, String address, String phone, int id, int role, int arrived) {
+        mName = name;
+        mAddress = address;
+        mPhone = phone;
+        mId = id;
+        mRole = role;
+        this.arrived = arrived;
+    }
+
+    public Client(String name, String address, int arrived, String phone, int id) {
+        mName = name;
+        mAddress = address;
+        mPhone = phone;
+        mId = id;
+        this.arrived = arrived;
+    }
+
+    public int getId() {
+        return mId;
     }
 
     public String getName() {
@@ -32,8 +52,12 @@ public class Client implements Serializable {
         return mAddress;
     }
 
-    public void setAddress(String address) {
-        mAddress = address;
+    public void setArrived(int arrived) {
+        this.arrived = arrived;
+    }
+
+    public int getArrived() {
+        return arrived;
     }
 
     public String getPhone() {
@@ -44,19 +68,7 @@ public class Client implements Serializable {
         mPhone = phone;
     }
 
-    public boolean hasArrived() {
-        return mArrived;
-    }
-
-    public void setArrived(boolean arrived) {
-        mArrived = arrived;
-    }
-
     public int getRole() {
         return mRole;
-    }
-
-    public int getId() {
-        return mId;
     }
 }

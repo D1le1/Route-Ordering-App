@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -46,6 +47,9 @@ public class ClientHandler implements Runnable {
                     case "TRIP":
                         getTripInfo(Integer.parseInt(parts[1]));
                         break;
+                    case "MARK":
+                        setClientArrived(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+                        break;
                     default:
                         out.println("Nothing to send");
                         out.flush();
@@ -57,6 +61,18 @@ public class ClientHandler implements Runnable {
         finally {
             this.close();
         }
+    }
+
+    private void setClientArrived(int tripId, int clientId, int status) {
+        try {
+            dbHandler.setClientArrived(tripId, clientId, status);
+            out.println("MARK--" + status);
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+            out.println("MARK--DENY");
+        }
+        out.flush();
     }
 
     private void getTripInfo(int tripId) {

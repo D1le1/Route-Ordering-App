@@ -11,15 +11,18 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
+import com.example.busik.servertasks.MarkClientTask;
 
 import java.util.List;
 
 public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.ClientViewHolder> {
 
     private List<Client> mClientList;
+    private int mTripId;
 
-    public ClientListAdapter(List<Client> clientList) {
+    public ClientListAdapter(List<Client> clientList, int tripId) {
         mClientList = clientList;
+        mTripId = tripId;
     }
 
     @Override
@@ -35,22 +38,21 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
         holder.mNameTextView.setText("Имя клиента: " + client.getName());
         holder.mAddressTextView.setText("Адрес: " + client.getAddress());
         holder.mPhoneTextView.setText("Телефон: " + client.getPhone());
+        if(client.getArrived() != 0)
+            holder.mClientCard.setCardBackgroundColor(client.getArrived() == 1 ? 0xCC1AF876 : 0xCCFF0000);
 
         holder.mArrivedButton.setOnClickListener(view -> {
-            // Обработчик нажатия на кнопку "Пришел"
-            client.setArrived(true);
-            holder.mClientCard.setCardBackgroundColor(0xCC1AF876);
-            // Вызов метода для обновления отображения элемента списка
-            notifyDataSetChanged();
+            new MarkClientTask(client, this, position).execute(mTripId, client.getId(), 1, position);
         });
 
         holder.mNotArrivedButton.setOnClickListener(view -> {
-            // Обработчик нажатия на кнопку "Не пришел"
-            client.setArrived(false);
-            holder.mClientCard.setCardBackgroundColor(0xCCFF0000);
-            // Вызов метода для обновления отображения элемента списка
-            notifyDataSetChanged();
+            new MarkClientTask(client, this, position).execute(mTripId, client.getId(), 2, position);
         });
+    }
+
+    public Client getClient(int pos)
+    {
+        return mClientList.get(pos);
     }
 
     @Override

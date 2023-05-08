@@ -15,13 +15,14 @@ public class ServerWork  {
     private static Scanner input;
     private static PrintWriter output;
     private static boolean connected = false;
+    private static boolean requestInProgress = false;
     private static Object mutex = new Object();
     private static Thread connectThread;
 
     public static void connectToServer() {
         connectThread = new Thread(() -> {
             try {
-                socket = new Socket("192.168.99.99", 8001);
+                socket = new Socket("192.168.100.6", 8001);
                 Log.v("ALERTT", "Connected");
                 connected = true;
                 output = new PrintWriter(socket.getOutputStream());
@@ -76,13 +77,17 @@ public class ServerWork  {
                 e.printStackTrace();
             }
         }
-        if(connected) {
+        if(connected && !requestInProgress) {
+            requestInProgress = true;
             if (output != null) {
                 output.println(request);
                 output.flush();
             }
-            if (input != null && input.hasNextLine())
+            if (input != null && input.hasNextLine()) {
+                requestInProgress = false;
                 return input.nextLine();
+            }
+            requestInProgress = false;
             connected = false;
         }
         return null;

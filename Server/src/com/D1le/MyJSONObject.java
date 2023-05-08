@@ -16,6 +16,7 @@ public class MyJSONObject extends JSONObject {
         this.put("address", client.getAddress());
         this.put("phone", client.getPhone());
         this.put("role", client.getRole());
+        this.put("arrived", client.getArrived());
     }
 
     public Client parseToClient(){

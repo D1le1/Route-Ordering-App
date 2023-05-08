@@ -30,6 +30,7 @@ public class TripInfoTask extends AsyncTask<Integer,Void,String> {
 
     private Context context;
     private Activity activity;
+    private int tripId;
 
     public TripInfoTask(Context context) {
         this.context = context;
@@ -39,6 +40,7 @@ public class TripInfoTask extends AsyncTask<Integer,Void,String> {
     @Override
     protected String doInBackground(Integer... ints) {
         String request = "TRIP--" + ints[0];
+        tripId = ints[0];
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -59,7 +61,7 @@ public class TripInfoTask extends AsyncTask<Integer,Void,String> {
                     clients.add(object.parseToClient());
                 }
 
-                ClientListAdapter mClientListAdapter = new ClientListAdapter(clients);
+                ClientListAdapter mClientListAdapter = new ClientListAdapter(clients, tripId);
 
                 // Настройка RecyclerView
                 RecyclerView mClientListView = activity.findViewById(R.id.client_list);

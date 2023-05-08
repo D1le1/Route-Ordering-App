@@ -7,6 +7,7 @@ public class Client {
     private String mAddress;
     private String mPhone;
     private int mRole;
+    private int arrived;
 
     public Client(String name, String address, String phone, int id, int role) {
         mName = name;
@@ -16,10 +17,21 @@ public class Client {
         mRole = role;
     }
 
-    public Client(String mName, String mAddress, String mPhone) {
-        this.mName = mName;
-        this.mAddress = mAddress;
-        this.mPhone = mPhone;
+    public Client(String name, String address, String phone, int id, int role, int arrived) {
+        mName = name;
+        mAddress = address;
+        mPhone = phone;
+        mId = id;
+        mRole = role;
+        this.arrived = arrived;
+    }
+
+    public Client(String name, String address, int arrived, String phone, int id) {
+        mName = name;
+        mAddress = address;
+        mPhone = phone;
+        mId = id;
+        this.arrived = arrived;
     }
 
     public int getId() {
@@ -36,6 +48,10 @@ public class Client {
 
     public String getAddress() {
         return mAddress;
+    }
+
+    public int getArrived() {
+        return arrived;
     }
 
     public String getPhone() {

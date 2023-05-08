@@ -36,7 +36,8 @@ public class MyJSONObject extends JSONObject {
                 this.getString("address"),
                 this.getString("phone"),
                 this.getInt("id"),
-                this.getInt("role")
+                this.getInt("role"),
+                this.getInt("arrived")
         );
     }
 
