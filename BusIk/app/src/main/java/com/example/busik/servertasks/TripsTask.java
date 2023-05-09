@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,6 +57,12 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                     MyJSONObject object = new MyJSONObject(jsonArray.getJSONObject(i));
                     trips.add(object.parseToTrip());
                 }
+
+                if(trips.size() == 0)
+                {
+                    ((Activity) context).findViewById(R.id.error).setVisibility(View.VISIBLE);
+                }
+
                 TripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
                     Intent intent = new Intent(context, MarkClientsActivity.class);
                     intent.putExtra("trip", trip);

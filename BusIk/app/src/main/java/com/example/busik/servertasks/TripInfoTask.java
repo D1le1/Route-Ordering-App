@@ -3,6 +3,7 @@ package com.example.busik.servertasks;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +54,11 @@ public class TripInfoTask extends AsyncTask<Integer,Void,String> {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     MyJSONObject object = new MyJSONObject(jsonArray.getJSONObject(i));
                     clients.add(object.parseToClient());
+                }
+
+                if(clients.size() == 0)
+                {
+                    ((Activity) context).findViewById(R.id.error).setVisibility(View.VISIBLE);
                 }
 
                 ClientListAdapter mClientListAdapter = new ClientListAdapter(clients, trip);

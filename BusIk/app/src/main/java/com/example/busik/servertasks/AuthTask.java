@@ -60,10 +60,10 @@ public class AuthTask extends AsyncTask<String,Void,String> {
                         context.startActivity(intent);
                         break;
                 }
+                activity.findViewById(R.id.error).setVisibility(View.INVISIBLE);
             } catch (JSONException e) {
                 e.printStackTrace();
-                TextView title = activity.findViewById(R.id.title);
-                title.setText("Неправильный логин");
+                activity.findViewById(R.id.error).setVisibility(View.VISIBLE);
             }
         }
     }
