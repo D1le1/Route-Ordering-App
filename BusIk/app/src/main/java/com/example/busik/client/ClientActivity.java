@@ -3,6 +3,7 @@ package com.example.busik.client;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -29,6 +30,8 @@ public class ClientActivity extends AppCompatActivity {
     private Button searchButton;
     private TextView date;
 
+    private String dbDate;
+
     private List<String> departureList;
     private List<String> destinationList;
     private List<String> passengerList;
@@ -47,6 +50,7 @@ public class ClientActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, SearchActivity.class);
                 intent.putExtra("start", departureSpinner.getSelectedItem().toString());
                 intent.putExtra("end", destinationSpinner.getSelectedItem().toString());
+                intent.putExtra("date", dbDate);
                 startActivity(intent);
             }
         });
@@ -78,7 +82,9 @@ public class ClientActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM", new Locale("ru", "RU"));
+        SimpleDateFormat dbDateFormat = new SimpleDateFormat("dd.MM.yyyy", new Locale("ru", "RU"));
         date.setText(dateFormat.format(calendar.getTime()));
+        dbDate = dbDateFormat.format(calendar.getTime());
 
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -90,6 +96,7 @@ public class ClientActivity extends AppCompatActivity {
                 selectedDate.set(Calendar.DAY_OF_MONTH, day);
 
                 date.setText(dateFormat.format(selectedDate.getTime()));
+                dbDate = dbDateFormat.format(selectedDate.getTime());
             }), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
             datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());

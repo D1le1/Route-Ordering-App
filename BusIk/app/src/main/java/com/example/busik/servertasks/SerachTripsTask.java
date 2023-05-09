@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +38,7 @@ public class SerachTripsTask extends AsyncTask<String,Void,String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String request = "SEARCH--" + strings[0] + "--" + strings[1];
+        String request = "SEARCH--" + strings[0] + "--" + strings[1] + "--" + strings[2];
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -62,6 +63,11 @@ public class SerachTripsTask extends AsyncTask<String,Void,String> {
                 TripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
 
                 };
+
+                if(trips.size() == 0)
+                {
+                    ((Activity) context).findViewById(R.id.error).setVisibility(View.VISIBLE);
+                }
 
                 RecyclerView mRecyclerView = ((Activity) context).findViewById(R.id.recycler_view_trips);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(context));

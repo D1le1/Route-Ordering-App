@@ -96,7 +96,7 @@ public class DbHandler {
         return null;
     }
 
-    public List<Trip> getSearchTrips(String start, String end)
+    public List<Trip> getSearchTrips(String start, String end, String date)
     {
         try{
             statement = connection.createStatement();
@@ -104,7 +104,7 @@ public class DbHandler {
                     "FROM trips t1 " +
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
                     "LEFT JOIN ClientsTrips t3 ON t3.trip_id = t1.id and arrived < 2 " +
-                    "WHERE route = '" + start + "-" + end + "' " +
+                    "WHERE route = '" + start + "-" + end + "' and date = '" + date + "' " +
                     "GROUP BY t1.id");
             List<Trip> trips = new ArrayList<>();
             while (rs.next())

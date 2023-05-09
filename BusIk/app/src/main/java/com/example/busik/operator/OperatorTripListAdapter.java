@@ -26,7 +26,7 @@ public class OperatorTripListAdapter extends RecyclerView.Adapter<OperatorTripLi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.driver_trip_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trip_item, parent, false);
         return new ViewHolder(view);
     }
 

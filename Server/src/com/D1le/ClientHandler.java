@@ -51,7 +51,7 @@ public class ClientHandler implements Runnable {
                         setClientArrived(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
                         break;
                     case "SEARCH":
-                        getTrips(parts[1], parts[2]);
+                        getTrips(parts[1], parts[2], parts[3]);
                         break;
                     default:
                         out.println("Nothing to send");
@@ -105,10 +105,10 @@ public class ClientHandler implements Runnable {
         out.flush();
     }
 
-    private void getTrips(String start, String end)
+    private void getTrips(String start, String end, String date)
     {
         JSONArray jsonArray = new JSONArray();
-        List<Trip> trips = dbHandler.getSearchTrips(start, end);
+        List<Trip> trips = dbHandler.getSearchTrips(start, end, date);
         for (Trip trip : trips)
         {
             MyJSONObject object = new MyJSONObject(trip);

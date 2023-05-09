@@ -16,6 +16,7 @@ public class SearchActivity extends AppCompatActivity {
 
         String start = getIntent().getStringExtra("start");
         String end = getIntent().getStringExtra("end");
-        new SerachTripsTask(this).execute(start, end);
+        String date = getIntent().getStringExtra("date");
+        new SerachTripsTask(this).execute(start, end, date);
     }
 }
