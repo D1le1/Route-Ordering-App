@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busik.R;
 
+import com.example.busik.ServerWork;
 import com.example.busik.servertasks.SerachTripsTask;
 
 import java.text.SimpleDateFormat;
@@ -42,10 +43,12 @@ public class ClientActivity extends AppCompatActivity {
         Client client = (Client) getIntent().getSerializableExtra("client");
 
         searchButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SearchActivity.class);
-            intent.putExtra("start", departureSpinner.getSelectedItem().toString());
-            intent.putExtra("end", destinationSpinner.getSelectedItem().toString());
-            startActivity(intent);
+            if(ServerWork.isClientConnected()) {
+                Intent intent = new Intent(this, SearchActivity.class);
+                intent.putExtra("start", departureSpinner.getSelectedItem().toString());
+                intent.putExtra("end", destinationSpinner.getSelectedItem().toString());
+                startActivity(intent);
+            }
         });
 
     }

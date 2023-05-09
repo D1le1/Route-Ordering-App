@@ -2,7 +2,6 @@ package com.example.busik.servertasks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -13,9 +12,7 @@ import com.example.busik.R;
 import com.example.busik.ServerWork;
 import com.example.busik.Trip;
 import com.example.busik.client.Client;
-import com.example.busik.client.SearchActivity;
-import com.example.busik.driver.DriverTripListAdapter;
-import com.example.busik.driver.MarkClientsActivity;
+import com.example.busik.client.TripListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,13 +59,13 @@ public class SerachTripsTask extends AsyncTask<String,Void,String> {
                     MyJSONObject object = new MyJSONObject(jsonArray.getJSONObject(i));
                     trips.add(object.parseToTrip());
                 }
-                DriverTripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
+                TripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
 
                 };
 
                 RecyclerView mRecyclerView = ((Activity) context).findViewById(R.id.recycler_view_trips);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                DriverTripListAdapter mAdapter = new DriverTripListAdapter(trips, onTripClickListener);
+                TripListAdapter mAdapter = new TripListAdapter(trips, onTripClickListener);
                 mRecyclerView.setAdapter(mAdapter);
 
             } catch (JSONException e) {

@@ -1,64 +1,47 @@
 package com.example.busik;
 
-import com.example.busik.client.Client;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Trip implements Serializable {
 
-    private String mRoute;
-    private String mTime;
-    private boolean mArrived;
-    private List<Client> mPassengerList;
-    private String mDriver;
-    private int mId;
+    private int id;
+    private String route;
+    private String startTime;
+    private String endTime;
+    private int seats;
 
-    public Trip(String route, String time, int id) {
-        mRoute = route;
-        mTime = time;
-        mArrived = false;
-        mPassengerList = new ArrayList<>();
-        mId = id;
+    public Trip(String route, String startTime, int id) {}
+
+    public Trip(int id, String route, String startTime, String endTime, int seats) {
+        this.id = id;
+        this.route = route;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.seats = seats;
     }
 
     public int getId() {
-        return mId;
+        return id;
     }
 
     public String getRoute() {
-        return mRoute;
+        return route;
     }
 
-    public String getTime() {
-        return mTime;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public String getDriver() {return mDriver; }
-
-    public boolean isArrived() {
-        return mArrived;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setArrived(boolean arrived) {
-        mArrived = arrived;
+    public int getSeats() {
+        return seats;
     }
 
-    public List<Client> getPassengerList() {
-        return mPassengerList;
-    }
-
-    public int getPassengersCount()
+    public void changeSeats(int number)
     {
-        return mPassengerList.size();
-    }
-
-    public void addPassenger(Client client) {
-        mPassengerList.add(client);
-    }
-
-    public void removePassenger(Client client) {
-        mPassengerList.remove(client);
+        seats += number;
     }
 }

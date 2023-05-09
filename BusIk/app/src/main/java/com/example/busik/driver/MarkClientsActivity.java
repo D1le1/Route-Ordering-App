@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.busik.R;
+import com.example.busik.Trip;
 import com.example.busik.client.Client;
 import com.example.busik.client.ClientListAdapter;
+import com.example.busik.client.TripListAdapter;
 import com.example.busik.servertasks.TripInfoTask;
 
 import java.util.ArrayList;
@@ -24,8 +27,8 @@ public class MarkClientsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mark_clients);
 
-        int tripId = getIntent().getIntExtra("trip_id", -1);
-        new TripInfoTask(this).execute(tripId);
+        Trip trip = (Trip) getIntent().getSerializableExtra("trip");
+        new TripInfoTask(trip, this).execute();
         // Создание списка клиентов
 //        List<Client> clientList = new ArrayList<>();
 //
@@ -36,5 +39,13 @@ public class MarkClientsActivity extends AppCompatActivity {
 //        mClientListView = findViewById(R.id.client_list);
 //        mClientListView.setLayoutManager(new LinearLayoutManager(this));
 //        mClientListView.setAdapter(mClientListAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

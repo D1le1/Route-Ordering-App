@@ -11,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.busik.R;
 import com.example.busik.Trip;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ClientTripListAdapter extends RecyclerView.Adapter<ClientTripListAdapter.ViewHolder> {
+public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHolder>  {
 
     private List<Trip> mTrips;
     private OnTripClickListener mClickListener;
 
-    public ClientTripListAdapter(List<Trip> trips, OnTripClickListener clickListener) {
+    public TripListAdapter(List<Trip> trips, OnTripClickListener clickListener) {
         mTrips = trips;
         mClickListener = clickListener;
     }
@@ -26,7 +27,7 @@ public class ClientTripListAdapter extends RecyclerView.Adapter<ClientTripListAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.driver_trip_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trip_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -41,24 +42,29 @@ public class ClientTripListAdapter extends RecyclerView.Adapter<ClientTripListAd
         return mTrips.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView mTextRoute;
-        private TextView mTextTime;
-        private TextView mTextPassengersCount;
+        private TextView routeStart;
+        private TextView routeEnd;
+        private TextView startTime;
+        private TextView endTime;
+        private TextView seats;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mTextRoute = itemView.findViewById(R.id.text_route);
-            mTextTime = itemView.findViewById(R.id.text_time);
-            mTextPassengersCount = itemView.findViewById(R.id.text_passengers_count);
+            routeStart = itemView.findViewById(R.id.route_start);
+            routeEnd = itemView.findViewById(R.id.route_end);
+            startTime = itemView.findViewById(R.id.time_start);
+            endTime = itemView.findViewById(R.id.time_end);
+            seats = itemView.findViewById(R.id.seat_numbers);
         }
 
         public void bind(Trip trip, OnTripClickListener clickListener) {
-            mTextRoute.setText(trip.getRoute());
-            mTextTime.setText(trip.getTime());
-            int passengersCount = trip.getPassengerList().size();
-            mTextPassengersCount.setText(String.valueOf(passengersCount));
+            routeStart.setText(trip.getRoute().split("-")[0]);
+            routeEnd.setText(trip.getRoute().split("-")[1]);
+            startTime.setText(trip.getStartTime());
+            endTime.setText(trip.getEndTime());
+            seats.setText("Кол-во свободных мест: " + trip.getSeats());
             itemView.setOnClickListener(v -> clickListener.onTripClick(trip));
         }
     }

@@ -93,6 +93,10 @@ public class ServerWork  {
         return null;
     }
 
+    public static boolean isClientConnected() {
+        return socket != null && socket.isConnected() && !socket.isClosed();
+    }
+
     public String sendMessageToServer(String message)
     {
         new Thread(() -> {

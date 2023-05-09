@@ -1,6 +1,5 @@
 package com.example.busik.client;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +10,19 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
+import com.example.busik.Trip;
 import com.example.busik.servertasks.MarkClientTask;
 
 import java.util.List;
 
 public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.ClientViewHolder> {
 
-    private List<Client> mClientList;
-    private int mTripId;
+    private List<Client> clients;
+    private Trip trip;
 
-    public ClientListAdapter(List<Client> clientList, int tripId) {
-        mClientList = clientList;
-        mTripId = tripId;
+    public ClientListAdapter(List<Client> clients, Trip trip) {
+        this.clients = clients;
+        this.trip = trip;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
 
     @Override
     public void onBindViewHolder(ClientViewHolder holder, int position) {
-        Client client = mClientList.get(position);
+        Client client = clients.get(position);
         holder.mNameTextView.setText("Имя клиента: " + client.getName());
         holder.mAddressTextView.setText("Адрес: " + client.getAddress());
         holder.mPhoneTextView.setText("Телефон: " + client.getPhone());
@@ -42,17 +42,17 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
             holder.mClientCard.setCardBackgroundColor(client.getArrived() == 1 ? 0xCC1AF876 : 0xCCFF0000);
 
         holder.mArrivedButton.setOnClickListener(view -> {
-            new MarkClientTask(client, this, position).execute(mTripId, client.getId(), 1, position);
+            new MarkClientTask(client, this, trip, position).execute(1);
         });
 
         holder.mNotArrivedButton.setOnClickListener(view -> {
-            new MarkClientTask(client, this, position).execute(mTripId, client.getId(), 2, position);
+            new MarkClientTask(client, this, trip, position).execute(2);
         });
     }
 
     @Override
     public int getItemCount() {
-        return mClientList.size();
+        return clients.size();
     }
 
     public class ClientViewHolder extends RecyclerView.ViewHolder {

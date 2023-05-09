@@ -23,12 +23,12 @@
         android:gravity="center"
         android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/logo_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_launcher_background" />
+        <ImageView
+            android:id="@+id/logo_image_view"
+            android:layout_width="186dp"
+            android:layout_height="61dp"
+            android:layout_gravity="center"
+            android:src="@drawable/image" />
 
         <EditText
             android:id="@+id/username_edit_text"

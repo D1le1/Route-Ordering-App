@@ -12,12 +12,11 @@ import com.example.busik.R;
 import com.example.busik.ServerWork;
 import com.example.busik.Trip;
 import com.example.busik.client.Client;
-import com.example.busik.driver.DriverTripListAdapter;
+import com.example.busik.client.TripListAdapter;
 import com.example.busik.driver.MarkClientsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
 
     private Context context;
     private Client client;
+    private TripListAdapter adapter;
 
     public TripsTask(Context context, Client client) {
         this.context = context;
@@ -56,16 +56,16 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                     MyJSONObject object = new MyJSONObject(jsonArray.getJSONObject(i));
                     trips.add(object.parseToTrip());
                 }
-                DriverTripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
-                      Intent intent = new Intent(context, MarkClientsActivity.class);
-                      intent.putExtra("trip_id", trip.getId());
-                      context.startActivity(intent);
+                TripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
+                    Intent intent = new Intent(context, MarkClientsActivity.class);
+                    intent.putExtra("trip", trip);
+                    ((Activity) context).startActivityForResult(intent, 0);
                 };
 
                 RecyclerView mRecyclerView = ((Activity) context).findViewById(R.id.recycler_view_trips);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                DriverTripListAdapter mAdapter = new DriverTripListAdapter(trips, onTripClickListener);
-                mRecyclerView.setAdapter(mAdapter);
+                adapter = new TripListAdapter(trips, onTripClickListener);
+                mRecyclerView.setAdapter(adapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

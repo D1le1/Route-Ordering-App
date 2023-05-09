@@ -2,9 +2,7 @@ package com.example.busik.servertasks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,15 +12,11 @@ import com.example.busik.ServerWork;
 import com.example.busik.Trip;
 import com.example.busik.client.Client;
 import com.example.busik.client.ClientListAdapter;
-import com.example.busik.driver.DriverTripListAdapter;
-import com.example.busik.driver.MarkClientsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,17 +24,17 @@ public class TripInfoTask extends AsyncTask<Integer,Void,String> {
 
     private Context context;
     private Activity activity;
-    private int tripId;
+    private Trip trip;
 
-    public TripInfoTask(Context context) {
+    public TripInfoTask(Trip trip, Context context) {
+        this.trip = trip;
         this.context = context;
         activity = (Activity) context;
     }
 
     @Override
     protected String doInBackground(Integer... ints) {
-        String request = "TRIP--" + ints[0];
-        tripId = ints[0];
+        String request = "TRIP--" + trip.getId();
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -61,7 +55,7 @@ public class TripInfoTask extends AsyncTask<Integer,Void,String> {
                     clients.add(object.parseToClient());
                 }
 
-                ClientListAdapter mClientListAdapter = new ClientListAdapter(clients, tripId);
+                ClientListAdapter mClientListAdapter = new ClientListAdapter(clients, trip);
 
                 // Настройка RecyclerView
                 RecyclerView mClientListView = activity.findViewById(R.id.client_list);

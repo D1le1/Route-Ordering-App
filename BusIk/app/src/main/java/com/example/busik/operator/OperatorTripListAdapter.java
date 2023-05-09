@@ -58,10 +58,6 @@ public class OperatorTripListAdapter extends RecyclerView.Adapter<OperatorTripLi
 
         public void bind(Trip trip, OnTripClickListener clickListener) {
             mTextRoute.setText(trip.getRoute());
-            mTextTime.setText(trip.getTime());
-            int passengersCount = trip.getPassengerList().size();
-            mTextPassengersCount.setText(String.valueOf(passengersCount));
-            mTextDriver.setText(trip.getDriver());
             itemView.setOnClickListener(v -> clickListener.onTripClick(trip));
         }
     }

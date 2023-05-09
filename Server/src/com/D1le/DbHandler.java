@@ -75,7 +75,12 @@ public class DbHandler {
     {
         try {
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("Select t1.id, time, route from trips t1 join routes t2 on t2.id = t1.route_id where driver_id = " + driverId);
+            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.time, t2.time as trip_time, route, count(t3.trip_id) as seats " +
+                    "FROM trips t1 " +
+                    "INNER JOIN routes t2 ON t2.id = t1.route_id " +
+                    "LEFT JOIN ClientsTrips t3 ON t3.trip_id = t1.id and arrived < 2 " +
+                    "WHERE driver_id = " + driverId +
+                    " GROUP BY t1.id");
             List<Trip> trips = new ArrayList<>();
             while (rs.next())
             {
@@ -95,8 +100,12 @@ public class DbHandler {
     {
         try{
             statement = connection.createStatement();
-            System.out.println(start + " " + end);
-            ResultSet rs = statement.executeQuery("Select t1.id, time, route from trips t1 join routes t2 on t2.id = t1.route_id where route = '" + start + "-" + end + "'");
+            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.time, t2.time as trip_time, route, count(t3.trip_id) as seats " +
+                    "FROM trips t1 " +
+                    "INNER JOIN routes t2 ON t2.id = t1.route_id " +
+                    "LEFT JOIN ClientsTrips t3 ON t3.trip_id = t1.id and arrived < 2 " +
+                    "WHERE route = '" + start + "-" + end + "' " +
+                    "GROUP BY t1.id");
             List<Trip> trips = new ArrayList<>();
             while (rs.next())
             {
@@ -104,7 +113,6 @@ public class DbHandler {
             }
             rs.close();
             statement.close();
-            trips.stream().forEach(System.out::println);
             return trips;
         }catch (SQLException e)
         {

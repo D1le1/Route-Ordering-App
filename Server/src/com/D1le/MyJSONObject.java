@@ -5,9 +5,11 @@ import org.json.JSONObject;
 public class MyJSONObject extends JSONObject {
 
     public MyJSONObject(Trip trip) {
-        this.put("route", trip.getRoute());
-        this.put("time", trip.getTime());
         this.put("id", trip.getId());
+        this.put("route", trip.getRoute());
+        this.put("start", trip.getStartTime());
+        this.put("end", trip.getEndTime());
+        this.put("seats", trip.getSeats());
     }
 
     public MyJSONObject(Client client) {
@@ -30,6 +32,11 @@ public class MyJSONObject extends JSONObject {
     }
 
     public Trip parseToTrip() {
-        return new Trip(this.getString("route"), this.getString("time"), this.getInt("id"));
+        return new Trip(
+                this.getInt("id"),
+                this.getString("route"),
+                this.getString("start"),
+                this.getString("end")
+        );
     }
 }

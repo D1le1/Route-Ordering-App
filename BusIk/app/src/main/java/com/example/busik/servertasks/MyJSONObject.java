@@ -9,9 +9,10 @@ import org.json.JSONObject;
 public class MyJSONObject extends JSONObject {
 
     public MyJSONObject(Trip trip) throws JSONException {
-        this.put("route", trip.getRoute());
-        this.put("time", trip.getTime());
         this.put("id", trip.getId());
+        this.put("route", trip.getRoute());
+        this.put("start", trip.getStartTime());
+        this.put("end", trip.getEndTime());
     }
 
     public MyJSONObject(Client client) throws JSONException {
@@ -20,6 +21,7 @@ public class MyJSONObject extends JSONObject {
         this.put("address", client.getAddress());
         this.put("phone", client.getPhone());
         this.put("role", client.getRole());
+        this.put("arrived", client.getArrived());
     }
 
     public MyJSONObject(String response) throws JSONException {
@@ -42,6 +44,12 @@ public class MyJSONObject extends JSONObject {
     }
 
     public Trip parseToTrip() throws JSONException {
-        return new Trip(this.getString("route"), this.getString("time"), this.getInt("id"));
+        return new Trip(
+                this.getInt("id"),
+                this.getString("route"),
+                this.getString("start"),
+                this.getString("end"),
+                this.getInt("seats")
+        );
     }
 }
