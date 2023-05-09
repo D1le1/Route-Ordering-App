@@ -50,6 +50,9 @@ public class ClientHandler implements Runnable {
                     case "MARK":
                         setClientArrived(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
                         break;
+                    case "SEARCH":
+                        getTrips(parts[1], parts[2]);
+                        break;
                     default:
                         out.println("Nothing to send");
                         out.flush();
@@ -99,6 +102,19 @@ public class ClientHandler implements Runnable {
         {
             out.println("AUTH--DENY");
         }
+        out.flush();
+    }
+
+    private void getTrips(String start, String end)
+    {
+        JSONArray jsonArray = new JSONArray();
+        List<Trip> trips = dbHandler.getSearchTrips(start, end);
+        for (Trip trip : trips)
+        {
+            MyJSONObject object = new MyJSONObject(trip);
+            jsonArray.put(object);
+        }
+        out.println(jsonArray);
         out.flush();
     }
 

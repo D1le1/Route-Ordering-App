@@ -79,11 +79,7 @@ public class DbHandler {
             List<Trip> trips = new ArrayList<>();
             while (rs.next())
             {
-                trips.add(new Trip(
-                        rs.getString("route"),
-                        rs.getString("time"),
-                        rs.getInt("id")
-                ));
+                trips.add(new Trip(rs));
             }
             rs.close();
             statement.close();
@@ -95,6 +91,27 @@ public class DbHandler {
         return null;
     }
 
+    public List<Trip> getSearchTrips(String start, String end)
+    {
+        try{
+            statement = connection.createStatement();
+            System.out.println(start + " " + end);
+            ResultSet rs = statement.executeQuery("Select t1.id, time, route from trips t1 join routes t2 on t2.id = t1.route_id where route = '" + start + "-" + end + "'");
+            List<Trip> trips = new ArrayList<>();
+            while (rs.next())
+            {
+                trips.add(new Trip(rs));
+            }
+            rs.close();
+            statement.close();
+            trips.stream().forEach(System.out::println);
+            return trips;
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public List<Trip> getTrips() {
         try {

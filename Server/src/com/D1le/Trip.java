@@ -1,6 +1,8 @@
 package com.D1le;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,12 @@ public class Trip implements Serializable {
         mArrived = false;
         mPassengerList = new ArrayList<>();
         mId = id;
+    }
+
+    public Trip(ResultSet rs) throws SQLException {
+        mId = rs.getInt("id");
+        mRoute = rs.getString("route");
+        mTime = rs.getString("time");
     }
 
     public int getId() {
