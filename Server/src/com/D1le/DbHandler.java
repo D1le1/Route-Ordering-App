@@ -75,7 +75,7 @@ public class DbHandler {
     {
         try {
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("Select * from trips where driver_id = " + driverId);
+            ResultSet rs = statement.executeQuery("Select t1.id, time, route from trips t1 join routes t2 on t2.id = t1.route_id where driver_id = " + driverId);
             List<Trip> trips = new ArrayList<>();
             while (rs.next())
             {
