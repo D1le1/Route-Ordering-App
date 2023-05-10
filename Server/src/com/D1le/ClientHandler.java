@@ -1,13 +1,11 @@
 package com.D1le;
 
-import org.json.JSONObject;
 import org.json.JSONArray;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -41,6 +39,9 @@ public class ClientHandler implements Runnable {
                     case "AUTH":
                         getAuth(parts[1], parts[2]);
                         break;
+                    case "REG":
+                        registration(parts[1], parts[2], parts[3], Integer.parseInt(parts[4]));
+                        break;
                     case "TRIPS":
                         getTrips(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                         break;
@@ -64,6 +65,19 @@ public class ClientHandler implements Runnable {
         finally {
             this.close();
         }
+    }
+
+    private void registration(String login, String password, String name, int role) {
+        try {
+            dbHandler.addNewUser(login, password, name, role);
+            out.println("REG--OK");
+            System.out.println("Here");
+        }catch (SQLException e)
+        {
+            out.println("REG--DENY");
+            e.printStackTrace();
+        }
+        out.flush();
     }
 
     private void setClientArrived(int tripId, int clientId, int status) {

@@ -32,18 +32,21 @@
             <RadioButton
                 android:id="@+id/client_radio_button"
                 android:layout_width="match_parent"
+                android:tag="1"
                 android:layout_height="wrap_content"
                 android:text="@string/client_role" />
 
             <RadioButton
                 android:id="@+id/driver_radio_button"
                 android:layout_width="match_parent"
+                android:tag="2"
                 android:layout_height="wrap_content"
                 android:text="@string/driver_role" />
 
             <RadioButton
                 android:id="@+id/operator_radio_button"
                 android:layout_width="match_parent"
+                android:tag="3"
                 android:layout_height="wrap_content"
                 android:text="@string/operator_role" />
 
@@ -69,12 +72,38 @@
             android:maxLines="1"
             android:singleLine="true" />
 
+        <EditText
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Введите фамилию и имя"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true" />
+
         <Button
             android:id="@+id/register_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/register_text" />
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="0dp"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="70dp"
+            android:text="Не все поля заполнены"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </LinearLayout>

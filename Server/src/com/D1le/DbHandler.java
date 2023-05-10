@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.ref.ReferenceQueue;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 public class DbHandler {
@@ -119,6 +120,25 @@ public class DbHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void addNewUser(String login, String password, String name, int role) throws SQLException
+    {
+        PreparedStatement statement;
+        statement = connection.prepareStatement("INSERT into users (number, password, name) values (?,?,?)");
+        statement.setString(1, login);
+        statement.setString(2, password);
+        statement.setString(3, name);
+        statement.executeUpdate();
+
+        statement.close();
+
+        statement = connection.prepareStatement("INSERT into UsersRoles (user_id, role_id) SELECT id, ? from users where number = ?");
+        statement.setInt(1, role);
+        statement.setString(2, login);
+        statement.executeUpdate();
+
+        statement.close();
     }
 
     public List<Trip> getTrips() {
