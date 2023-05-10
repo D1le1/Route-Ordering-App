@@ -17,13 +17,13 @@ public class DbHandler {
         System.out.println("Database connected");
     }
 
-    public Client getAuth(String login)
+    public Client getAuth(String login, String password)
     {
         try{
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("Select t1.role_id, t2.id, t2.name, t2.number" +
                     " from usersroles t1 inner join users t2" +
-                    " on t1.user_id = t2.id where t2.number = " + login);
+                    " on t1.user_id = t2.id where t2.number = " + login + " and t2.password = \"" + password + "\"");
             while (rs.next())
             {
                 Client client = new Client(

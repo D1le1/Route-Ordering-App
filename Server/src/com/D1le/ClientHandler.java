@@ -39,7 +39,7 @@ public class ClientHandler implements Runnable {
                 switch (parts[0])
                 {
                     case "AUTH":
-                        getAuth(parts[1]);
+                        getAuth(parts[1], parts[2]);
                         break;
                     case "TRIPS":
                         getTrips(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
@@ -91,9 +91,9 @@ public class ClientHandler implements Runnable {
         out.flush();
     }
 
-    private void getAuth(String login)
+    private void getAuth(String login, String password)
     {
-        Client client = dbHandler.getAuth(login);
+        Client client = dbHandler.getAuth(login, password);
         if(client != null) {
             MyJSONObject object = new MyJSONObject(client);
             out.println(object);

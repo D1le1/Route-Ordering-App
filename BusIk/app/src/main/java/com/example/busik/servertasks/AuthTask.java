@@ -32,7 +32,7 @@ public class AuthTask extends AsyncTask<String,Void,String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String request = "AUTH--" + strings[0];
+        String request = "AUTH--" + strings[0] + "--" + strings[1];
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -43,6 +43,7 @@ public class AuthTask extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPostExecute(String response) {
+        TextView error = activity.findViewById(R.id.error);
         if(response != null) {
             try {
                 MyJSONObject object = new MyJSONObject(response);
@@ -60,11 +61,16 @@ public class AuthTask extends AsyncTask<String,Void,String> {
                         context.startActivity(intent);
                         break;
                 }
-                activity.findViewById(R.id.error).setVisibility(View.INVISIBLE);
+                error.setVisibility(View.INVISIBLE);
             } catch (JSONException e) {
                 e.printStackTrace();
-                activity.findViewById(R.id.error).setVisibility(View.VISIBLE);
+
+                error.setText("Неправильный логин или пароль");
+                error.setVisibility(View.VISIBLE);
             }
+        }else {
+            error.setText("Нет соединения с сервером");
+            error.setVisibility(View.VISIBLE);
         }
     }
 }
