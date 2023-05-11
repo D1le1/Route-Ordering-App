@@ -1,4 +1,4 @@
-package com.example.busik;
+package com.example.busik.other;
 
 import android.app.Application;
 import android.os.AsyncTask;

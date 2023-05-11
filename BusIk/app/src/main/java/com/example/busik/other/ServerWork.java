@@ -1,4 +1,4 @@
-package com.example.busik;
+package com.example.busik.other;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -22,7 +22,7 @@ public class ServerWork  {
     public static void connectToServer() {
         connectThread = new Thread(() -> {
             try {
-                socket = new Socket("192.168.99.99", 8001);
+                socket = new Socket("192.168.100.6", 8001);
                 connected = true;
                 output = new PrintWriter(socket.getOutputStream());
                 input = new Scanner(socket.getInputStream());

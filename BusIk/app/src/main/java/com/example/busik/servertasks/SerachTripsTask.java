@@ -2,6 +2,7 @@ package com.example.busik.servertasks;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -10,8 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
-import com.example.busik.ServerWork;
-import com.example.busik.Trip;
+import com.example.busik.client.BookActivity;
+import com.example.busik.other.ServerWork;
+import com.example.busik.other.Trip;
 import com.example.busik.client.Client;
 import com.example.busik.client.TripListAdapter;
 
@@ -53,7 +55,6 @@ public class SerachTripsTask extends AsyncTask<String,Void,String> {
             try {
                 JSONArray jsonArray = new JSONArray(response);
                 List<Trip> trips = new ArrayList<>();
-                Log.v("D1le", response);
 
                 for(int i=0; i<jsonArray.length(); i++)
                 {
@@ -61,7 +62,11 @@ public class SerachTripsTask extends AsyncTask<String,Void,String> {
                     trips.add(object.parseToTrip());
                 }
                 TripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
-
+                    if(trip.getSeats() > 0) {
+                        Intent intent = new Intent(context, BookActivity.class);
+                        intent.putExtra("trip", trip);
+                        context.startActivity(intent);
+                    }
                 };
 
                 if(trips.size() == 0)

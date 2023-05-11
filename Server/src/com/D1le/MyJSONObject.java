@@ -21,6 +21,10 @@ public class MyJSONObject extends JSONObject {
         this.put("arrived", client.getArrived());
     }
 
+    public MyJSONObject() {
+        super();
+    }
+
     public Client parseToClient(){
         return new Client(
                 this.getString("name"),

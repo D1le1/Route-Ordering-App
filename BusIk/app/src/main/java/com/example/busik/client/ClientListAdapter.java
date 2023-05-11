@@ -10,7 +10,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
-import com.example.busik.Trip;
+import com.example.busik.other.Trip;
 import com.example.busik.servertasks.MarkClientTask;
 
 import java.util.List;

@@ -1,5 +1,8 @@
 package com.D1le;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.lang.ref.ReferenceQueue;
 import java.sql.*;
@@ -115,6 +118,38 @@ public class DbHandler {
             rs.close();
             statement.close();
             return trips;
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public JSONArray getBookInfo(int tripId)
+    {
+        try {
+            statement = connection.createStatement();
+
+            ResultSet rs = statement.executeQuery("SELECT u.name, u.number FROM users u" +
+                    " INNER JOIN Trips t ON u.id = t.driver_id" +
+                    " WHERE t.id = " + tripId +
+                    " UNION" +
+                    " SELECT s.name, s.time" +
+                    " FROM stops s" +
+                    " INNER JOIN Trips t ON s.route_id = t.route_id" +
+                    " where t.id = " + tripId +
+                    " order by s.time");
+            JSONArray jsonArray = new JSONArray();
+            while (rs.next())
+            {
+                MyJSONObject object = new MyJSONObject();
+                object.put("name", rs.getString("u.name"));
+                object.put("number", rs.getInt("u.number"));
+                jsonArray.put(object);
+                System.out.println(rs.getString("u.name"));
+            }
+            statement.close();
+            return jsonArray;
         }catch (SQLException e)
         {
             e.printStackTrace();

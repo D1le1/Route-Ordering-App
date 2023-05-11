@@ -4,20 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.busik.AuthActivity;
 import com.example.busik.R;
-import com.example.busik.ServerWork;
+import com.example.busik.other.ServerWork;
 
 import com.example.busik.client.Client;
 import com.example.busik.client.ClientActivity;
 import com.example.busik.driver.DriverActivity;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 

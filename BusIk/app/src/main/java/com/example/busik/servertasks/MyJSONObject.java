@@ -1,6 +1,6 @@
 package com.example.busik.servertasks;
 
-import com.example.busik.Trip;
+import com.example.busik.other.Trip;
 import com.example.busik.client.Client;
 
 import org.json.JSONException;

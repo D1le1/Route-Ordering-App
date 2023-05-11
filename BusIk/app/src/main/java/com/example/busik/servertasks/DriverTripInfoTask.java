@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
-import com.example.busik.ServerWork;
-import com.example.busik.Trip;
+import com.example.busik.other.ServerWork;
+import com.example.busik.other.Trip;
 import com.example.busik.client.Client;
 import com.example.busik.client.ClientListAdapter;
 
@@ -21,13 +21,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TripInfoTask extends AsyncTask<Integer,Void,String> {
+public class DriverTripInfoTask extends AsyncTask<Integer,Void,String> {
 
     private Context context;
     private Activity activity;
     private Trip trip;
 
-    public TripInfoTask(Trip trip, Context context) {
+    public DriverTripInfoTask(Trip trip, Context context) {
         this.trip = trip;
         this.context = context;
         activity = (Activity) context;

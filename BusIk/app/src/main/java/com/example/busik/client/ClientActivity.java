@@ -3,7 +3,6 @@ package com.example.busik.client;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -13,8 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busik.R;
 
-import com.example.busik.ServerWork;
-import com.example.busik.servertasks.SerachTripsTask;
+import com.example.busik.other.ServerWork;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;

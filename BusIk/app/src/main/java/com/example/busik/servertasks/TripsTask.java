@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
-import com.example.busik.ServerWork;
-import com.example.busik.Trip;
+import com.example.busik.other.ServerWork;
+import com.example.busik.other.Trip;
 import com.example.busik.client.Client;
 import com.example.busik.client.TripListAdapter;
 import com.example.busik.driver.MarkClientsActivity;

@@ -1,4 +1,4 @@
-package com.example.busik;
+package com.example.busik.other;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.busik.R;
 import com.example.busik.servertasks.AuthTask;
 
 import java.io.IOException;
@@ -36,25 +37,19 @@ public class AuthActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book);
+        setContentView(R.layout.activity_auth);
 
-        Spinner spinner = findViewById(R.id.departure_spinner);
-        List<String> list;
-        list = Arrays.asList("Остановка 1", "Остановка 2", "Остановка 3", "Остановка 4");
-        ArrayAdapter<String> departureAdapter = new ArrayAdapter<>(this, R.layout.spinner_text, list);
-        spinner.setAdapter(departureAdapter);
+        fillLayout();
 
-//        fillLayout();
-//
-//        ServerWork.connectToServer();
-//
-//        registerButton.setOnClickListener(v -> {
-//            Intent intent = new Intent(this, RegisterActivity.class);
-//            startActivity(intent);
-//        });
-//
-//        loginButton.setOnClickListener(v ->
-//                new AuthTask(this).execute(login.getText().toString(), hashPassword(password.getText().toString())));
+        ServerWork.connectToServer();
+
+        registerButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
+        loginButton.setOnClickListener(v ->
+                new AuthTask(this).execute(login.getText().toString(), hashPassword(password.getText().toString())));
     }
 
     private void fillLayout()

@@ -9,9 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
-import com.example.busik.Trip;
+import com.example.busik.other.Trip;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHolder>  {

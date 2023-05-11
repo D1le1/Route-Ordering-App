@@ -48,6 +48,9 @@ public class ClientHandler implements Runnable {
                     case "TRIP":
                         getTripInfo(Integer.parseInt(parts[1]));
                         break;
+                    case "INFO":
+                        getBookInfo(Integer.parseInt(parts[1]));
+                        break;
                     case "MARK":
                         setClientArrived(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
                         break;
@@ -67,11 +70,19 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    private void getBookInfo(int tripId) {
+        JSONArray jsonArray = dbHandler.getBookInfo(tripId);
+        if(jsonArray != null)
+            out.println(jsonArray);
+        else
+            out.println("INFO--DENY");
+        out.flush();
+    }
+
     private void registration(String login, String password, String name, int role) {
         try {
             dbHandler.addNewUser(login, password, name, role);
             out.println("REG--OK");
-            System.out.println("Here");
         }catch (SQLException e)
         {
             out.println("REG--DENY");

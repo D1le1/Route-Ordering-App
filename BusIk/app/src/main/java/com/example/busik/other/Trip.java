@@ -1,4 +1,4 @@
-package com.example.busik;
+package com.example.busik.other;
 
 import java.io.Serializable;
 
