@@ -3,8 +3,10 @@ package com.example.busik;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class AuthActivity extends AppCompatActivity {
@@ -31,19 +36,25 @@ public class AuthActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_auth);
+        setContentView(R.layout.activity_book);
 
-        fillLayout();
+        Spinner spinner = findViewById(R.id.departure_spinner);
+        List<String> list;
+        list = Arrays.asList("Остановка 1", "Остановка 2", "Остановка 3", "Остановка 4");
+        ArrayAdapter<String> departureAdapter = new ArrayAdapter<>(this, R.layout.spinner_text, list);
+        spinner.setAdapter(departureAdapter);
 
-        ServerWork.connectToServer();
-
-        registerButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, RegisterActivity.class);
-            startActivity(intent);
-        });
-
-        loginButton.setOnClickListener(v ->
-                new AuthTask(this).execute(login.getText().toString(), hashPassword(password.getText().toString())));
+//        fillLayout();
+//
+//        ServerWork.connectToServer();
+//
+//        registerButton.setOnClickListener(v -> {
+//            Intent intent = new Intent(this, RegisterActivity.class);
+//            startActivity(intent);
+//        });
+//
+//        loginButton.setOnClickListener(v ->
+//                new AuthTask(this).execute(login.getText().toString(), hashPassword(password.getText().toString())));
     }
 
     private void fillLayout()
