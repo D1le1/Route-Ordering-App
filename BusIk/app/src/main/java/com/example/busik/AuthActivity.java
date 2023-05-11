@@ -57,7 +57,6 @@ public class AuthActivity extends AppCompatActivity {
 
     public static String hashPassword(String password) {
         if(!password.equals("")) {
-            Log.v("D1le", password);
             try {
                 // Получаем экземпляр класса MessageDigest с алгоритмом SHA-256
                 MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");

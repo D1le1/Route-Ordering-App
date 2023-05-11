@@ -22,49 +22,16 @@ public class ServerWork  {
     public static void connectToServer() {
         connectThread = new Thread(() -> {
             try {
-                socket = new Socket("192.168.100.6", 8001);
-                Log.v("ALERTT", "Connected");
+                socket = new Socket("192.168.99.99", 8001);
                 connected = true;
                 output = new PrintWriter(socket.getOutputStream());
                 input = new Scanner(socket.getInputStream());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            while (!connected) {
-//
-//                try {
-//                    Thread.sleep(5000); // ожидание 5 секунд перед следующей попыткой подключения
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
         });
         connectThread.start();
     }
-
-//    public static String sendRequest(String request) throws IOException
-//    {
-//        if(connected) {
-//            if (output != null) {
-//                output.println(request);
-//                output.flush();
-//            }
-//            if (input != null && input.hasNextLine())
-//                return input.nextLine();
-//            connected = false;
-//
-//        }else{
-//            connectToServer();
-//            if(connected)
-//                return sendRequest(request);
-//            else
-//                return null;
-//        }
-////        connectToServer();
-////        if(connected)
-////            return sendRequest(request);
-//        return null;
-//    }
 
     public static String sendRequest(String request) throws IOException {
         if(!connected)

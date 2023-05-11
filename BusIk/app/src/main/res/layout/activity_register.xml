@@ -100,7 +100,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginBottom="70dp"
-            android:text="Не все поля заполнены"
+            android:text="Выберите роль"
             android:textColor="@android:color/darker_gray"
             android:textSize="24sp"
             android:textStyle="bold" />
