@@ -146,7 +146,6 @@ public class DbHandler {
                 object.put("name", rs.getString("u.name"));
                 object.put("number", rs.getInt("u.number"));
                 jsonArray.put(object);
-                System.out.println(rs.getString("u.name"));
             }
             statement.close();
             return jsonArray;
