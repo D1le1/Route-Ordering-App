@@ -82,8 +82,10 @@ public class ClientHandler implements Runnable {
 
     private void registration(String login, String password, String name, int role) {
         try {
-            dbHandler.addNewUser(login, password, name, role);
-            out.println("REG--OK");
+            if(dbHandler.addNewUser(login, password, name, role))
+                out.println("REG--OK");
+            else
+                out.println("REG--EXISTS");
         }catch (SQLException e)
         {
             out.println("REG--DENY");

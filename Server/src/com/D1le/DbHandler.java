@@ -156,8 +156,16 @@ public class DbHandler {
         return null;
     }
 
-    public void addNewUser(String login, String password, String name, int role) throws SQLException
+    public boolean addNewUser(String login, String password, String name, int role) throws SQLException
     {
+        statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery("select * from users where number = " + login);
+        if(rs.next())
+        {
+            statement.close();
+            return false;
+        }
+        statement.close();
         PreparedStatement statement;
         statement = connection.prepareStatement("INSERT into users (number, password, name) values (?,?,?)");
         statement.setString(1, login);
@@ -173,6 +181,7 @@ public class DbHandler {
         statement.executeUpdate();
 
         statement.close();
+        return true;
     }
 
     public List<Trip> getTrips() {

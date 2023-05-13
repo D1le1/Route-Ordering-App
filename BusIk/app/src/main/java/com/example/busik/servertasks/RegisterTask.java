@@ -39,8 +39,8 @@ public class RegisterTask extends AsyncTask<String,Void,String> {
             {
                 error.setVisibility(View.INVISIBLE);
                 activity.finish();
-            }else {
-                error.setText("Не все поля заполнены");
+            }else if(response.equals("REG--EXISTS")){
+                error.setText("Такой номер телефона уже зарегистрирован");
                 error.setVisibility(View.VISIBLE);
             }
         }else {

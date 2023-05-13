@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.busik.R;
 import com.example.busik.servertasks.RegisterTask;
 
+import java.util.regex.Pattern;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private Button register;
@@ -67,11 +69,11 @@ public class RegisterActivity extends AppCompatActivity {
             result = false;
         }
         String error = "Поле не должно быть пустым";
-        if(login.getText().toString().isEmpty())
-        {
+        if(login.getText().toString().isEmpty()) {
             login.setError(error);
             result = false;
-        }else if(login.getText().toString().length() < 12){
+//        }else if(login.getText().toString().length() != 12 && login.getText().toString()){
+        }else if(!Pattern.matches("[3][7][5]\\d{9}", login.getText().toString())){
             login.setError("Номер должен состоять из 12 цифр (код 375)");
             result = false;
         }
