@@ -1,6 +1,7 @@
 package com.D1le;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -71,9 +72,9 @@ public class ClientHandler implements Runnable {
     }
 
     private void getBookInfo(int tripId) {
-        JSONArray jsonArray = dbHandler.getBookInfo(tripId);
-        if(jsonArray != null)
-            out.println(jsonArray);
+        JSONObject object = dbHandler.getBookInfo(tripId);
+        if(object != null)
+            out.println(object);
         else
             out.println("INFO--DENY");
         out.flush();

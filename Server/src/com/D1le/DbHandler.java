@@ -125,30 +125,30 @@ public class DbHandler {
         return null;
     }
 
-    public JSONArray getBookInfo(int tripId)
+    public JSONObject getBookInfo(int tripId)
     {
         try {
             statement = connection.createStatement();
 
-            ResultSet rs = statement.executeQuery("SELECT u.name, u.number FROM users u" +
-                    " INNER JOIN Trips t ON u.id = t.driver_id" +
-                    " WHERE t.id = " + tripId +
-                    " UNION" +
-                    " SELECT s.name, s.time" +
-                    " FROM stops s" +
-                    " INNER JOIN Trips t ON s.route_id = t.route_id" +
-                    " where t.id = " + tripId +
-                    " order by s.time");
-            JSONArray jsonArray = new JSONArray();
+            ResultSet rs = statement.executeQuery("SELECT u.name, b.number, b.mark, b.color, r.cost, GROUP_CONCAT(s.name, ', ') AS stops_list\n" +
+                    "FROM users u\n" +
+                    "INNER JOIN Trips t ON u.id = t.driver_id\n" +
+                    "INNER JOIN Routes r on r.id = t.route_id\n" +
+                    "INNER JOIN Buses b ON b.driver_id = u.id\n" +
+                    "INNER JOIN Stops s ON s.route_id = r.id\n" +
+                    "WHERE t.id = " + tripId);
+            JSONObject object = new JSONObject();
             while (rs.next())
             {
-                MyJSONObject object = new MyJSONObject();
-                object.put("name", rs.getString("u.name"));
-                object.put("number", rs.getInt("u.number"));
-                jsonArray.put(object);
+                object.put("name", rs.getString("name"));
+                object.put("number", rs.getString("number"));
+                object.put("mark", rs.getString("mark"));
+                object.put("color", rs.getString("color"));
+                object.put("cost", rs.getString("cost"));
+                object.put("stops", rs.getString("stops_list"));
             }
             statement.close();
-            return jsonArray;
+            return object;
         }catch (SQLException e)
         {
             e.printStackTrace();

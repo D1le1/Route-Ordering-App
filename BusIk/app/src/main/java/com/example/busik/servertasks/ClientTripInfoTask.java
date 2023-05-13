@@ -56,16 +56,16 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
         if (response != null) {
             try {
                 activity.findViewById(R.id.linearLayout).setVisibility(View.VISIBLE);
-                JSONArray jsonArray = new JSONArray(response);
-                List<Stop> stops = new ArrayList<>();
-                for(int i=0; i<jsonArray.length()-1; i++)
-                {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    stops.add(new Stop(object.getString("name"), object.getInt("number")));
-                }
+                JSONObject object = new JSONObject(response);
+                List<String> stops = Arrays.asList(object.getString("stops").split(","));
 
-                JSONObject object = jsonArray.getJSONObject(jsonArray.length()-1);
-                fillLayout(stops, object.getString("name"), object.getInt("number"));
+                fillLayout(
+                        stops, object.getString("name"),
+                        object.getString("number"),
+                        object.getString("mark"),
+                        object.getString("color"),
+                        object.getString("cost")
+                );
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -79,13 +79,17 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
         }
     }
 
-    private void fillLayout(List<Stop> stops, String name, int number)
+    private void fillLayout(List<String> stops, String name, String number, String mark, String color, String cost)
     {
         TextView driverName = activity.findViewById(R.id.driver_name);
         TextView departureTime = activity.findViewById(R.id.departure_time);
         TextView destinationTime = activity.findViewById(R.id.destination_time);
         TextView departureCity = activity.findViewById(R.id.departure_city);
         TextView destinationCity = activity.findViewById(R.id.destination_city);
+        TextView busNumber = activity.findViewById(R.id.bus_number);
+        TextView busMark = activity.findViewById(R.id.bus_mark);
+        TextView busColor = activity.findViewById(R.id.bus_color);
+        TextView tripCost = activity.findViewById(R.id.trip_cost);
 
         Spinner departureSpinner = activity.findViewById(R.id.departure_spinner);
 
@@ -94,14 +98,13 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
         departureCity.setText(trip.getRoute().split("-")[0]);
         destinationCity.setText(trip.getRoute().split("-")[1]);
 
-        driverName.setText(name);
+        driverName.setText("Водитель: " + name);
+        busMark.setText("Марка маршрутки: " + mark);
+        busNumber.setText("Номер маршрутки: " + number);
+        busColor.setText("Цвет маршрутки: " + color);
+        tripCost.setText("Цена: " + cost + " руб.");
 
-        List<String> names = new ArrayList<>();
-        for(Stop s : stops)
-        {
-            names.add(s.getName());
-        }
-        ArrayAdapter<String> departureAdapter = new ArrayAdapter<>(context, R.layout.spinner_text, names);
+        ArrayAdapter<String> departureAdapter = new ArrayAdapter<>(context, R.layout.spinner_text, stops);
         departureSpinner.setAdapter(departureAdapter);
     }
 }
