@@ -44,10 +44,16 @@ public class OperatorActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        manageDrivers.setOnClickListener(v -> {
+            Intent intent = new Intent(this, DriverListActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     public void fillLayout()
     {
         manageTrips = findViewById(R.id.btn_manage_trips);
+        manageDrivers = findViewById(R.id.btn_manage_drivers);
     }
 }

@@ -198,7 +198,14 @@
             android:id="@+id/btn_confirm_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Подтвердить заказ" />
+            android:layout_marginBottom="12dp"
+            android:text="Подтвердить изменения" />
+
+        <Button
+            android:id="@+id/btn_confirm_order2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Удалить рейс" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,14 @@ public class Client implements Serializable {
     private String mPhone;
     private int mRole;
     private int arrived;
+    private String bus;
+
+    public Client(String name, String phone, String bus)
+    {
+        mName = name;
+        mPhone = phone;
+        this.bus = bus;
+    }
 
     public Client(String name, String address, String phone, int id, int role) {
         mName = name;
@@ -66,6 +74,10 @@ public class Client implements Serializable {
 
     public void setPhone(String phone) {
         mPhone = phone;
+    }
+
+    public String getBus() {
+        return bus;
     }
 
     public int getRole() {
