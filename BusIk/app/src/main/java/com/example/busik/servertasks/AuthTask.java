@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.busik.R;
+import com.example.busik.operator.OperatorActivity;
 import com.example.busik.other.ServerWork;
 
 import com.example.busik.client.Client;
@@ -17,6 +18,7 @@ import com.example.busik.driver.DriverActivity;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.nio.file.OpenOption;
 
 public class AuthTask extends AsyncTask<String,Void,String> {
     private Context context;
@@ -45,19 +47,20 @@ public class AuthTask extends AsyncTask<String,Void,String> {
             try {
                 MyJSONObject object = new MyJSONObject(response);
                 Client client = object.parseToClient();
-                Intent intent;
+                Intent intent = null;
                 switch (client.getRole()) {
                     case 1:
                         intent = new Intent(context, ClientActivity.class);
-                        intent.putExtra("client", client);
-                        context.startActivity(intent);
                         break;
                     case 2:
                         intent = new Intent(context, DriverActivity.class);
-                        intent.putExtra("client", client);
-                        context.startActivity(intent);
+                        break;
+                    case 3:
+                        intent = new Intent(context, OperatorActivity.class);
                         break;
                 }
+                intent.putExtra("client", client);
+                context.startActivity(intent);
                 error.setVisibility(View.INVISIBLE);
             } catch (JSONException e) {
                 e.printStackTrace();

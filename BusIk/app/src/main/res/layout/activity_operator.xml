@@ -4,40 +4,49 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome, Operator!"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:padding="16dp"
+        android:text="Оператор"
+        android:background="?attr/colorPrimary"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:padding="16dp"/>
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_view_trips"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Просмотреть список всех рейсов"
-        android:layout_margin="16dp"/>
+        <Button
+            android:id="@+id/btn_manage_trips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Управление рейсами" />
 
-    <Button
-        android:id="@+id/btn_assign_driver"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Закрепить водителя за маршрутом"
-        android:layout_margin="16dp"/>
+        <Button
+            android:id="@+id/btn_manage_buses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Управление маршрутными такси"
+            android:layout_margin="16dp"/>
 
-    <Button
-        android:id="@+id/btn_manage_drivers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Управление водителями"
-        android:layout_margin="16dp"/>
+        <Button
+            android:id="@+id/btn_manage_drivers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Управление водителями"
+            android:layout_margin="16dp"/>
 
-    <Button
-        android:id="@+id/btn_manage_operators"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Управление операторами"
-        android:layout_margin="16dp"/>
+        <Button
+            android:id="@+id/btn_manage_applications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Управление заявками"
+            android:layout_margin="16dp"/>
 
+    </LinearLayout>
 </LinearLayout>

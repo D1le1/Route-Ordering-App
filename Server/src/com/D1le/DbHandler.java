@@ -130,7 +130,7 @@ public class DbHandler {
         try {
             statement = connection.createStatement();
 
-            ResultSet rs = statement.executeQuery("SELECT u.name, b.number, b.mark, b.color, r.cost, GROUP_CONCAT(s.name, ', ') AS stops_list\n" +
+            ResultSet rs = statement.executeQuery("SELECT u.name, u.number as phone, b.number, b.mark, b.color, r.cost, GROUP_CONCAT(s.name, ', ') AS stops_list\n" +
                     "FROM users u\n" +
                     "INNER JOIN Trips t ON u.id = t.driver_id\n" +
                     "INNER JOIN Routes r on r.id = t.route_id\n" +
@@ -142,6 +142,7 @@ public class DbHandler {
             {
                 object.put("name", rs.getString("name"));
                 object.put("number", rs.getString("number"));
+                object.put("phone", rs.getString("phone"));
                 object.put("mark", rs.getString("mark"));
                 object.put("color", rs.getString("color"));
                 object.put("cost", rs.getString("cost"));

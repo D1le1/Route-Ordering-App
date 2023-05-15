@@ -61,6 +61,7 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
 
                 fillLayout(
                         stops, object.getString("name"),
+                        object.getString("phone"),
                         object.getString("number"),
                         object.getString("mark"),
                         object.getString("color"),
@@ -79,9 +80,10 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
         }
     }
 
-    private void fillLayout(List<String> stops, String name, String number, String mark, String color, String cost)
+    private void fillLayout(List<String> stops, String name, String phone, String number, String mark, String color, String cost)
     {
         TextView driverName = activity.findViewById(R.id.driver_name);
+        TextView driverPhone = activity.findViewById(R.id.phone_number);
         TextView departureTime = activity.findViewById(R.id.departure_time);
         TextView destinationTime = activity.findViewById(R.id.destination_time);
         TextView departureCity = activity.findViewById(R.id.departure_city);
@@ -99,6 +101,7 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
         destinationCity.setText(trip.getRoute().split("-")[1]);
 
         driverName.setText("Водитель: " + name);
+        driverPhone.setText("Номер телефона: " + phone);
         busMark.setText("Марка маршрутки: " + mark);
         busNumber.setText("Номер маршрутки: " + number);
         busColor.setText("Цвет маршрутки: " + color);
