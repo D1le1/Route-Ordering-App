@@ -79,7 +79,7 @@ public class DbHandler {
     {
         try {
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.time, t2.time as trip_time, route, count(t3.trip_id) as seats " +
+            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, t2.time as trip_time, route, count(t3.trip_id) as seats " +
                     "FROM trips t1 " +
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
                     "LEFT JOIN ClientsTrips t3 ON t3.trip_id = t1.id and arrived < 2 " +
@@ -88,7 +88,7 @@ public class DbHandler {
             List<Trip> trips = new ArrayList<>();
             while (rs.next())
             {
-                trips.add(new Trip(rs));
+                trips.add(new Trip(rs, false));
             }
             rs.close();
             statement.close();
@@ -104,7 +104,7 @@ public class DbHandler {
     {
         try{
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.time, t2.time as trip_time, route, count(t3.trip_id) as seats " +
+            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, t2.time as trip_time, route, count(t3.trip_id) as seats " +
                     "FROM trips t1 " +
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
                     "LEFT JOIN ClientsTrips t3 ON t3.trip_id = t1.id and arrived < 2 " +
@@ -113,7 +113,7 @@ public class DbHandler {
             List<Trip> trips = new ArrayList<>();
             while (rs.next())
             {
-                trips.add(new Trip(rs));
+                trips.add(new Trip(rs, false));
             }
             rs.close();
             statement.close();
@@ -188,15 +188,15 @@ public class DbHandler {
     public List<Trip> getTrips() {
         try {
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("Select * from trips");
+            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, t2.time as trip_time, route, u.name " +
+                    "FROM trips t1 " +
+                    "INNER JOIN routes t2 ON t2.id = t1.route_id " +
+                    "INNER JOIN users u on t1.driver_id = u.id " +
+                    "GROUP BY t1.id");
             List<Trip> trips = new ArrayList<>();
             while (rs.next())
             {
-                trips.add(new Trip(
-                        rs.getString("route"),
-                        rs.getString("time"),
-                        rs.getInt("id")
-                ));
+                trips.add(new Trip(rs, true));
             }
             rs.close();
             statement.close();

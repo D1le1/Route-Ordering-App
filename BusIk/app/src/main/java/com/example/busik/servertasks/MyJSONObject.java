@@ -49,7 +49,9 @@ public class MyJSONObject extends JSONObject {
                 this.getString("route"),
                 this.getString("start"),
                 this.getString("end"),
-                this.getInt("seats")
+                this.getInt("seats"),
+                this.getString("name"),
+                this.getString("date")
         );
     }
 }

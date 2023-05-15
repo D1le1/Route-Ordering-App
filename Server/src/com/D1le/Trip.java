@@ -13,17 +13,10 @@ public class Trip implements Serializable {
     private String startTime;
     private String endTime;
     private int seats;
+    private String driverName;
+    private String date;
 
-    public Trip(String route, String startTime, int id) {}
-
-    public Trip(int id, String route, String startTime, String endTime) {
-        this.id = id;
-        this.route = route;
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
-
-    public Trip(ResultSet rs) throws SQLException {
+    public Trip(ResultSet rs, boolean operator) throws SQLException {
         id = rs.getInt("id");
         route = rs.getString("route");
         startTime = rs.getString("time");
@@ -32,7 +25,13 @@ public class Trip implements Serializable {
         int minute = (int) ((hour - (int) hour) * 60);
         time = time.plusHours((int) hour).plusMinutes(minute);
         endTime = time.format(DateTimeFormatter.ofPattern("HH:mm"));
-        seats = 14 - rs.getInt("seats");
+        if(!operator) {
+            seats = 14 - rs.getInt("seats");
+            driverName = "";
+        }
+        else
+            driverName = rs.getString("name");
+        date = rs.getString("date");
     }
 
     public int getId() {
@@ -49,6 +48,14 @@ public class Trip implements Serializable {
 
     public String getEndTime() {
         return endTime;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public int getSeats() {

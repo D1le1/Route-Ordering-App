@@ -10,6 +10,8 @@ public class MyJSONObject extends JSONObject {
         this.put("start", trip.getStartTime());
         this.put("end", trip.getEndTime());
         this.put("seats", trip.getSeats());
+        this.put("name", trip.getDriverName());
+        this.put("date", trip.getDate());
     }
 
     public MyJSONObject(Client client) {
@@ -19,28 +21,5 @@ public class MyJSONObject extends JSONObject {
         this.put("phone", client.getPhone());
         this.put("role", client.getRole());
         this.put("arrived", client.getArrived());
-    }
-
-    public MyJSONObject() {
-        super();
-    }
-
-    public Client parseToClient(){
-        return new Client(
-                this.getString("name"),
-                this.getString("address"),
-                this.getString("phone"),
-                this.getInt("id"),
-                this.getInt("role")
-        );
-    }
-
-    public Trip parseToTrip() {
-        return new Trip(
-                this.getInt("id"),
-                this.getString("route"),
-                this.getString("start"),
-                this.getString("end")
-        );
     }
 }

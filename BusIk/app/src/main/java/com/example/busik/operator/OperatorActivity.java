@@ -34,11 +34,20 @@ public class OperatorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operator);
 
+        fillLayout();
+
+        Client client = (Client) getIntent().getSerializableExtra("client");
+
+        manageTrips.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OperatorTripsActivity.class);
+            intent.putExtra("client", client);
+            startActivity(intent);
+        });
 
     }
 
     public void fillLayout()
     {
-
+        manageTrips = findViewById(R.id.btn_manage_trips);
     }
 }
