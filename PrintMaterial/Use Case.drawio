@@ -1,0 +1,145 @@
+<mxfile host="app.diagrams.net" modified="2023-05-15T13:21:14.510Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 YaBrowser/23.3.3.719 Yowser/2.5 Safari/537.36" etag="8k7VkeZBXSngomGp-8lL" version="21.2.4" type="device">
+  <diagram id="Ph8jA5WlHbNoEfFcoyfp" name="Страница 1">
+    <mxGraphModel dx="2074" dy="1143" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-1" value="Клиент" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="100" y="130" width="75" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-3" value="Водитель" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="100" y="460" width="75" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-4" value="Оператор" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="100" y="780" width="75" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-5" value="Выбрать маршрут поездки" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="60" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-6" value="Просмотреть действующие &lt;br&gt;заказы" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="270" y="230" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-8" value="" style="endArrow=none;html=1;rounded=0;entryX=-0.017;entryY=0.588;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-1" target="VTqY_0RSkmnOxTE6mX9H-5" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="180" as="sourcePoint" />
+            <mxPoint x="210" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-9" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.375;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-1" target="VTqY_0RSkmnOxTE6mX9H-6" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="170" as="sourcePoint" />
+            <mxPoint x="287.96000000000004" y="117.03999999999996" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-11" value="Выбрать дату поездки" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="770" y="10" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-17" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="endArrow=classic;endSize=12;dashed=1;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endFill=1;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-5" target="VTqY_0RSkmnOxTE6mX9H-11" edge="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="400" y="100" as="sourcePoint" />
+            <mxPoint x="560" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-18" value="Выбрать количество пассажиров" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="850" y="150" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-19" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="endArrow=classic;endSize=12;dashed=1;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endFill=1;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-5" target="VTqY_0RSkmnOxTE6mX9H-18" edge="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="410" y="100" as="sourcePoint" />
+            <mxPoint x="560" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-21" value="Выбрать маршрутное такси по времени" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="570" y="250" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-23" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="endArrow=classic;endSize=12;dashed=1;html=1;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=0;exitX=1;exitY=1;exitDx=0;exitDy=0;endFill=1;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-5" target="VTqY_0RSkmnOxTE6mX9H-21" edge="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="409.9999999999982" y="110" as="sourcePoint" />
+            <mxPoint x="560" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-24" value="Просмотреть список закрепленных рейсов" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="450" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-26" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-3" target="VTqY_0RSkmnOxTE6mX9H-24" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="460" as="sourcePoint" />
+            <mxPoint x="270" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-28" value="Просмотреть список пассажиров" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="610" y="450" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-29" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="endArrow=classic;endSize=12;dashed=1;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endFill=1;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-24" target="VTqY_0RSkmnOxTE6mX9H-28" edge="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="392.42640687119047" y="268.2842712474603" as="sourcePoint" />
+            <mxPoint x="477.57359312880726" y="331.715728752538" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-31" value="Отметить статус пассажира" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="940" y="440" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-33" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="endArrow=classic;endSize=12;dashed=1;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1.002;exitY=0.408;exitDx=0;exitDy=0;exitPerimeter=0;endFill=1;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-28" target="VTqY_0RSkmnOxTE6mX9H-31" edge="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="400" y="510" as="sourcePoint" />
+            <mxPoint x="510" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-35" value="Просмотреть список водителей" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="610" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-36" value="" style="endArrow=none;html=1;rounded=0;entryX=0.055;entryY=0.744;entryDx=0;entryDy=0;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-4" target="VTqY_0RSkmnOxTE6mX9H-35" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="184.99999999999977" y="520" as="sourcePoint" />
+            <mxPoint x="250" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-41" value="Просмотреть список всех рейсов" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="380" y="840" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-43" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-4" target="VTqY_0RSkmnOxTE6mX9H-41" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="180" y="830" as="sourcePoint" />
+            <mxPoint x="299.9000000000001" y="759.28" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-50" value="Просмотреть список маршрутных такси" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="540" y="700" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-52" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.583;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="VTqY_0RSkmnOxTE6mX9H-50" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="180" y="830" as="sourcePoint" />
+            <mxPoint x="369.9000000000001" y="709.28" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-53" value="Закрепить водителя за маршрутным такси" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="780" y="610" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-55" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" style="endArrow=classic;endSize=12;dashed=1;html=1;rounded=0;exitX=-0.011;exitY=0.383;exitDx=0;exitDy=0;endFill=1;entryX=0.989;entryY=0.408;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-53" target="VTqY_0RSkmnOxTE6mX9H-35" edge="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="390" y="1030" as="sourcePoint" />
+            <mxPoint x="439.75077640500376" y="963.6656314599945" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VTqY_0RSkmnOxTE6mX9H-56" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" style="endArrow=classic;endSize=12;dashed=1;html=1;rounded=0;exitX=0;exitY=0.567;exitDx=0;exitDy=0;endFill=1;entryX=0.928;entryY=0.2;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-53" target="VTqY_0RSkmnOxTE6mX9H-50" edge="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="788.02" y="665.96" as="sourcePoint" />
+            <mxPoint x="538.02" y="668.96" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YtuWmj-ewnzjRo7I65Af-1" value="Управлять рейсами" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="660" y="890" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="YtuWmj-ewnzjRo7I65Af-2" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="endArrow=classic;endSize=12;dashed=1;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.933;exitY=0.767;exitDx=0;exitDy=0;endFill=1;exitPerimeter=0;" parent="1" source="VTqY_0RSkmnOxTE6mX9H-41" target="YtuWmj-ewnzjRo7I65Af-1" edge="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="430" y="520" as="sourcePoint" />
+            <mxPoint x="620" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YtuWmj-ewnzjRo7I65Af-4" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="176" y="2.5" width="1015" height="1015" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
