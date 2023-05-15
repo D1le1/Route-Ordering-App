@@ -18,7 +18,7 @@ public class OperatorTripActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver);
+        setContentView(R.layout.activity_history);
 
         // Заполнение списка рейсов данными
 //

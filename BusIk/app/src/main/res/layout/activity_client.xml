@@ -122,6 +122,13 @@
         android:layout_marginTop="8dp"
         android:text="@string/select_button_text" />
 
+        <Button
+            android:id="@+id/history_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/history_button_text" />
+
     </LinearLayout>
 
 </LinearLayout>

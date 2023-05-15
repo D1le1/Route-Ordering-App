@@ -10,8 +10,6 @@ public class Trip implements Serializable {
     private String endTime;
     private int seats;
 
-    public Trip(String route, String startTime, int id) {}
-
     public Trip(int id, String route, String startTime, String endTime, int seats) {
         this.id = id;
         this.route = route;

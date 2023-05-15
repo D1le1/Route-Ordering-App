@@ -12,7 +12,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_trips);
 
         String start = getIntent().getStringExtra("start");
         String end = getIntent().getStringExtra("end");

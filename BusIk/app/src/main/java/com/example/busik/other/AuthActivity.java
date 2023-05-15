@@ -2,27 +2,16 @@ package com.example.busik.other;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busik.R;
 import com.example.busik.servertasks.AuthTask;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -32,8 +21,6 @@ public class AuthActivity extends AppCompatActivity {
     private EditText login;
     private EditText password;
 
-    private TextView title;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,24 +28,27 @@ public class AuthActivity extends AppCompatActivity {
 
         fillLayout();
 
+        // Подключение к серверу
         ServerWork.connectToServer();
 
+        // Обработка нажатия на кнопку "Зарегистрироваться"
         registerButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         });
 
+        // Обработка нажатия на кнопку "Авторизоваться"
         loginButton.setOnClickListener(v ->
                 new AuthTask(this).execute(login.getText().toString(), hashPassword(password.getText().toString())));
     }
 
+    // Метод заполнения объектов страницы
     private void fillLayout()
     {
         registerButton = findViewById(R.id.register_button);
         loginButton = findViewById(R.id.login_button);
         login = findViewById(R.id.username_edit_text);
         password = findViewById(R.id.password_edit_text);
-        title = findViewById(R.id.title);
     }
 
     public static String hashPassword(String password) {
@@ -89,5 +79,4 @@ public class AuthActivity extends AppCompatActivity {
             return " ";
         }
     }
-
 }

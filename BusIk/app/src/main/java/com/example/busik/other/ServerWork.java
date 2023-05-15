@@ -22,7 +22,7 @@ public class ServerWork  {
     public static void connectToServer() {
         connectThread = new Thread(() -> {
             try {
-                socket = new Socket("192.168.99.99", 8001);
+                socket = new Socket("192.168.0.107", 8001);
                 connected = true;
                 output = new PrintWriter(socket.getOutputStream());
                 input = new Scanner(socket.getInputStream());

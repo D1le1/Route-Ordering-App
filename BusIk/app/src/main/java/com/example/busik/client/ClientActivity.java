@@ -26,6 +26,7 @@ public class ClientActivity extends AppCompatActivity {
     private Spinner destinationSpinner;
     private Spinner passengersSpinner;
     private Button searchButton;
+    private Button historyButton;
     private TextView date;
 
     private String dbDate;
@@ -53,6 +54,10 @@ public class ClientActivity extends AppCompatActivity {
             }
         });
 
+        historyButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, HistoryActivity.class);
+            startActivity(intent);
+        });
     }
 
     public void fillLayout()
@@ -60,6 +65,8 @@ public class ClientActivity extends AppCompatActivity {
         departureSpinner = findViewById(R.id.departure_spinner);
         destinationSpinner = findViewById(R.id.destination_spinner);
         searchButton = findViewById(R.id.select_button);
+        historyButton = findViewById(R.id.history_button);
+
         passengersSpinner = findViewById(R.id.passenger_spinner);
         date = findViewById(R.id.date_text);
 
