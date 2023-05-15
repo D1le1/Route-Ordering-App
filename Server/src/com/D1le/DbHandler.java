@@ -1,13 +1,9 @@
 package com.D1le;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.lang.ref.ReferenceQueue;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 public class DbHandler {
