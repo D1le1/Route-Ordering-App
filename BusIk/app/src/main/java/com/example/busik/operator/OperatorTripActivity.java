@@ -15,22 +15,22 @@ public class OperatorTripActivity extends AppCompatActivity {
     private List<Trip> mTrips;
     private RecyclerView mRecyclerView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
-
-        // Заполнение списка рейсов данными
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_history);
 //
-//        DriverTripListAdapter.OnTripClickListener onTripClickListener = (mTrips) -> {
-//            Intent intent = new Intent(this, MarkClientsActivity.class);
-//            startActivity(intent);
-//        };
-//
-//        // Настройка RecyclerView и адаптера
-//        mRecyclerView = findViewById(R.id.recycler_view_trips);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mAdapter = new DriverTripListAdapter(mTrips, onTripClickListener);
-//        mRecyclerView.setAdapter(mAdapter);
-    }
+//        // Заполнение списка рейсов данными
+////
+////        DriverTripListAdapter.OnTripClickListener onTripClickListener = (mTrips) -> {
+////            Intent intent = new Intent(this, MarkClientsActivity.class);
+////            startActivity(intent);
+////        };
+////
+////        // Настройка RecyclerView и адаптера
+////        mRecyclerView = findViewById(R.id.recycler_view_trips);
+////        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+////        mAdapter = new DriverTripListAdapter(mTrips, onTripClickListener);
+////        mRecyclerView.setAdapter(mAdapter);
+//    }
 }

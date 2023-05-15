@@ -3,28 +3,19 @@ package com.example.busik.servertasks;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.busik.R;
-import com.example.busik.client.Client;
-import com.example.busik.client.ClientListAdapter;
 import com.example.busik.other.ServerWork;
-import com.example.busik.other.Stop;
 import com.example.busik.other.Trip;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
