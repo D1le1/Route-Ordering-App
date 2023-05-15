@@ -54,6 +54,11 @@ public class OperatorActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        manageApplications.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ApplicationActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     public void fillLayout()
@@ -61,5 +66,6 @@ public class OperatorActivity extends AppCompatActivity {
         manageTrips = findViewById(R.id.btn_manage_trips);
         manageDrivers = findViewById(R.id.btn_manage_drivers);
         manageBuses = findViewById(R.id.btn_manage_buses);
+        manageApplications = findViewById(R.id.btn_manage_applications);
     }
 }
