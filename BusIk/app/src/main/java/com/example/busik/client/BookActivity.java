@@ -21,9 +21,8 @@ public class BookActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book);
 
         Trip trip = (Trip) getIntent().getSerializableExtra("trip");
-        new ClientTripInfoTask(trip, this).execute();
-
-
+        Client client = (Client) getIntent().getSerializableExtra("client");
+        new ClientTripInfoTask(client, trip, this).execute();
     }
 
     @Override

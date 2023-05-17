@@ -6,7 +6,7 @@ public class Client implements Serializable {
 
     private int mId;
     private String mName;
-    private String mAddress;
+    private String address;
     private String mPhone;
     private int mRole;
     private int arrived;
@@ -21,7 +21,7 @@ public class Client implements Serializable {
 
     public Client(String name, String address, String phone, int id, int role) {
         mName = name;
-        mAddress = address;
+        this.address = address;
         mPhone = phone;
         mId = id;
         mRole = role;
@@ -29,7 +29,7 @@ public class Client implements Serializable {
 
     public Client(String name, String address, String phone, int id, int role, int arrived) {
         mName = name;
-        mAddress = address;
+        this.address = address;
         mPhone = phone;
         mId = id;
         mRole = role;
@@ -38,7 +38,7 @@ public class Client implements Serializable {
 
     public Client(String name, String address, int arrived, String phone, int id) {
         mName = name;
-        mAddress = address;
+        this.address = address;
         mPhone = phone;
         mId = id;
         this.arrived = arrived;
@@ -57,7 +57,11 @@ public class Client implements Serializable {
     }
 
     public String getAddress() {
-        return mAddress;
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setArrived(int arrived) {

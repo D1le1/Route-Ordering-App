@@ -34,10 +34,6 @@ public class SerachTripsTask extends AsyncTask<String,Void,String> {
         this.client = client;
     }
 
-    public SerachTripsTask(Context context) {
-        this.context = context;
-    }
-
     @Override
     protected String doInBackground(String... strings) {
         String request = "SEARCH--" + strings[0] + "--" + strings[1] + "--" + strings[2];
@@ -65,6 +61,7 @@ public class SerachTripsTask extends AsyncTask<String,Void,String> {
                     if(trip.getSeats() > 0) {
                         Intent intent = new Intent(context, BookActivity.class);
                         intent.putExtra("trip", trip);
+                        intent.putExtra("client", client);
                         context.startActivity(intent);
                     }
                 };

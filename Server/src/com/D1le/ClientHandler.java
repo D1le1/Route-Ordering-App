@@ -58,6 +58,9 @@ public class ClientHandler implements Runnable {
                     case "SEARCH":
                         getTrips(parts[1], parts[2], parts[3]);
                         break;
+                    case "CONFIRM":
+                        confirmOrder(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), parts[3]);
+                        break;
                     default:
                         out.println("Nothing to send");
                         out.flush();
@@ -116,6 +119,16 @@ public class ClientHandler implements Runnable {
             jsonArray.put(object);
         }
         out.println(jsonArray);
+        out.flush();
+    }
+
+    private void confirmOrder(int userId, int tripId, String stop)
+    {
+        if(dbHandler.confirmOrder(userId, tripId, stop))
+        {
+            out.println("CONFIRM--OK");
+        }else
+            out.println("CONFIRM--DENY");
         out.flush();
     }
 

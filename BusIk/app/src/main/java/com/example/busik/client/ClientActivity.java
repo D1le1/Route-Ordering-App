@@ -50,6 +50,7 @@ public class ClientActivity extends AppCompatActivity {
                 intent.putExtra("start", departureSpinner.getSelectedItem().toString());
                 intent.putExtra("end", destinationSpinner.getSelectedItem().toString());
                 intent.putExtra("date", dbDate);
+                intent.putExtra("client", client);
                 startActivity(intent);
             }
         });

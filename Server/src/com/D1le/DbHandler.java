@@ -121,6 +121,41 @@ public class DbHandler {
         return null;
     }
 
+    public boolean confirmOrder(int userId, int tripId, String stop)
+    {
+        try{
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("Select * from clientstrips where user_id = " + userId + " and trip_id = " + tripId);
+            if(rs.next()){
+                statement.close();
+                return false;
+            }
+            statement.close();
+
+            statement = connection.createStatement();
+            rs = statement.executeQuery("select id from stops where name = '" + stop + "'");
+            int stopId = 0;
+            while(rs.next())
+            {
+                stopId = rs.getInt("id");
+            }
+            statement.close();
+
+            PreparedStatement statement = connection.prepareStatement("insert into ClientsTrips (user_id, trip_id, arrived, stop_id) VALUES (?, ?, 0, ?)");
+            statement.setInt(1, userId);
+            statement.setInt(2, userId);
+            statement.setInt(3, stopId);
+            statement.executeUpdate();
+            statement.close();
+            return true;
+
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public JSONObject getBookInfo(int tripId)
     {
         try {

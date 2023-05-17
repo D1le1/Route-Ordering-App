@@ -185,5 +185,14 @@
             android:layout_height="wrap_content"
             android:text="Подтвердить заказ" />
 
+        <TextView
+            android:id="@+id/mini_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:gravity="center"
+            android:text="У вас уже есть бронь на этом рейсе"
+            android:textSize="18sp" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

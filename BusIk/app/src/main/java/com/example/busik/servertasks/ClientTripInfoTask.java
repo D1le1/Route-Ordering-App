@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.busik.R;
+import com.example.busik.client.Client;
 import com.example.busik.other.ServerWork;
 import com.example.busik.other.Trip;
 
@@ -23,9 +26,11 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
 
     private Context context;
     private Activity activity;
+    private Client client;
     private Trip trip;
 
-    public ClientTripInfoTask(Trip trip, Context context) {
+    public ClientTripInfoTask(Client client, Trip trip, Context context) {
+        this.client = client;
         this.trip = trip;
         this.context = context;
         activity = (Activity) context;
@@ -86,6 +91,8 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
 
         Spinner departureSpinner = activity.findViewById(R.id.departure_spinner);
 
+        Button confirmOrder = activity.findViewById(R.id.btn_confirm_order);
+
         departureTime.setText(trip.getStartTime());
         destinationTime.setText(trip.getEndTime());
         departureCity.setText(trip.getRoute().split("-")[0]);
@@ -100,5 +107,20 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
 
         ArrayAdapter<String> departureAdapter = new ArrayAdapter<>(context, R.layout.spinner_text, stops);
         departureSpinner.setAdapter(departureAdapter);
+
+        client.setAddress(departureSpinner.getSelectedItem().toString());
+        departureSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                client.setAddress(departureSpinner.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        confirmOrder.setOnClickListener(v -> new ConfirmOrderTask(context).execute(String.valueOf(client.getId()), String.valueOf(trip.getId()), client.getAddress()));
     }
 }
