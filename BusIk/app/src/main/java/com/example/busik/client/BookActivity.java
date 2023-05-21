@@ -1,5 +1,6 @@
 package com.example.busik.client;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -28,6 +29,8 @@ public class BookActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

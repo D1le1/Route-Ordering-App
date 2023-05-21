@@ -29,7 +29,6 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
 
     private Context context;
     private Client client;
-    private TripListAdapter adapter;
 
     public TripsTask(Context context, Client client) {
         this.context = context;

@@ -23,16 +23,6 @@ public class MarkClientsActivity extends AppCompatActivity {
 
         Trip trip = (Trip) getIntent().getSerializableExtra("trip");
         new DriverTripInfoTask(trip, this).execute();
-        // Создание списка клиентов
-//        List<Client> clientList = new ArrayList<>();
-//
-//        // Создание адаптера для списка клиентов
-//        mClientListAdapter = new ClientListAdapter(clientList);
-//
-//        // Настройка RecyclerView
-//        mClientListView = findViewById(R.id.client_list);
-//        mClientListView.setLayoutManager(new LinearLayoutManager(this));
-//        mClientListView.setAdapter(mClientListAdapter);
     }
 
     @Override

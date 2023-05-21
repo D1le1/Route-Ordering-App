@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DbHandler {
@@ -48,14 +49,14 @@ public class DbHandler {
     {
         try{
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("Select name, number, t1.id, arrived from users t1 inner join clientstrips t2 " +
+            ResultSet rs = statement.executeQuery("Select name, number, stop_id t1.id, arrived from users t1 inner join clientstrips t2 " +
                     "on t1.id = t2.user_id where t2.trip_id = " + tripId);
             List<Client> clients = new ArrayList<>();
             while (rs.next())
             {
                 clients.add(new Client(
                         rs.getString("name"),
-                        "Nothing",
+                        rs.getString("address"),
                         rs.getInt("arrived"),
                         rs.getString("number"),
                         rs.getInt("id")
@@ -161,14 +162,15 @@ public class DbHandler {
         try {
             statement = connection.createStatement();
 
-            ResultSet rs = statement.executeQuery("SELECT u.name, u.number as phone, b.number, b.mark, b.color, r.cost, GROUP_CONCAT(s.name, ', ') AS stops_list\n" +
+            ResultSet rs = statement.executeQuery("SELECT u.name, u.number AS phone, b.number, b.mark, b.color, r.cost, \n" +
+                    "(SELECT GROUP_CONCAT(s.name) FROM (SELECT name FROM Stops WHERE route_id = r.id ORDER BY time) AS s) AS stops_list\n" +
                     "FROM users u\n" +
                     "INNER JOIN Trips t ON u.id = t.driver_id\n" +
-                    "INNER JOIN Routes r on r.id = t.route_id\n" +
+                    "INNER JOIN Routes r ON r.id = t.route_id\n" +
                     "INNER JOIN Buses b ON b.driver_id = u.id\n" +
-                    "INNER JOIN Stops s ON s.route_id = r.id\n" +
                     "WHERE t.id = " + tripId);
             JSONObject object = new JSONObject();
+
             while (rs.next())
             {
                 object.put("name", rs.getString("name"));
@@ -179,6 +181,8 @@ public class DbHandler {
                 object.put("cost", rs.getString("cost"));
                 object.put("stops", rs.getString("stops_list"));
             }
+            List<String> stops = Arrays.asList(object.getString("stops").split(","));
+            stops.stream().forEach(System.out::println);
             statement.close();
             return object;
         }catch (SQLException e)

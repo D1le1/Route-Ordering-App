@@ -12,13 +12,13 @@ import java.util.Scanner;
 
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
-    private final DbHandler dbHandler;
+    private DbHandler mDbHandler;
     private PrintWriter out;
     private Scanner in;
 
     public ClientHandler(Socket clientSocket, DbHandler dbHandler) {
         this.clientSocket = clientSocket;
-        this.dbHandler = dbHandler;
+        mDbHandler = dbHandler;
     }
 
     public void run() {
@@ -75,7 +75,7 @@ public class ClientHandler implements Runnable {
     }
 
     private void getBookInfo(int tripId) {
-        JSONObject object = dbHandler.getBookInfo(tripId);
+        JSONObject object = mDbHandler.getBookInfo(tripId);
         if(object != null)
             out.println(object);
         else
@@ -85,7 +85,7 @@ public class ClientHandler implements Runnable {
 
     private void registration(String login, String password, String name, int role) {
         try {
-            if(dbHandler.addNewUser(login, password, name, role))
+            if(mDbHandler.addNewUser(login, password, name, role))
                 out.println("REG--OK");
             else
                 out.println("REG--EXISTS");
@@ -99,7 +99,7 @@ public class ClientHandler implements Runnable {
 
     private void setClientArrived(int tripId, int clientId, int status) {
         try {
-            dbHandler.setClientArrived(tripId, clientId, status);
+            mDbHandler.setClientArrived(tripId, clientId, status);
             out.println("MARK--" + status);
         }catch (SQLException e)
         {
@@ -112,7 +112,7 @@ public class ClientHandler implements Runnable {
     private void getTripInfo(int tripId) {
         JSONArray jsonArray = new JSONArray();
         List<Client> clients;
-        clients = dbHandler.getTripInfo(tripId);
+        clients = mDbHandler.getTripInfo(tripId);
         for(Client client : clients)
         {
             MyJSONObject object = new MyJSONObject(client);
@@ -124,7 +124,7 @@ public class ClientHandler implements Runnable {
 
     private void confirmOrder(int userId, int tripId, String stop)
     {
-        if(dbHandler.confirmOrder(userId, tripId, stop))
+        if(mDbHandler.confirmOrder(userId, tripId, stop))
         {
             out.println("CONFIRM--OK");
         }else
@@ -134,7 +134,7 @@ public class ClientHandler implements Runnable {
 
     private void getAuth(String login, String password)
     {
-        Client client = dbHandler.getAuth(login, password);
+        Client client = mDbHandler.getAuth(login, password);
         if(client != null) {
             MyJSONObject object = new MyJSONObject(client);
             out.println(object);
@@ -149,7 +149,7 @@ public class ClientHandler implements Runnable {
     private void getTrips(String start, String end, String date)
     {
         JSONArray jsonArray = new JSONArray();
-        List<Trip> trips = dbHandler.getSearchTrips(start, end, date);
+        List<Trip> trips = mDbHandler.getSearchTrips(start, end, date);
         for (Trip trip : trips)
         {
             MyJSONObject object = new MyJSONObject(trip);
@@ -165,11 +165,11 @@ public class ClientHandler implements Runnable {
         List<Trip> trips;
         if(role == 2)
         {
-            trips = dbHandler.getDriverTrips(id);
+            trips = mDbHandler.getDriverTrips(id);
         }
         else
         {
-            trips = dbHandler.getTrips();
+            trips = mDbHandler.getTrips();
         }
         for(Trip trip : trips)
         {
