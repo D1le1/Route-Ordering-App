@@ -49,14 +49,16 @@ public class DbHandler {
     {
         try{
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("Select name, number, stop_id t1.id, arrived from users t1 inner join clientstrips t2 " +
-                    "on t1.id = t2.user_id where t2.trip_id = " + tripId);
+            ResultSet rs = statement.executeQuery("select u.name, u.number, ct.arrived, u.id, s.name as stop from users u\n" +
+                    "inner join ClientsTrips ct on u.id = ct.user_id\n" +
+                    "inner join Stops s on s.id = ct.stop_id\n" +
+                    "where trip_id = " + tripId);
             List<Client> clients = new ArrayList<>();
             while (rs.next())
             {
                 clients.add(new Client(
                         rs.getString("name"),
-                        rs.getString("address"),
+                        rs.getString("stop"),
                         rs.getInt("arrived"),
                         rs.getString("number"),
                         rs.getInt("id")
@@ -163,7 +165,7 @@ public class DbHandler {
             statement = connection.createStatement();
 
             ResultSet rs = statement.executeQuery("SELECT u.name, u.number AS phone, b.number, b.mark, b.color, r.cost, \n" +
-                    "(SELECT GROUP_CONCAT(s.name) FROM (SELECT name FROM Stops WHERE route_id = r.id ORDER BY time) AS s) AS stops_list\n" +
+                    "(SELECT GROUP_CONCAT(s.name) FROM (SELECT name FROM Stops WHERE route_id = r.id ORDER BY 'order') AS s) AS stops_list\n" +
                     "FROM users u\n" +
                     "INNER JOIN Trips t ON u.id = t.driver_id\n" +
                     "INNER JOIN Routes r ON r.id = t.route_id\n" +
