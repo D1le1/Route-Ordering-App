@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
+import com.example.busik.client.HistoryListAdapter;
 import com.example.busik.operator.OperatorManageTripActivity;
 import com.example.busik.operator.OperatorTripListAdapter;
 import com.example.busik.other.ServerWork;
@@ -52,11 +53,14 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
             try {
                 JSONArray jsonArray = new JSONArray(response);
                 List<Trip> trips = new ArrayList<>();
+                List<Integer> arrives = new ArrayList<>();
 
                 for(int i=0; i<jsonArray.length(); i++)
                 {
                     MyJSONObject object = new MyJSONObject(jsonArray.getJSONObject(i));
                     trips.add(object.parseToTrip());
+                    if(object.has("arrived"))
+                        arrives.add(object.getInt("arrived"));
                 }
 
                 if(trips.size() == 0)
@@ -67,24 +71,39 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                 RecyclerView mRecyclerView = ((Activity) context).findViewById(R.id.recycler_view_trips);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-                if(client.getRole() == 2)
+                switch (client.getRole())
                 {
-                    TripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
-                        Intent intent = new Intent(context, MarkClientsActivity.class);
-                        intent.putExtra("trip", trip);
-                        ((Activity) context).startActivityForResult(intent, 0);
-                    };
-                    TripListAdapter adapter = new TripListAdapter(trips, onTripClickListener);
-                    mRecyclerView.setAdapter(adapter);
-                }else if(client.getRole() == 3)
-                {
-                    OperatorTripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
-                        Intent intent = new Intent(context, OperatorManageTripActivity.class);
-                        intent.putExtra("trip", trip);
-                        ((Activity) context).startActivityForResult(intent, 0);
-                    };
-                    OperatorTripListAdapter adapter = new OperatorTripListAdapter(trips, onTripClickListener);
-                    mRecyclerView.setAdapter(adapter);
+                    case 1:
+                    {
+                        HistoryListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
+                            Intent intent = new Intent(context, MarkClientsActivity.class);
+                            intent.putExtra("trip", trip);
+                            ((Activity) context).startActivityForResult(intent, 0);
+                        };
+                        HistoryListAdapter adapter = new HistoryListAdapter(trips, arrives, onTripClickListener);
+                        mRecyclerView.setAdapter(adapter);
+                        break;
+                    }
+                    case 2: {
+                        TripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
+                            Intent intent = new Intent(context, MarkClientsActivity.class);
+                            intent.putExtra("trip", trip);
+                            ((Activity) context).startActivityForResult(intent, 0);
+                        };
+                        TripListAdapter adapter = new TripListAdapter(trips, onTripClickListener);
+                        mRecyclerView.setAdapter(adapter);
+                        break;
+                    }
+                    case 3: {
+                        OperatorTripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
+                            Intent intent = new Intent(context, OperatorManageTripActivity.class);
+                            intent.putExtra("trip", trip);
+                            ((Activity) context).startActivityForResult(intent, 0);
+                        };
+                        OperatorTripListAdapter adapter = new OperatorTripListAdapter(trips, onTripClickListener);
+                        mRecyclerView.setAdapter(adapter);
+                        break;
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

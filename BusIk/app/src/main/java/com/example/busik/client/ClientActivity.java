@@ -57,6 +57,7 @@ public class ClientActivity extends AppCompatActivity {
 
         historyButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, HistoryActivity.class);
+            intent.putExtra("client", client);
             startActivity(intent);
         });
     }

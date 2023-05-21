@@ -12,6 +12,7 @@ public class MyJSONObject extends JSONObject {
         this.put("seats", trip.getSeats());
         this.put("name", trip.getDriverName());
         this.put("date", trip.getDate());
+        this.put("finished", trip.getFinished());
     }
 
     public MyJSONObject(Client client) {

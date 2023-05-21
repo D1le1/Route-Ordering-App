@@ -11,8 +11,9 @@ public class Trip implements Serializable {
     private int seats;
     private String driverName;
     private String date;
+    private int finished;
 
-    public Trip(int id, String route, String startTime, String endTime, int seats, String driverName, String date) {
+    public Trip(int id, String route, String startTime, String endTime, int seats, String driverName, String date, int finished) {
         this.id = id;
         this.route = route;
         this.startTime = startTime;
@@ -20,6 +21,7 @@ public class Trip implements Serializable {
         this.seats = seats;
         this.driverName = driverName;
         this.date = date;
+        this.finished = finished;
     }
 
     public int getId() {
@@ -44,6 +46,10 @@ public class Trip implements Serializable {
 
     public String getDate() {
         return date;
+    }
+
+    public int getFinished() {
+        return finished;
     }
 
     public void changeSeats(int number)

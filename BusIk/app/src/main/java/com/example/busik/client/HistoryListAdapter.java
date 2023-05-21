@@ -15,10 +15,14 @@ import java.util.List;
 
 public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.ViewHolder>  {
 
-    private List<Trip> mTrips;
+    private List<Trip> trips;
+    private List<Integer> arrives;
+    private OnTripClickListener onTripClickListener;
 
-    public HistoryListAdapter(List<Trip> trips) {
-        mTrips = trips;
+    public HistoryListAdapter(List<Trip> trips, List<Integer> arrives, OnTripClickListener onTripClickListener) {
+        this.trips = trips;
+        this.onTripClickListener = onTripClickListener;
+        this.arrives = arrives;
     }
 
     @NonNull
@@ -30,13 +34,14 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Trip trip = mTrips.get(position);
-        holder.bind(trip);
+        Trip trip = trips.get(position);
+        int arrived = arrives.get(position);
+        holder.bind(trip, arrived, onTripClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return mTrips.size();
+        return trips.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -58,13 +63,21 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
             date = itemView.findViewById(R.id.date_text);
         }
 
-        public void bind(Trip trip) {
+        public void bind(Trip trip, int arrived, OnTripClickListener onTripClickListener) {
             routeStart.setText(trip.getRoute().split("-")[0]);
             routeEnd.setText(trip.getRoute().split("-")[1]);
             startTime.setText(trip.getStartTime());
             endTime.setText(trip.getEndTime());
-            date.setText("Дата поездки: 14.05.2023");
-            status.setText("Статус заказа: Активен");
+            date.setText("Дата поездки: " + trip.getDate());
+            if(arrived == 2)
+                status.setText("Статус заказа: Не явился");
+            else if(trip.getFinished() == 1)
+                status.setText("Статус заказа: Завершен");
+            else if(arrived == 1)
+                status.setText("Статус заказа: В процессе");
+            else
+                status.setText("Статус заказа: Активен");
+            itemView.setOnClickListener(v -> onTripClickListener.onTripClick(trip));
         }
     }
 

@@ -1,5 +1,6 @@
 package com.D1le;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.*;
@@ -74,24 +75,53 @@ public class DbHandler {
         return null;
     }
 
-    public List<Trip> getDriverTrips(int driverId)
+    public JSONArray getDriverTrips(int driverId)
     {
         try {
+            JSONArray jsonArray = new JSONArray();
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, t2.time as trip_time, route, count(t3.trip_id) as seats " +
+            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, t2.time as trip_time, finished, route, count(t3.trip_id) as seats " +
                     "FROM trips t1 " +
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
                     "LEFT JOIN ClientsTrips t3 ON t3.trip_id = t1.id and arrived < 2 " +
-                    "WHERE driver_id = " + driverId +
+                    "WHERE driver_id = " + driverId + " and t1.finished = 0" +
                     " GROUP BY t1.id");
-            List<Trip> trips = new ArrayList<>();
             while (rs.next())
             {
-                trips.add(new Trip(rs, false));
+                MyJSONObject object = new MyJSONObject(new Trip(rs, false));
+                jsonArray.put(object);
             }
             rs.close();
             statement.close();
-            return trips;
+            return jsonArray;
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public JSONArray getHistoryTrips(int clientId)
+    {
+        try{
+            JSONArray jsonArray = new JSONArray();
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT t.id, t.date, t.time, r.time as trip_time, route, finished, arrived, name\n" +
+                    "FROM ClientsTrips ct \n" +
+                    "INNER JOIN Routes r ON r.id = t.route_id\n" +
+                    "INNER JOIN Trips t on ct.trip_id = t.id\n" +
+                    "INNER JOIN Users u on u.id = t.driver_id\n" +
+                    "WHERE ct.user_id = " + clientId + "\n" +
+                    "ORDER BY ct.id DESC");
+            while (rs.next())
+            {
+                MyJSONObject object = new MyJSONObject(new Trip(rs, true));
+                object.put("arrived", rs.getInt("arrived"));
+                jsonArray.put(object);
+            }
+            rs.close();
+            statement.close();
+            return jsonArray;
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -103,11 +133,11 @@ public class DbHandler {
     {
         try{
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, t2.time as trip_time, route, count(t3.trip_id) as seats " +
+            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, t1.finished, t2.time as trip_time, route, count(t3.trip_id) as seats " +
                     "FROM trips t1 " +
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
                     "LEFT JOIN ClientsTrips t3 ON t3.trip_id = t1.id and arrived < 2 " +
-                    "WHERE route = '" + start + "-" + end + "' and date = '" + date + "' " +
+                    "WHERE route = '" + start + "-" + end + "' and date = '" + date + "' " + "and t1.finished = 0 " +
                     "GROUP BY t1.id");
             List<Trip> trips = new ArrayList<>();
             while (rs.next())
@@ -165,7 +195,7 @@ public class DbHandler {
             statement = connection.createStatement();
 
             ResultSet rs = statement.executeQuery("SELECT u.name, u.number AS phone, b.number, b.mark, b.color, r.cost, \n" +
-                    "(SELECT GROUP_CONCAT(s.name) FROM (SELECT name FROM Stops WHERE route_id = r.id ORDER BY 'order') AS s) AS stops_list\n" +
+                    "(SELECT GROUP_CONCAT(s.name) FROM (SELECT name FROM Stops WHERE route_id = r.id ORDER BY 'time') AS s) AS stops_list\n" +
                     "FROM users u\n" +
                     "INNER JOIN Trips t ON u.id = t.driver_id\n" +
                     "INNER JOIN Routes r ON r.id = t.route_id\n" +
@@ -222,22 +252,24 @@ public class DbHandler {
         return true;
     }
 
-    public List<Trip> getTrips() {
+    public JSONArray getTrips() {
         try {
+            JSONArray jsonArray = new JSONArray();
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, t2.time as trip_time, route, u.name " +
+            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, finished, t2.time as trip_time, route, u.name " +
                     "FROM trips t1 " +
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
                     "INNER JOIN users u on t1.driver_id = u.id " +
+                    "WHERE t1.finished = 0 " +
                     "GROUP BY t1.id");
-            List<Trip> trips = new ArrayList<>();
             while (rs.next())
             {
-                trips.add(new Trip(rs, true));
+                MyJSONObject object = new MyJSONObject(new Trip(rs, true));
+                jsonArray.put(object);
             }
             rs.close();
             statement.close();
-            return trips;
+            return jsonArray;
         }catch (SQLException e)
         {
             e.printStackTrace();

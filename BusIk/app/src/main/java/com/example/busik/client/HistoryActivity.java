@@ -25,17 +25,21 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trips);
 
-        List<Trip> trips = Arrays.asList(
-                new Trip(0, "Минск-Бобруйск", "11:00", "13:00", 5, "", ""),
-                new Trip(0, "Бобруйск-Минск", "20:00", "22:00", 5, "", ""),
-                new Trip(0, "Минск-Гомель", "10:00", "13:30", 5, "", ""),
-                new Trip(0, "Минск-Бобруйск", "21:00", "00:30", 5, "", "")
-        );
+        client = (Client) getIntent().getSerializableExtra("client");
 
-        RecyclerView mRecyclerView = findViewById(R.id.recycler_view_trips);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        HistoryListAdapter adapter = new HistoryListAdapter(trips);
-        mRecyclerView.setAdapter(adapter);
+        new TripsTask(this, client).execute();
+
+//        List<Trip> trips = Arrays.asList(
+//                new Trip(0, "Минск-Бобруйск", "11:00", "13:00", 5, "", ""),
+//                new Trip(0, "Бобруйск-Минск", "20:00", "22:00", 5, "", ""),
+//                new Trip(0, "Минск-Гомель", "10:00", "13:30", 5, "", ""),
+//                new Trip(0, "Минск-Бобруйск", "21:00", "00:30", 5, "", "")
+//        );
+//
+//        RecyclerView mRecyclerView = findViewById(R.id.recycler_view_trips);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        HistoryListAdapter adapter = new HistoryListAdapter(trips);
+//        mRecyclerView.setAdapter(adapter);
 //        client = (Client) getIntent().getSerializableExtra("client");
 
 //        new TripsTask(this, client).execute();

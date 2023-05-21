@@ -15,6 +15,7 @@ public class Trip implements Serializable {
     private int seats;
     private String driverName;
     private String date;
+    private int finished;
 
     public Trip(ResultSet rs, boolean operator) throws SQLException {
         id = rs.getInt("id");
@@ -32,6 +33,7 @@ public class Trip implements Serializable {
         else
             driverName = rs.getString("name");
         date = rs.getString("date");
+        finished = rs.getInt("finished");
     }
 
     public int getId() {
@@ -56,6 +58,10 @@ public class Trip implements Serializable {
 
     public String getDate() {
         return date;
+    }
+
+    public int getFinished() {
+        return finished;
     }
 
     public int getSeats() {

@@ -161,20 +161,18 @@ public class ClientHandler implements Runnable {
 
     private void getTrips(int id, int role)
     {
-        JSONArray jsonArray = new JSONArray();
-        List<Trip> trips;
-        if(role == 2)
+        JSONArray jsonArray;
+        if(role == 1)
         {
-            trips = mDbHandler.getDriverTrips(id);
+            jsonArray = mDbHandler.getHistoryTrips(id);
+        }
+        else if(role == 2)
+        {
+            jsonArray = mDbHandler.getDriverTrips(id);
         }
         else
         {
-            trips = mDbHandler.getTrips();
-        }
-        for(Trip trip : trips)
-        {
-            MyJSONObject object = new MyJSONObject(trip);
-            jsonArray.put(object);
+            jsonArray = mDbHandler.getTrips();
         }
         out.println(jsonArray);
         out.flush();
