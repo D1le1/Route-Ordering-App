@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
+import com.example.busik.client.HistoryInfoActivity;
 import com.example.busik.client.HistoryListAdapter;
 import com.example.busik.operator.OperatorManageTripActivity;
 import com.example.busik.operator.OperatorTripListAdapter;
@@ -76,8 +77,9 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                     case 1:
                     {
                         HistoryListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
-                            Intent intent = new Intent(context, MarkClientsActivity.class);
+                            Intent intent = new Intent(context, HistoryInfoActivity.class);
                             intent.putExtra("trip", trip);
+                            intent.putExtra("client", client);
                             ((Activity) context).startActivityForResult(intent, 0);
                         };
                         HistoryListAdapter adapter = new HistoryListAdapter(trips, arrives, onTripClickListener);

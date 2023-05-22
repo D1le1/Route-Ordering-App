@@ -52,6 +52,9 @@ public class ClientHandler implements Runnable {
                     case "INFO":
                         getBookInfo(Integer.parseInt(parts[1]));
                         break;
+                    case "HISTORY":
+                        getHistoryInfo(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                        break;
                     case "MARK":
                         setClientArrived(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
                         break;
@@ -80,6 +83,17 @@ public class ClientHandler implements Runnable {
             out.println(object);
         else
             out.println("INFO--DENY");
+        out.flush();
+    }
+
+    private void getHistoryInfo(int userId, int tripId)
+    {
+        JSONObject object = mDbHandler.getHistoryInfo(userId, tripId);
+        if(object != null)
+        {
+            out.println(object);
+        }else
+            out.println("HISTORY--DENY");
         out.flush();
     }
 

@@ -129,6 +129,40 @@ public class DbHandler {
         return null;
     }
 
+    public JSONObject getHistoryInfo(int clientId, int tripId)
+    {
+        try{
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select s.name as stop, u.name, u.number as phone, b.mark, b.number, b.color, r.cost\n" +
+                    "from stops s\n" +
+                    "INNER join ClientsTrips ct on s.id = ct.stop_id\n" +
+                    "INNER Join Trips t on t.id = ct.trip_id\n" +
+                    "Inner join Users u on u.id = t.driver_id\n" +
+                    "Inner join Buses b on b.driver_id = t.driver_id\n" +
+                    "Inner Join Routes r on r.id = t.route_id\n" +
+                    "where ct.user_id = " + clientId + " and t.id = " + tripId);
+            JSONObject object = new JSONObject();
+            while (rs.next())
+            {
+                object.put("name", rs.getString("name"));
+                object.put("number", rs.getString("number"));
+                object.put("phone", rs.getString("phone"));
+                object.put("mark", rs.getString("mark"));
+                object.put("color", rs.getString("color"));
+                object.put("cost", rs.getString("cost"));
+                object.put("stop", rs.getString("stop"));
+            }
+            System.out.println(object.getString("stop"));
+            rs.close();
+            statement.close();
+            return object;
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<Trip> getSearchTrips(String start, String end, String date)
     {
         try{
@@ -194,8 +228,9 @@ public class DbHandler {
         try {
             statement = connection.createStatement();
 
-            ResultSet rs = statement.executeQuery("SELECT u.name, u.number AS phone, b.number, b.mark, b.color, r.cost, \n" +
-                    "(SELECT GROUP_CONCAT(s.name) FROM (SELECT name FROM Stops WHERE route_id = r.id ORDER BY 'time') AS s) AS stops_list\n" +
+            ResultSet rs = statement.executeQuery("SELECT u.name, u.number AS phone, b.number, b.mark, b.color, r.cost,\n" +
+                    "(SELECT GROUP_CONCAT(sorted.name) FROM (SELECT s.name FROM Stops s WHERE s.route_id = r.id ORDER BY s.'order' ASC)" +
+                    " AS sorted) AS stops_list\n" +
                     "FROM users u\n" +
                     "INNER JOIN Trips t ON u.id = t.driver_id\n" +
                     "INNER JOIN Routes r ON r.id = t.route_id\n" +
@@ -213,8 +248,6 @@ public class DbHandler {
                 object.put("cost", rs.getString("cost"));
                 object.put("stops", rs.getString("stops_list"));
             }
-            List<String> stops = Arrays.asList(object.getString("stops").split(","));
-            stops.stream().forEach(System.out::println);
             statement.close();
             return object;
         }catch (SQLException e)
