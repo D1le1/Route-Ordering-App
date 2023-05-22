@@ -152,7 +152,6 @@ public class DbHandler {
                 object.put("cost", rs.getString("cost"));
                 object.put("stop", rs.getString("stop"));
             }
-            System.out.println(object.getString("stop"));
             rs.close();
             statement.close();
             return object;
@@ -210,7 +209,7 @@ public class DbHandler {
 
             PreparedStatement statement = connection.prepareStatement("insert into ClientsTrips (user_id, trip_id, arrived, stop_id) VALUES (?, ?, 0, ?)");
             statement.setInt(1, userId);
-            statement.setInt(2, userId);
+            statement.setInt(2, tripId);
             statement.setInt(3, stopId);
             statement.executeUpdate();
             statement.close();
@@ -315,6 +314,13 @@ public class DbHandler {
         statement = connection.createStatement();
         statement.executeUpdate("update ClientsTrips set arrived = " + status +
                 " where user_id = " + clientId + " and trip_id = " + tripId);
+        statement.close();
+    }
+
+    public void deleteOrder(int clientId, int tripId) throws SQLException
+    {
+        statement = connection.createStatement();
+        statement.executeUpdate("delete from ClientsTrips where user_id = " + clientId + " and trip_id = " + tripId);
         statement.close();
     }
 }

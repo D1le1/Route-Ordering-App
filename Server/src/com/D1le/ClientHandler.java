@@ -64,6 +64,9 @@ public class ClientHandler implements Runnable {
                     case "CONFIRM":
                         confirmOrder(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), parts[3]);
                         break;
+                    case "DELETE":
+                        deleteInfo(parts);
+                        break;
                     default:
                         out.println("Nothing to send");
                         out.flush();
@@ -190,6 +193,24 @@ public class ClientHandler implements Runnable {
         }
         out.println(jsonArray);
         out.flush();
+    }
+
+    private void deleteInfo(String[] parts)
+    {
+        switch (parts[1])
+        {
+            case "ORDER":
+                try{
+                    mDbHandler.deleteOrder(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+                    out.println("DELETE--OK");
+                }catch (SQLException e)
+                {
+                    e.printStackTrace();
+                    out.println("DELETE--DENY");
+                }
+                out.flush();
+                break;
+        }
     }
 
     private void close()

@@ -89,7 +89,7 @@ public class HistoryInfoTask extends AsyncTask<Integer,Void,String> {
         TextView tripCost = activity.findViewById(R.id.trip_cost);
         TextView stopName = activity.findViewById(R.id.stop_name);
 
-        Button declineOrder = activity.findViewById(R.id.decline_button);
+        Button declineOrder = activity.findViewById(R.id.btn_decline_order);
 
         departureTime.setText(trip.getStartTime());
         destinationTime.setText(trip.getEndTime());
@@ -107,7 +107,7 @@ public class HistoryInfoTask extends AsyncTask<Integer,Void,String> {
         if(trip.getFinished() != 1)
         {
             declineOrder.setVisibility(View.VISIBLE);
-            declineOrder.setOnClickListener(v -> {});
+            declineOrder.setOnClickListener(v -> new DeleteOrderTask(context).execute(client.getId(), trip.getId()));
         }
     }
 }
