@@ -35,7 +35,7 @@ public class OperatorTripListAdapter extends RecyclerView.Adapter<OperatorTripLi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Trip trip = mTrips.get(position);
-        holder.bind(trip, onTripClickListener);
+        holder.bind(trip, onTripClickListener, position);
     }
 
     @Override
@@ -62,18 +62,18 @@ public class OperatorTripListAdapter extends RecyclerView.Adapter<OperatorTripLi
             date = itemView.findViewById(R.id.date_text);
         }
 
-        public void bind(Trip trip, OnTripClickListener onTripClickListener) {
+        public void bind(Trip trip, OnTripClickListener onTripClickListener, int pos) {
             routeStart.setText(trip.getRoute().split("-")[0]);
             routeEnd.setText(trip.getRoute().split("-")[1]);
             startTime.setText(trip.getStartTime());
             endTime.setText(trip.getEndTime());
             date.setText("Дата поездки: " + trip.getDate());
             status.setText("Водитель: " + trip.getDriverName());
-            itemView.setOnClickListener(v -> onTripClickListener.onTripClick(trip));
+            itemView.setOnClickListener(v -> onTripClickListener.onTripClick(trip, pos));
         }
     }
 
     public interface OnTripClickListener {
-        void onTripClick(Trip trip);
+        void onTripClick(Trip trip, int pos);
     }
 }

@@ -28,18 +28,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriversListTask extends AsyncTask<String,Void,String> {
+public class DriversListTask extends AsyncTask<Integer,Void,String> {
     private Context context;
     private Activity activity;
+    private boolean manage;
+    private int tripId;
 
-    public DriversListTask(Context context) {
+    public DriversListTask(Context context, boolean manage, int tripId) {
         this.context = context;
         activity = (Activity) context;
+        this.manage = manage;
+        this.tripId = tripId;
     }
 
     @Override
-    protected String doInBackground(String... strings) {
-        String request = "DRIVERS-- ";
+    protected String doInBackground(Integer... integers) {
+        String request = "DRIVERS--" + (manage ? 1 : 0);
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -67,13 +71,21 @@ public class DriversListTask extends AsyncTask<String,Void,String> {
                             bus
                     ));
 
+                    DriverListAdapter.OnDriverClickListener onDriverClickListener;
+                    if(manage)
+                        onDriverClickListener = driver -> {
+                            new ChangeTripDriverTask(context).execute(driver.getId(), tripId);
+                        };
+                    else
+                        onDriverClickListener = driver -> {
+                            Intent intent = new Intent(context, OperatorManageDriverActivity.class);
+                            intent.putExtra("client", driver);
+                            activity.startActivity(intent);
+                        };
+
                     RecyclerView recyclerView = activity.findViewById(R.id.recycler_view_drivers);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                    DriverListAdapter driverListAdapter = new DriverListAdapter(drivers, driver -> {
-                        Intent intent = new Intent(context, OperatorManageDriverActivity.class);
-                        intent.putExtra("client", driver);
-                        activity.startActivity(intent);
-                    });
+                    DriverListAdapter driverListAdapter = new DriverListAdapter(drivers, onDriverClickListener);
                     recyclerView.setAdapter(driverListAdapter);
                 }
             }

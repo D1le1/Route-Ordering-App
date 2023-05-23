@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,8 +56,7 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                 JSONArray jsonArray = new JSONArray(response);
                 List<Trip> trips = new ArrayList<>();
                 List<Integer> arrives = new ArrayList<>();
-
-                String driverName = null;
+                List<String> drivers = new ArrayList<>();
 
                 for(int i=0; i<jsonArray.length(); i++)
                 {
@@ -64,8 +64,9 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                     trips.add(object.parseToTrip());
                     if(object.has("arrived"))
                         arrives.add(object.getInt("arrived"));
-                    if(object.has("driver_name"))
-                        driverName = object.getString("driver_name");
+                    if(object.has("driver_name")) {
+                        drivers.add(object.getString("driver_name"));
+                    }
                 }
 
                 if(trips.size() == 0)
@@ -101,11 +102,10 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                         break;
                     }
                     case 3: {
-                        String finalDriverName = driverName;
-                        OperatorTripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
+                        OperatorTripListAdapter.OnTripClickListener onTripClickListener = (trip, pos) -> {
                             Intent intent = new Intent(context, OperatorManageTripActivity.class);
                             intent.putExtra("trip", trip);
-                            intent.putExtra("driver_name", finalDriverName);
+                            intent.putExtra("driver_name", drivers.get(pos));
                             ((Activity) context).startActivityForResult(intent, 0);
                         };
                         OperatorTripListAdapter adapter = new OperatorTripListAdapter(trips, onTripClickListener);

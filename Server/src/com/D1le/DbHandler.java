@@ -318,15 +318,24 @@ public class DbHandler {
         statement.close();
     }
 
-    public JSONArray getDrivers()
+    public JSONArray getDrivers(int manage)
     {
         try{
             JSONArray jsonArray = new JSONArray();
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("Select b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
-                    "LEFT JOIN Buses b on u.id = b.driver_id\n" +
-                    "INNER JOIN UsersRoles ur on ur.user_id = u.id\n" +
-                    "where ur.role_id = 2\n");
+            ResultSet rs;
+            if(manage == 1)
+            {
+                rs = statement.executeQuery("Select b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
+                        "INNER JOIN Buses b on u.id = b.driver_id\n");
+            }
+            else
+            {
+                rs = statement.executeQuery("Select b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
+                        "LEFT JOIN Buses b on u.id = b.driver_id\n" +
+                        "INNER JOIN UsersRoles ur on ur.user_id = u.id\n" +
+                        "where ur.role_id = 2\n");
+            }
             while (rs.next())
             {
                 JSONObject object = new JSONObject();
@@ -347,6 +356,13 @@ public class DbHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void changeTripDriver(int driverId, int tripId) throws SQLException
+    {
+        statement = connection.createStatement();
+        statement.executeUpdate("update trips set driver_id = " + driverId + " where id = " + tripId);
+        statement.close();
     }
 
     public void deleteOrder(int clientId, int tripId) throws SQLException

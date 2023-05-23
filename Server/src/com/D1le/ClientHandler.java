@@ -64,7 +64,10 @@ public class ClientHandler implements Runnable {
                         confirmOrder(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), parts[3]);
                         break;
                     case "DRIVERS":
-                        getDrivers();
+                        getDrivers(Integer.parseInt(parts[1]));
+                        break;
+                    case "CHANGEDR":
+                        changeTripDriver(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                         break;
                     case "DELETE":
                         deleteInfo(parts);
@@ -197,10 +200,23 @@ public class ClientHandler implements Runnable {
         out.flush();
     }
 
-    private void getDrivers()
+    private void getDrivers(int manage)
     {
-        JSONArray jsonArray = mDbHandler.getDrivers();
+        JSONArray jsonArray = mDbHandler.getDrivers(manage);
         out.println(jsonArray);
+        out.flush();
+    }
+
+    private void changeTripDriver(int driverId, int tripId)
+    {
+        try {
+            mDbHandler.changeTripDriver(driverId, tripId);
+            out.println("CHANGEDR--OK");
+        }catch (SQLException e)
+        {
+            out.println("CHANGEDR--DENY");
+            e.printStackTrace();
+        }
         out.flush();
     }
 

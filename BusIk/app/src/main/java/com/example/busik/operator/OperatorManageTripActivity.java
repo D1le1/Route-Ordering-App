@@ -125,6 +125,13 @@ public class OperatorManageTripActivity extends AppCompatActivity {
 
             date.setOnClickListener(v -> datePickerDialog.show());
             time.setOnClickListener(v -> timePickerDialog.show());
+
+            driver.setOnClickListener(v -> {
+                Intent intent = new Intent(this, DriverListActivity.class);
+                intent.putExtra("manage", true);
+                intent.putExtra("trip_id", trip.getId());
+                startActivity(intent);
+            });
         }
     }
 }
