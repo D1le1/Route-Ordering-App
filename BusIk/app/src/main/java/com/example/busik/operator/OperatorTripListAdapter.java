@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.busik.R;
 import com.example.busik.other.Trip;
 
+import org.json.JSONException;
+
 import java.util.List;
 
 public class OperatorTripListAdapter extends RecyclerView.Adapter<OperatorTripListAdapter.ViewHolder>  {

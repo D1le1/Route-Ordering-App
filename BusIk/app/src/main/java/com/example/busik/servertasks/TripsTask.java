@@ -56,12 +56,16 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                 List<Trip> trips = new ArrayList<>();
                 List<Integer> arrives = new ArrayList<>();
 
+                String driverName = null;
+
                 for(int i=0; i<jsonArray.length(); i++)
                 {
                     MyJSONObject object = new MyJSONObject(jsonArray.getJSONObject(i));
                     trips.add(object.parseToTrip());
                     if(object.has("arrived"))
                         arrives.add(object.getInt("arrived"));
+                    if(object.has("driver_name"))
+                        driverName = object.getString("driver_name");
                 }
 
                 if(trips.size() == 0)
@@ -97,9 +101,11 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                         break;
                     }
                     case 3: {
+                        String finalDriverName = driverName;
                         OperatorTripListAdapter.OnTripClickListener onTripClickListener = (trip) -> {
                             Intent intent = new Intent(context, OperatorManageTripActivity.class);
                             intent.putExtra("trip", trip);
+                            intent.putExtra("driver_name", finalDriverName);
                             ((Activity) context).startActivityForResult(intent, 0);
                         };
                         OperatorTripListAdapter adapter = new OperatorTripListAdapter(trips, onTripClickListener);

@@ -297,6 +297,7 @@ public class DbHandler {
             while (rs.next())
             {
                 MyJSONObject object = new MyJSONObject(new Trip(rs, true));
+                object.put("driver_name", rs.getString("name"));
                 jsonArray.put(object);
             }
             rs.close();

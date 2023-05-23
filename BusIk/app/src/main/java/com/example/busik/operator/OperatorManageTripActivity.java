@@ -18,6 +18,7 @@ import com.example.busik.client.Client;
 import com.example.busik.client.HistoryActivity;
 import com.example.busik.client.SearchActivity;
 import com.example.busik.other.ServerWork;
+import com.example.busik.other.Trip;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -31,6 +32,11 @@ public class OperatorManageTripActivity extends AppCompatActivity {
     private Spinner destinationSpinner;
     private TextView date;
     private TextView time;
+    private TextView departureTime;
+    private TextView destinationTime;
+    private TextView departureCity;
+    private TextView destinationCity;
+    private TextView driver;
 
     private String dbDate;
 
@@ -42,18 +48,25 @@ public class OperatorManageTripActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_trip);
 
-        fillLayout();
+        Trip trip = (Trip) getIntent().getSerializableExtra("trip");
+        String driverName = getIntent().getStringExtra("driver_name");
+        fillLayout(trip, driverName);
 
         Client client = (Client) getIntent().getSerializableExtra("client");
 
     }
 
-    public void fillLayout()
+    public void fillLayout(Trip trip, String driverName)
     {
         departureSpinner = findViewById(R.id.departure_spinner);
         destinationSpinner = findViewById(R.id.destination_spinner);
         date = findViewById(R.id.date_text);
         time = findViewById(R.id.time_text);
+        departureTime = findViewById(R.id.departure_time);
+        destinationTime = findViewById(R.id.destination_time);
+        departureCity = findViewById(R.id.departure_city);
+        destinationCity = findViewById(R.id.destination_city);
+        driver = findViewById(R.id.driver_name);
 
 
         // Fill the departure and destination spinner lists
@@ -74,13 +87,22 @@ public class OperatorManageTripActivity extends AppCompatActivity {
         date.setText(dateFormat.format(calendar.getTime()));
         dbDate = dbDateFormat.format(calendar.getTime());
 
+        departureTime.setText(trip.getStartTime());
+        destinationTime.setText(trip.getEndTime());
+        departureCity.setText(trip.getRoute().split("-")[0]);
+        destinationCity.setText(trip.getRoute().split("-")[1]);
+        time.setText(trip.getStartTime());
+        driver.setText("Водитель: " + driverName);
+
+        departureSpinner.setSelection(departureList.indexOf(departureCity.getText().toString()));
+        destinationSpinner.setSelection(destinationList.indexOf(destinationCity.getText().toString()));
+
+
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
 
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int minute = calendar.get(Calendar.MINUTE);
-
-            time.setText(hour + ":" + String.format("%02d", minute));
 
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, min) -> {
                 time.setText(hourOfDay + ":" + String.format("%02d", min));
