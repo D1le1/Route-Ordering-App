@@ -90,9 +90,9 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/spinner_bg"
             android:gravity="center"
-            android:textColor="?attr/myColor"
             android:padding="16dp"
-            android:text="АB 4003-6"
+            android:textColor="?attr/myColor"
+            android:text="Номер маршрутки: АB 4003-6"
             android:textSize="18sp" />
 
         <TextView

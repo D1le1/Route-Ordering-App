@@ -34,7 +34,6 @@ public class ClientHandler implements Runnable {
                     out.println("Nothing to send");
                     continue;
                 }
-
                 switch (parts[0])
                 {
                     case "AUTH":
@@ -63,6 +62,9 @@ public class ClientHandler implements Runnable {
                         break;
                     case "CONFIRM":
                         confirmOrder(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), parts[3]);
+                        break;
+                    case "DRIVERS":
+                        getDrivers();
                         break;
                     case "DELETE":
                         deleteInfo(parts);
@@ -191,6 +193,13 @@ public class ClientHandler implements Runnable {
         {
             jsonArray = mDbHandler.getTrips();
         }
+        out.println(jsonArray);
+        out.flush();
+    }
+
+    private void getDrivers()
+    {
+        JSONArray jsonArray = mDbHandler.getDrivers();
         out.println(jsonArray);
         out.flush();
     }

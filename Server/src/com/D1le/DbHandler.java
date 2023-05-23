@@ -318,6 +318,37 @@ public class DbHandler {
         statement.close();
     }
 
+    public JSONArray getDrivers()
+    {
+        try{
+            JSONArray jsonArray = new JSONArray();
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("Select b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
+                    "LEFT JOIN Buses b on u.id = b.driver_id\n" +
+                    "INNER JOIN UsersRoles ur on ur.user_id = u.id\n" +
+                    "where ur.role_id = 2\n");
+            while (rs.next())
+            {
+                JSONObject object = new JSONObject();
+                object.put("name", rs.getString("name"));
+                object.put("phone", rs.getString("phone"));
+                if(rs.getString("mark") != null) {
+                    object.put("mark", rs.getString("mark"));
+                    object.put("color", rs.getString("color"));
+                    object.put("number", rs.getString("number"));
+                }
+                jsonArray.put(object);
+            }
+            rs.close();
+            statement.close();
+            return jsonArray;
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void deleteOrder(int clientId, int tripId) throws SQLException
     {
         statement = connection.createStatement();
