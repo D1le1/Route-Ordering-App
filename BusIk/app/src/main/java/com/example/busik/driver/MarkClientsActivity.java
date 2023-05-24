@@ -13,9 +13,6 @@ import com.example.busik.servertasks.DriverTripInfoTask;
 
 public class MarkClientsActivity extends AppCompatActivity {
 
-    private RecyclerView mClientListView;
-    private ClientListAdapter mClientListAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
