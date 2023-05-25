@@ -50,7 +50,7 @@ public class OperatorManageTripActivity extends AppCompatActivity {
     private Button confirmChanges;
     private Button deleteBtn;
 
-    private Client client;
+    private int driverId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +59,7 @@ public class OperatorManageTripActivity extends AppCompatActivity {
 
         Trip trip = (Trip) getIntent().getSerializableExtra("trip");
         String driverName = getIntent().getStringExtra("driver_name");
+        driverId = getIntent().getIntExtra("driver_id", 0);
         fillLayout(trip, driverName);
 
     }
@@ -137,7 +138,7 @@ public class OperatorManageTripActivity extends AppCompatActivity {
 
             driver.setOnClickListener(v -> {
                 Intent intent = new Intent(this, DriverListActivity.class);
-                intent.putExtra("manage", true);
+                intent.putExtra("manage", 1);
                 intent.putExtra("trip_id", trip.getId());
                 startActivityForResult(intent, 0);
             });
@@ -146,7 +147,7 @@ public class OperatorManageTripActivity extends AppCompatActivity {
                     departureSpinner.getSelectedItem().toString() + "-" + destinationSpinner.getSelectedItem().toString(),
                     dbDate,
                     time.getText().toString(),
-                    String.valueOf(client.getId()),
+                    String.valueOf(driverId),
                     String.valueOf(trip.getId())
             ));
 
@@ -157,14 +158,15 @@ public class OperatorManageTripActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        client = (Client)data.getSerializableExtra("driver");
-        driver.setText("Водитель: " + client.getName());
+        if(resultCode == RESULT_OK) {
+            Client client = (Client) data.getSerializableExtra("driver");
+            driver.setText("Водитель: " + client.getName());
+            driverId = client.getId();
+        }
     }
 }

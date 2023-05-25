@@ -11,15 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.busik.R;
 import com.example.busik.client.Client;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class BusListAdapter extends RecyclerView.Adapter<BusListAdapter.ViewHolder>  {
 
-    private List<Client> clients;
+    private List<JSONObject> objects;
     private OnBusClickListener onDriverClickListener;
 
-    public BusListAdapter(List<Client> clients, OnBusClickListener clickListener) {
-        this.clients = clients;
+    public BusListAdapter(List<JSONObject> objects, OnBusClickListener clickListener) {
+        this.objects = objects;
         onDriverClickListener = clickListener;
     }
 
@@ -32,13 +35,13 @@ public class BusListAdapter extends RecyclerView.Adapter<BusListAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Client client = clients.get(position);
-        holder.bind(client, onDriverClickListener);
+        JSONObject object = objects.get(position);
+        holder.bind(object, onDriverClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return clients.size();
+        return objects.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -56,16 +59,22 @@ public class BusListAdapter extends RecyclerView.Adapter<BusListAdapter.ViewHold
             driver = itemView.findViewById(R.id.driver_name);
         }
 
-        public void bind(Client client, OnBusClickListener clickListener) {
-            mark.setText("Марка маршрутного такси: " + client.getBus().split(" ")[1]);
-            number.setText("Номер маршрутного такси: " + client.getBus().split(" ")[2] + " " + client.getBus().split(" ")[3]);
-            color.setText("Цвет маршрутного такси: " + client.getBus().split(" ")[0]);
-            driver.setText("Водитель: " + client.getName());
-            itemView.setOnClickListener(v -> clickListener.onBusClick(client));
+        public void bind(JSONObject object, OnBusClickListener clickListener) {
+            try {
+                mark.setText("Марка маршрутного такси: " + object.getString("mark"));
+                number.setText("Номер маршрутного такси: " + object.getString("number"));
+                color.setText("Цвет маршрутного такси: " + object.getString("color"));
+                String driverName = object.has("name") ? object.getString("name") : "Нет закрепленного водителя";
+                driver.setText("Водитель: " + driverName);
+                itemView.setOnClickListener(v -> clickListener.onBusClick(object));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
     public interface OnBusClickListener {
-        void onBusClick(Client client);
+        void onBusClick(JSONObject object);
     }
 }

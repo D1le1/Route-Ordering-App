@@ -56,7 +56,8 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                 JSONArray jsonArray = new JSONArray(response);
                 List<Trip> trips = new ArrayList<>();
                 List<Integer> arrives = new ArrayList<>();
-                List<String> drivers = new ArrayList<>();
+                List<String> driversNames = new ArrayList<>();
+                List<Integer> driversIds = new ArrayList<>();
 
                 for(int i=0; i<jsonArray.length(); i++)
                 {
@@ -65,11 +66,15 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                     if(object.has("arrived"))
                         arrives.add(object.getInt("arrived"));
                     if(object.has("driver_name")) {
-                        drivers.add(object.getString("driver_name"));
+                        driversNames.add(object.getString("driver_name"));
+                    }
+                    if(object.has("driver_id"))
+                    {
+                        driversIds.add(object.getInt("driver_id"));
                     }
                     else
                     {
-                        drivers.add("Нет закрепленного водителя");
+                        driversNames.add("Нет закрепленного водителя");
                     }
                 }
 
@@ -109,7 +114,8 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                         OperatorTripListAdapter.OnTripClickListener onTripClickListener = (trip, pos) -> {
                             Intent intent = new Intent(context, OperatorManageTripActivity.class);
                             intent.putExtra("trip", trip);
-                            intent.putExtra("driver_name", (drivers.get(pos)));
+                            intent.putExtra("driver_name", (driversNames.get(pos)));
+                            intent.putExtra("driver_id", driversIds.get(pos));
                             ((Activity) context).startActivityForResult(intent, 0);
                         };
                         OperatorTripListAdapter adapter = new OperatorTripListAdapter(trips, onTripClickListener);

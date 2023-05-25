@@ -4,19 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
 import com.example.busik.client.Client;
-import com.example.busik.client.ClientActivity;
-import com.example.busik.driver.DriverActivity;
+import com.example.busik.operator.BusListAdapter;
+import com.example.busik.operator.BusManageActivity;
 import com.example.busik.operator.DriverListAdapter;
-import com.example.busik.operator.OperatorActivity;
 import com.example.busik.operator.OperatorManageDriverActivity;
 import com.example.busik.other.ServerWork;
 
@@ -28,24 +24,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriversListTask extends AsyncTask<Integer,Void,String> {
+public class BusesListTask extends AsyncTask<Integer,Void,String> {
     private Context context;
     private Activity activity;
-    private int manage;
+    private boolean manage;
     private int tripId;
-    private int busId;
 
-    public DriversListTask(Context context, int manage, int tripId, int busId) {
+    public BusesListTask(Context context, boolean manage, int tripId) {
         this.context = context;
         activity = (Activity) context;
         this.manage = manage;
         this.tripId = tripId;
-        this.busId = busId;
     }
 
     @Override
     protected String doInBackground(Integer... integers) {
-        String request = "DRIVERS--" + manage;
+        String request = "BUSES--" + (manage ? 1 : 0);
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -59,40 +53,38 @@ public class DriversListTask extends AsyncTask<Integer,Void,String> {
         try {
             if(response != null) {
                 JSONArray jsonArray = new JSONArray(response);
-                List<Client> drivers = new ArrayList<>();
+                List<JSONObject> objects = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
-                    String bus;
-                    if (object.has("mark"))
-                        bus = object.getString("color") + " " + object.getString("mark") + " " + object.getString("number");
-                    else
-                        bus = "Нет закрепленного авто";
-                    drivers.add(new Client(
-                            object.getInt("id"),
-                            object.getString("name"),
-                            object.getString("phone"),
-                            bus
-                    ));
+                    objects.add(object);
                 }
-                DriverListAdapter.OnDriverClickListener onDriverClickListener;
-                if(manage == 1 || manage == 2)
-                    onDriverClickListener = driver -> {
+                BusListAdapter.OnBusClickListener onBusClickListener;
+                if(manage)
+                    onBusClickListener = object -> {
                         Intent intent = new Intent();
-                        intent.putExtra("driver", driver);
                         activity.setResult(Activity.RESULT_OK, intent);
                         activity.finish();
                     };
                 else
-                    onDriverClickListener = driver -> {
-                        Intent intent = new Intent(context, OperatorManageDriverActivity.class);
-                        intent.putExtra("client", driver);
+                    onBusClickListener = object -> {
+                        Intent intent = new Intent(context, BusManageActivity.class);
+                        try {
+                            intent.putExtra("id", object.getInt("id"));
+                            intent.putExtra("mark", object.getString("mark"));
+                            intent.putExtra("color", object.getString("color"));
+                            intent.putExtra("number", object.getString("number"));
+                            intent.putExtra("name", object.getString("name"));
+                            intent.putExtra("driver_id", object.getInt("driver_id"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         activity.startActivity(intent);
                     };
 
-                RecyclerView recyclerView = activity.findViewById(R.id.recycler_view_drivers);
+                RecyclerView recyclerView = activity.findViewById(R.id.recycler_view_buses);
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                DriverListAdapter driverListAdapter = new DriverListAdapter(drivers, onDriverClickListener);
-                recyclerView.setAdapter(driverListAdapter);
+                BusListAdapter busListAdapter = new BusListAdapter(objects, onBusClickListener);
+                recyclerView.setAdapter(busListAdapter);
             }
         } catch (JSONException e) {
             e.printStackTrace();

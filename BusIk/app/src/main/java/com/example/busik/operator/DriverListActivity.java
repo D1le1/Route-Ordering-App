@@ -22,10 +22,11 @@ public class DriverListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_list);
 
-        boolean manage = getIntent().getBooleanExtra("manage", false);
+        int manage = getIntent().getIntExtra("manage", 0);
         int tripId = getIntent().getIntExtra("trip_id", 0);
+        int busId = getIntent().getIntExtra("bus_id", 0);
 
-        new DriversListTask(this, manage, tripId).execute();
+        new DriversListTask(this, manage, tripId, busId).execute();
 
     }
 }

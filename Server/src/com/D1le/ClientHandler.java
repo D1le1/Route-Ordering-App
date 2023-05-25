@@ -66,6 +66,9 @@ public class ClientHandler implements Runnable {
                     case "DRIVERS":
                         getDrivers(Integer.parseInt(parts[1]));
                         break;
+                    case "BUSES":
+                        getBuses(Integer.parseInt(parts[1]));
+                        break;
                     case "CHANGEDR":
                         changeTripDriver(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                         break;
@@ -210,6 +213,13 @@ public class ClientHandler implements Runnable {
         out.flush();
     }
 
+    private void getBuses(int manage)
+    {
+        JSONArray jsonArray = mDbHandler.getBuses(manage);
+        out.println(jsonArray);
+        out.flush();
+    }
+
     private void changeTripDriver(int driverId, int tripId)
     {
         try {
@@ -225,18 +235,20 @@ public class ClientHandler implements Runnable {
 
     private void updateInfo(String[] parts)
     {
-        switch (parts[1])
-        {
-            case "TRIP":
-                try {
+        try {
+            switch (parts[1]) {
+                case "TRIP":
                     mDbHandler.updateTrip(parts[2], parts[3], parts[4], Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
-                    out.println("UPDATE--OK");
-                }catch (SQLException e)
-                {
-                    out.println("UPDATE--DENY");
-                    e.printStackTrace();
-                }
-                out.flush();
+                    break;
+                case "BUS":
+                    mDbHandler.updateBus(Integer.parseInt(parts[2]), parts[3], parts[4], parts[5], Integer.parseInt(parts[6]));
+                    break;
+            }
+            out.println("UPDATE--OK");
+            out.flush();
+        }catch (SQLException e) {
+            out.println("UPDATE--DENY");
+            e.printStackTrace();
         }
     }
 

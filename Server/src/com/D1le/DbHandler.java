@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DbHandler {
@@ -288,7 +287,7 @@ public class DbHandler {
         try {
             JSONArray jsonArray = new JSONArray();
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, finished, t2.time as trip_time, route, u.name " +
+            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, finished, t2.time as trip_time, route, u.name, u.id as driver_id " +
                     "FROM trips t1 " +
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
                     "LEFT JOIN users u on t1.driver_id = u.id " +
@@ -298,6 +297,7 @@ public class DbHandler {
             {
                 MyJSONObject object = new MyJSONObject(new Trip(rs, true));
                 object.put("driver_name", rs.getString("name"));
+                object.put("driver_id", rs.getInt("driver_id"));
                 jsonArray.put(object);
             }
             rs.close();
@@ -329,6 +329,13 @@ public class DbHandler {
                 rs = statement.executeQuery("Select u.id, b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
                         "INNER JOIN Buses b on u.id = b.driver_id\n");
             }
+            else if(manage == 2)
+            {
+                rs = statement.executeQuery("Select u.id, b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
+                        "                        LEFT JOIN Buses b on u.id = b.driver_id\n" +
+                        "                        INNER JOIN UsersRoles ur on ur.user_id = u.id\n" +
+                        "                        where ur.role_id = 2 and mark is null");
+            }
             else
             {
                 rs = statement.executeQuery("Select u.id, b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
@@ -359,6 +366,43 @@ public class DbHandler {
         return null;
     }
 
+    public JSONArray getBuses(int manage)
+    {
+        try{
+            JSONArray jsonArray = new JSONArray();
+            statement = connection.createStatement();
+            ResultSet rs;
+            if(manage == 1)
+            {
+                rs = statement.executeQuery("select u.name, b.id, b.driver_id, b.mark, b.color, b.number from Buses b\n" +
+                        "Inner JOIN Users u on b.driver_id = u.id");
+            }
+            else
+            {
+                rs = statement.executeQuery("select u.name, b.driver_id, b.id, b.mark, b.color, b.number from Buses b\n" +
+                        "LEFT JOIN Users u on b.driver_id = u.id");
+            }
+            while (rs.next())
+            {
+                JSONObject object = new JSONObject();
+                object.put("id", rs.getInt("id"));
+                object.put("driver_id", rs.getInt("driver_id"));
+                object.put("mark", rs.getString("mark"));
+                object.put("color", rs.getString("color"));
+                object.put("number", rs.getString("number"));
+                object.put("name", rs.getString("name"));
+                jsonArray.put(object);
+            }
+            rs.close();
+            statement.close();
+            return jsonArray;
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void changeTripDriver(int driverId, int tripId) throws SQLException
     {
         statement = connection.createStatement();
@@ -374,6 +418,16 @@ public class DbHandler {
                 "route_id = (select id from Routes where route = \"" + route + "\"),\n" +
                 "driver_id = " + driverId + "\n"+
                 "where id = " + tripId);
+    }
+
+    public void updateBus(int driverId, String mark, String number, String color, int busId) throws SQLException {
+        statement = connection.createStatement();
+        statement.executeUpdate("Update buses \n" +
+                "set driver_id = " + driverId + ",\n" +
+                "mark = \"" + mark +"\",\n" +
+                "number = \"" + number + "\",\n" +
+                "color = \"" + color + "\"\n"+
+                "where id = " + busId);
     }
 
     public void deleteOrder(int clientId, int tripId) throws SQLException

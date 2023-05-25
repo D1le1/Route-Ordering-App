@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
 import com.example.busik.client.Client;
+import com.example.busik.servertasks.BusesListTask;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,13 +36,10 @@ public class BusListActivity extends AppCompatActivity {
 //                new Client("Галошко Марина", "375297081920", "Желтый Fiat KP 1122-7")
         );
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_buses);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        BusListAdapter driverListAdapter = new BusListAdapter(clients, v -> {
-            Intent intent = new Intent(this, BusManageActivity.class);
-            startActivity(intent);
-        });
-        recyclerView.setAdapter(driverListAdapter);
+        boolean manage = getIntent().getBooleanExtra("manage", false);
+        int tripId = getIntent().getIntExtra("trip_id", 0);
+
+        new BusesListTask(this, manage, tripId).execute();
 
     }
 
