@@ -77,6 +77,7 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
                         Intent intent = new Intent();
                         try {
                             intent.putExtra("id", object.getInt("id"));
+                            Log.v("D1le", "HEre " + object.getInt("id"));
                             intent.putExtra("mark", object.getString("mark"));
                             intent.putExtra("number", object.getString("number"));
                             intent.putExtra("color", object.getString("color"));

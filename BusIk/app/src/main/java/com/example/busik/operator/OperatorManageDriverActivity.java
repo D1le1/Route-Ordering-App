@@ -2,6 +2,7 @@ package com.example.busik.operator;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busik.R;
 import com.example.busik.client.Client;
+import com.example.busik.servertasks.UpdateDriverTask;
 
 public class OperatorManageDriverActivity extends AppCompatActivity {
 
@@ -18,12 +20,20 @@ public class OperatorManageDriverActivity extends AppCompatActivity {
     TextView busNumber;
     TextView busMark;
     TextView busColor;
+
+    Button confirmChanges;
+
+    int currentBusId;
+    int busId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_driver);
 
         Client driver = (Client) getIntent().getSerializableExtra("client");
+        currentBusId = driver.getBus().size() > 1 ? Integer.parseInt(driver.getBus().get(3)) : 0;
+        busId = currentBusId;
 
         fillLayout(driver);
 
@@ -36,6 +46,7 @@ public class OperatorManageDriverActivity extends AppCompatActivity {
         busNumber = findViewById(R.id.bus_number);
         busMark = findViewById(R.id.bus_mark);
         busColor = findViewById(R.id.bus_color);
+        confirmChanges = findViewById(R.id.btn_confirm_order);
 
         driverName.setText(driver.getName());
         phoneNumber.setText(driver.getPhone());
@@ -55,6 +66,16 @@ public class OperatorManageDriverActivity extends AppCompatActivity {
             intent.putExtra("manage", 2);
             startActivityForResult(intent, 0);
         });
+
+        confirmChanges.setOnClickListener(v -> {
+            new UpdateDriverTask(this).execute(
+                    driverName.getText().toString(),
+                    phoneNumber.getText().toString(),
+                    String.valueOf(driver.getId()),
+                    String.valueOf(busId),
+                    String.valueOf(currentBusId)
+            );
+        });
     }
 
     @Override
@@ -62,7 +83,8 @@ public class OperatorManageDriverActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK) {
-            int busId = getIntent().getIntExtra("id", 0);
+            busId = data.getIntExtra("id", 0);
+            Log.v("D1le", "" + busId);
             String markText = data.getStringExtra("mark");
             String colorText = data.getStringExtra("color");
             String numberText = data.getStringExtra("number");

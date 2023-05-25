@@ -165,9 +165,8 @@ public class ClientHandler implements Runnable {
 
     private void getAuth(String login, String password)
     {
-        Client client = mDbHandler.getAuth(login, password);
-        if(client != null) {
-            MyJSONObject object = new MyJSONObject(client);
+        MyJSONObject object = mDbHandler.getAuth(login, password);
+        if(object != null) {
             out.println(object);
         }
         else
@@ -252,6 +251,9 @@ public class ClientHandler implements Runnable {
                     break;
                 case "BUS":
                     mDbHandler.updateBus(Integer.parseInt(parts[2]), parts[3], parts[4], parts[5], Integer.parseInt(parts[6]));
+                    break;
+                case "DRIVER":
+                    mDbHandler.updateDriver(parts[2], parts[3], Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
                     break;
             }
             out.println("UPDATE--OK");

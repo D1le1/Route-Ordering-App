@@ -69,7 +69,7 @@ public class DriversListTask extends AsyncTask<Integer,Void,String> {
                     JSONObject object = jsonArray.getJSONObject(i);
                     List<String> bus = new ArrayList<>();
                     if (object.has("mark"))
-                        bus = Arrays.asList(object.getString("color"), object.getString("mark"), object.getString("number"));
+                        bus = Arrays.asList(object.getString("color"), object.getString("mark"), object.getString("number"), object.getString("bus_id"));
                     else
                         bus.add("Нет закрепленного авто");
                     drivers.add(new Client(
@@ -96,7 +96,7 @@ public class DriversListTask extends AsyncTask<Integer,Void,String> {
                     onDriverClickListener = driver -> {
                         Intent intent = new Intent(context, OperatorManageDriverActivity.class);
                         intent.putExtra("client", driver);
-                        activity.startActivity(intent);
+                        activity.startActivityForResult(intent, 0);
                     };
 
                 RecyclerView recyclerView = activity.findViewById(R.id.recycler_view_drivers);

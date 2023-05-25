@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,5 +29,16 @@ public class DriverListActivity extends AppCompatActivity {
 
         new DriversListTask(this, manage, tripId, busId).execute();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        int manage = getIntent().getIntExtra("manage", 0);
+        int tripId = getIntent().getIntExtra("trip_id", 0);
+        int busId = getIntent().getIntExtra("bus_id", 0);
+
+        new DriversListTask(this, manage, tripId, busId).execute();
     }
 }

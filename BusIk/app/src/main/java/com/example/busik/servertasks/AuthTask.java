@@ -16,6 +16,7 @@ import com.example.busik.client.ClientActivity;
 import com.example.busik.driver.DriverActivity;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.nio.file.OpenOption;
@@ -47,6 +48,7 @@ public class AuthTask extends AsyncTask<String,Void,String> {
             try {
                 MyJSONObject object = new MyJSONObject(response);
                 Client client = object.parseToClient();
+                int apply = object.getInt("apply");
                 Intent intent = null;
                 switch (client.getRole()) {
                     case 1:
@@ -59,9 +61,15 @@ public class AuthTask extends AsyncTask<String,Void,String> {
                         intent = new Intent(context, OperatorActivity.class);
                         break;
                 }
-                intent.putExtra("client", client);
-                context.startActivity(intent);
-                error.setVisibility(View.INVISIBLE);
+                if(apply == 1) {
+                    intent.putExtra("client", client);
+                    context.startActivity(intent);
+                    error.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    error.setText("Ваш аккаунт еще не одобрен оператором");
+                    error.setVisibility(View.VISIBLE);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
 

@@ -18,11 +18,11 @@ public class DbHandler {
         System.out.println("Database connected");
     }
 
-    public Client getAuth(String login, String password)
+    public MyJSONObject getAuth(String login, String password)
     {
         try{
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("Select t1.role_id, t2.id, t2.name, t2.number" +
+            ResultSet rs = statement.executeQuery("Select t1.role_id, t2.id, t2.name, t2.number, t2.apply" +
                     " from usersroles t1 inner join users t2" +
                     " on t1.user_id = t2.id where t2.number = " + login + " and t2.password = \"" + password + "\"");
             while (rs.next())
@@ -34,9 +34,11 @@ public class DbHandler {
                         rs.getInt("id"),
                         rs.getInt("role_id")
                 );
+                MyJSONObject object = new MyJSONObject(client);
+                object.put("apply", rs.getInt("apply"));
                 rs.close();
                 statement.close();
-                return client;
+                return object;
             }
         }catch (SQLException e)
         {
@@ -338,7 +340,7 @@ public class DbHandler {
             }
             else
             {
-                rs = statement.executeQuery("Select u.id, b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
+                rs = statement.executeQuery("Select u.id, b.id as bus_id, b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
                         "LEFT JOIN Buses b on u.id = b.driver_id\n" +
                         "INNER JOIN UsersRoles ur on ur.user_id = u.id\n" +
                         "where ur.role_id = 2\n");
@@ -353,6 +355,7 @@ public class DbHandler {
                     object.put("mark", rs.getString("mark"));
                     object.put("color", rs.getString("color"));
                     object.put("number", rs.getString("number"));
+                    object.put("bus_id", rs.getString("bus_id"));
                 }
                 jsonArray.put(object);
             }
@@ -465,6 +468,14 @@ public class DbHandler {
                 "number = \"" + number + "\",\n" +
                 "color = \"" + color + "\"\n"+
                 "where id = " + busId);
+        statement.close();
+    }
+
+    public void updateDriver(String name, String phone, int driverId, int busId, int currentBusId) throws SQLException {
+        statement = connection.createStatement();
+        statement.executeUpdate("Update Users set name = \"" + name + "\", number = \"" + phone + "\" where id = " + driverId);
+        statement.executeUpdate("Update Buses set driver_id = null where id = " + currentBusId);
+        statement.executeUpdate("Update Buses set driver_id = " + driverId +" where id = " + busId);
         statement.close();
     }
 
