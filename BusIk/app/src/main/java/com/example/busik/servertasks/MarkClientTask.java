@@ -1,7 +1,12 @@
 package com.example.busik.servertasks;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.TextView;
 
+import com.example.busik.R;
 import com.example.busik.other.ServerWork;
 import com.example.busik.other.Trip;
 import com.example.busik.client.Client;
@@ -14,12 +19,16 @@ public class MarkClientTask extends AsyncTask<Integer,Void,String> {
     private ClientListAdapter adapter;
     private Trip trip;
     private int position;
+    private Context context;
+    private Activity activity;
 
-    public MarkClientTask(Client client, ClientListAdapter adapter, Trip trip, int position) {
+    public MarkClientTask(Client client, ClientListAdapter adapter, Trip trip, int position, Context context) {
         this.client = client;
         this.adapter = adapter;
         this.trip = trip;
         this.position = position;
+        this.context = context;
+        activity = (Activity)context;
     }
 
     @Override
@@ -35,6 +44,7 @@ public class MarkClientTask extends AsyncTask<Integer,Void,String> {
 
     @Override
     protected void onPostExecute(String response) {
+        TextView error = activity.findViewById(R.id.error);
         if(response != null) {
             String[] parts = response.split("--");
             if(!parts[1].equals("DENY")) {
@@ -45,6 +55,9 @@ public class MarkClientTask extends AsyncTask<Integer,Void,String> {
                 client.setArrived(Integer.parseInt(parts[1]));
                 adapter.notifyItemChanged(position);
             }
+        }else{
+            error.setText("Ошибка получения данных с сервера");
+            error.setVisibility(View.VISIBLE);
         }
     }
 }

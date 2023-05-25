@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,15 +33,20 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
 
     private Context context;
     private Client client;
+    private Activity activity;
+
+    private TextView error;
 
     public TripsTask(Context context, Client client) {
         this.context = context;
         this.client = client;
+        activity = (Activity) context;
     }
 
     @Override
     protected String doInBackground(Void... voids) {
         String request = "TRIPS--" + client.getId() + "--" + client.getRole();
+        error = activity.findViewById(R.id.error);
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -80,7 +86,8 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
 
                 if(trips.size() == 0)
                 {
-                    ((Activity) context).findViewById(R.id.error).setVisibility(View.VISIBLE);
+                    error.setText("Нет ни одного рейса");
+                    error.setVisibility(View.VISIBLE);
                 }
 
                 RecyclerView mRecyclerView = ((Activity) context).findViewById(R.id.recycler_view_trips);
@@ -126,6 +133,9 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }else {
+            error.setText("Ошибка получения данных с сервера");
+            error.setVisibility(View.VISIBLE);
         }
     }
 }

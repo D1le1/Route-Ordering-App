@@ -35,6 +35,7 @@ public class DriversListTask extends AsyncTask<Integer,Void,String> {
     private int manage;
     private int tripId;
     private int busId;
+    private TextView error;
 
     public DriversListTask(Context context, int manage, int tripId, int busId) {
         this.context = context;
@@ -47,9 +48,12 @@ public class DriversListTask extends AsyncTask<Integer,Void,String> {
     @Override
     protected String doInBackground(Integer... integers) {
         String request = "DRIVERS--" + manage;
+        error = activity.findViewById(R.id.error);
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
+            error.setText("Ошибка получаения данных с сервера");
+            error.setVisibility(View.VISIBLE);
             e.printStackTrace();
         }
         return null;
@@ -75,6 +79,11 @@ public class DriversListTask extends AsyncTask<Integer,Void,String> {
                             bus
                     ));
                 }
+                if(drivers.size() == 0)
+                {
+                    error.setText("Нет свободных водителей");
+                    error.setVisibility(View.VISIBLE);
+                }
                 DriverListAdapter.OnDriverClickListener onDriverClickListener;
                 if(manage == 1 || manage == 2)
                     onDriverClickListener = driver -> {
@@ -95,7 +104,13 @@ public class DriversListTask extends AsyncTask<Integer,Void,String> {
                 DriverListAdapter driverListAdapter = new DriverListAdapter(drivers, onDriverClickListener);
                 recyclerView.setAdapter(driverListAdapter);
             }
+            else {
+                error.setText("Ошибка получаения данных с сервера");
+                error.setVisibility(View.VISIBLE);
+            }
         } catch (JSONException e) {
+            error.setText("Ошибка получаения данных с сервера");
+            error.setVisibility(View.VISIBLE);
             e.printStackTrace();
         }
     }

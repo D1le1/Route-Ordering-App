@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +33,8 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
     private int manage;
     private int tripId;
 
+    private TextView error;
+
     public BusesListTask(Context context, int manage, int tripId) {
         this.context = context;
         activity = (Activity) context;
@@ -41,6 +45,7 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
     @Override
     protected String doInBackground(Integer... integers) {
         String request = "BUSES--" + manage;
+        error = activity.findViewById(R.id.error);
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -59,13 +64,18 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
                     JSONObject object = jsonArray.getJSONObject(i);
                     objects.add(object);
                 }
+
+                if(objects.size() == 0)
+                {
+                    error.setText("Нет свободных маршрутных такси");
+                    error.setVisibility(View.VISIBLE);
+                }
+
                 BusListAdapter.OnBusClickListener onBusClickListener;
                 if(manage == 1 || manage == 2)
                     onBusClickListener = object -> {
-                        Log.v("D1le", ("Here"));
                         Intent intent = new Intent();
                         try {
-                            Log.v("D1le", object.getString("mark"));
                             intent.putExtra("id", object.getInt("id"));
                             intent.putExtra("mark", object.getString("mark"));
                             intent.putExtra("number", object.getString("number"));
@@ -82,7 +92,6 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
                     onBusClickListener = object -> {
                         Intent intent = new Intent(context, BusManageActivity.class);
                         try {
-                            Log.v("Dl1e", ("There"));
                             intent.putExtra("id", object.getInt("id"));
                             intent.putExtra("mark", object.getString("mark"));
                             intent.putExtra("color", object.getString("color"));
@@ -99,6 +108,10 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                 BusListAdapter busListAdapter = new BusListAdapter(objects, onBusClickListener);
                 recyclerView.setAdapter(busListAdapter);
+            }
+            else {
+                error.setText("Ошибка получения данных с сервера");
+                error.setVisibility(View.VISIBLE);
             }
         } catch (JSONException e) {
             e.printStackTrace();

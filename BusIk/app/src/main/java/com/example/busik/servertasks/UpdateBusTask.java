@@ -3,6 +3,7 @@ package com.example.busik.servertasks;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.busik.R;
@@ -38,6 +39,9 @@ public class UpdateBusTask extends AsyncTask<String,Void,String> {
             {
                 activity.finish();
             }
+        }else {
+            error.setText("Ошибка отправки данных на сервера");
+            error.setVisibility(View.VISIBLE);
         }
     }
 }

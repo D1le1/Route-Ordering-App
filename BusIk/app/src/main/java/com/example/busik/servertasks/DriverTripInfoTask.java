@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,6 +47,7 @@ public class DriverTripInfoTask extends AsyncTask<Integer,Void,String> {
 
     @Override
     protected void onPostExecute(String response) {
+        TextView error = activity.findViewById(R.id.error);
         if (response != null) {
             try {
                 JSONArray jsonArray = new JSONArray(response);
@@ -58,10 +60,11 @@ public class DriverTripInfoTask extends AsyncTask<Integer,Void,String> {
 
                 if(clients.size() == 0)
                 {
-                    ((Activity) context).findViewById(R.id.error).setVisibility(View.VISIBLE);
+                    error.setText("Нет доступных клиентов");
+                    error.setVisibility(View.VISIBLE);
                 }
 
-                ClientListAdapter mClientListAdapter = new ClientListAdapter(clients, trip);
+                ClientListAdapter mClientListAdapter = new ClientListAdapter(clients, trip, context);
 
                 // Настройка RecyclerView
                 RecyclerView mClientListView = activity.findViewById(R.id.client_list);
@@ -70,6 +73,9 @@ public class DriverTripInfoTask extends AsyncTask<Integer,Void,String> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }else{
+            error.setText("Ошибка получения данных с сервера");
+            error.setVisibility(View.VISIBLE);
         }
     }
 }

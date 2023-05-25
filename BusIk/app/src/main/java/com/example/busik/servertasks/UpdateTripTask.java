@@ -46,6 +46,9 @@ public class UpdateTripTask extends AsyncTask<String,Void,String> {
             {
                 activity.finish();
             }
+        }else {
+            error.setText("Ошибка отправки данных на сервера");
+            error.setVisibility(View.VISIBLE);
         }
     }
 }

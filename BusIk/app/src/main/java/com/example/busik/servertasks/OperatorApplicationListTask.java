@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +29,7 @@ public class OperatorApplicationListTask extends AsyncTask<Integer,Void,String> 
 
     private Context context;
     private Activity activity;
+    private TextView error;
 
     public OperatorApplicationListTask(Context context) {
         this.context = context;
@@ -37,6 +39,7 @@ public class OperatorApplicationListTask extends AsyncTask<Integer,Void,String> 
     @Override
     protected String doInBackground(Integer... ints) {
         String request = "APPLICATION--LIST";
+        error = activity.findViewById(R.id.error);
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -61,10 +64,10 @@ public class OperatorApplicationListTask extends AsyncTask<Integer,Void,String> 
                             object.getInt("role")
                     ));
                 }
-
                 if(clients.size() == 0)
                 {
-                    ((Activity) context).findViewById(R.id.error).setVisibility(View.VISIBLE);
+                    error.setText("На данный момент заявок нет");
+                    error.setVisibility(View.VISIBLE);
                 }
 
                 ApplicationListAdapter applicationListAdapter = new ApplicationListAdapter(clients);
@@ -74,7 +77,13 @@ public class OperatorApplicationListTask extends AsyncTask<Integer,Void,String> 
                 mClientListView.setAdapter(applicationListAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
+                error.setText("Ошибка получения данных с сервера");
+                error.setVisibility(View.VISIBLE);
             }
+        }
+        else{
+            error.setText("Ошибка получения данных с сервера");
+            error.setVisibility(View.VISIBLE);
         }
     }
 }

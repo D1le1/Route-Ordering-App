@@ -1,5 +1,6 @@
 package com.example.busik.client;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +14,19 @@ import com.example.busik.R;
 import com.example.busik.other.Trip;
 import com.example.busik.servertasks.MarkClientTask;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.ClientViewHolder> {
 
     private List<Client> clients;
     private Trip trip;
+    private Context context;
 
-    public ClientListAdapter(List<Client> clients, Trip trip) {
+    public ClientListAdapter(List<Client> clients, Trip trip, Context context) {
         this.clients = clients;
         this.trip = trip;
+        this.context = context;
     }
 
     @Override
@@ -42,11 +46,11 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
             holder.mClientCard.setCardBackgroundColor(client.getArrived() == 1 ? 0xCC1AF876 : 0xCCFF0000);
 
         holder.mArrivedButton.setOnClickListener(view -> {
-            new MarkClientTask(client, this, trip, position).execute(1);
+            new MarkClientTask(client, this, trip, position, context).execute(1);
         });
 
         holder.mNotArrivedButton.setOnClickListener(view -> {
-            new MarkClientTask(client, this, trip, position).execute(2);
+            new MarkClientTask(client, this, trip, position, context).execute(2);
         });
     }
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,10 +29,12 @@ public class SerachTripsTask extends AsyncTask<String,Void,String> {
 
     private Context context;
     private Client client;
+    private Activity activity;
 
     public SerachTripsTask(Context context, Client client) {
         this.context = context;
         this.client = client;
+        activity = (Activity) context;
     }
 
     @Override
@@ -47,6 +50,7 @@ public class SerachTripsTask extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPostExecute(String response) {
+        TextView error = activity.findViewById(R.id.error);
         if(response != null) {
             try {
                 JSONArray jsonArray = new JSONArray(response);
@@ -68,7 +72,8 @@ public class SerachTripsTask extends AsyncTask<String,Void,String> {
 
                 if(trips.size() == 0)
                 {
-                    ((Activity) context).findViewById(R.id.error).setVisibility(View.VISIBLE);
+                    error.setText("По вашему запросу ничего не найдено");
+                    error.setVisibility(View.VISIBLE);
                 }
 
                 RecyclerView mRecyclerView = ((Activity) context).findViewById(R.id.recycler_view_trips);
@@ -79,6 +84,9 @@ public class SerachTripsTask extends AsyncTask<String,Void,String> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }else {
+            error.setText("Ошибка получения данных с сервера");
+            error.setVisibility(View.VISIBLE);
         }
     }
 }
