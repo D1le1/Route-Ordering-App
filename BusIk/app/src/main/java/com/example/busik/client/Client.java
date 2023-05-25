@@ -12,11 +12,12 @@ public class Client implements Serializable {
     private int arrived;
     private String bus;
 
-    public Client(String name, String phone, String bus)
+    public Client(int id, String name, String phone, String bus)
     {
         mName = name;
         mPhone = phone;
         this.bus = bus;
+        mId = id;
     }
 
     public Client(String name, String address, String phone, int id, int role) {

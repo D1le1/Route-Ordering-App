@@ -50,7 +50,7 @@ public class MyJSONObject extends JSONObject {
                 this.getString("start"),
                 this.getString("end"),
                 this.getInt("seats"),
-                this.getString("name"),
+                this.has("name") ? this.getString("name") : "Нет закрепленного водителя",
                 this.getString("date"),
                 this.getInt("finished")
         );

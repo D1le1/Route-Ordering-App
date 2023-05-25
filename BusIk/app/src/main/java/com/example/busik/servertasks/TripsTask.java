@@ -67,6 +67,10 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                     if(object.has("driver_name")) {
                         drivers.add(object.getString("driver_name"));
                     }
+                    else
+                    {
+                        drivers.add("Нет закрепленного водителя");
+                    }
                 }
 
                 if(trips.size() == 0)
@@ -105,7 +109,7 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                         OperatorTripListAdapter.OnTripClickListener onTripClickListener = (trip, pos) -> {
                             Intent intent = new Intent(context, OperatorManageTripActivity.class);
                             intent.putExtra("trip", trip);
-                            intent.putExtra("driver_name", drivers.get(pos));
+                            intent.putExtra("driver_name", (drivers.get(pos)));
                             ((Activity) context).startActivityForResult(intent, 0);
                         };
                         OperatorTripListAdapter adapter = new OperatorTripListAdapter(trips, onTripClickListener);

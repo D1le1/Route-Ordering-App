@@ -66,6 +66,7 @@ public class DriversListTask extends AsyncTask<Integer,Void,String> {
                     else
                         bus = "Нет закрепленного авто";
                     drivers.add(new Client(
+                            object.getInt("id"),
                             object.getString("name"),
                             object.getString("phone"),
                             bus

@@ -29,10 +29,10 @@ public class BusListActivity extends AppCompatActivity {
         fillLayout();
 
         List<Client> clients = Arrays.asList(
-                new Client("Дроздов Роман", "375445058007", "Белый Mercedes AB 4003-6"),
-                new Client("Ианов Иван", "375297562929", "Красный Volksawagen CC 5120-7"),
-                new Client("Зарипов Антон", "375299071212", "Синий Citroen CI 1010-7"),
-                new Client("Галошко Марина", "375297081920", "Желтый Fiat KP 1122-7")
+//                new Client("Дроздов Роман", "375445058007", "Белый Mercedes AB 4003-6"),
+//                new Client("Ианов Иван", "375297562929", "Красный Volksawagen CC 5120-7"),
+//                new Client("Зарипов Антон", "375299071212", "Синий Citroen CI 1010-7"),
+//                new Client("Галошко Марина", "375297081920", "Желтый Fiat KP 1122-7")
         );
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_buses);

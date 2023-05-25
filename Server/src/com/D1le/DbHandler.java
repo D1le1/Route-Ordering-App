@@ -291,7 +291,7 @@ public class DbHandler {
             ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, finished, t2.time as trip_time, route, u.name " +
                     "FROM trips t1 " +
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
-                    "INNER JOIN users u on t1.driver_id = u.id " +
+                    "LEFT JOIN users u on t1.driver_id = u.id " +
                     "WHERE t1.finished = 0 " +
                     "GROUP BY t1.id");
             while (rs.next())
@@ -326,12 +326,12 @@ public class DbHandler {
             ResultSet rs;
             if(manage == 1)
             {
-                rs = statement.executeQuery("Select b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
+                rs = statement.executeQuery("Select u.id, b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
                         "INNER JOIN Buses b on u.id = b.driver_id\n");
             }
             else
             {
-                rs = statement.executeQuery("Select b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
+                rs = statement.executeQuery("Select u.id, b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
                         "LEFT JOIN Buses b on u.id = b.driver_id\n" +
                         "INNER JOIN UsersRoles ur on ur.user_id = u.id\n" +
                         "where ur.role_id = 2\n");
@@ -339,6 +339,7 @@ public class DbHandler {
             while (rs.next())
             {
                 JSONObject object = new JSONObject();
+                object.put("id", rs.getInt("id"));
                 object.put("name", rs.getString("name"));
                 object.put("phone", rs.getString("phone"));
                 if(rs.getString("mark") != null) {
