@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,15 +28,6 @@ public class BusListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_list);
 
-        fillLayout();
-
-        List<Client> clients = Arrays.asList(
-//                new Client("Дроздов Роман", "375445058007", "Белый Mercedes AB 4003-6"),
-//                new Client("Ианов Иван", "375297562929", "Красный Volksawagen CC 5120-7"),
-//                new Client("Зарипов Антон", "375299071212", "Синий Citroen CI 1010-7"),
-//                new Client("Галошко Марина", "375297081920", "Желтый Fiat KP 1122-7")
-        );
-
         boolean manage = getIntent().getBooleanExtra("manage", false);
         int tripId = getIntent().getIntExtra("trip_id", 0);
 
@@ -43,8 +35,13 @@ public class BusListActivity extends AppCompatActivity {
 
     }
 
-    public void fillLayout()
-    {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        boolean manage = getIntent().getBooleanExtra("manage", false);
+        int tripId = getIntent().getIntExtra("trip_id", 0);
+
+        new BusesListTask(this, manage, tripId).execute();
     }
 }

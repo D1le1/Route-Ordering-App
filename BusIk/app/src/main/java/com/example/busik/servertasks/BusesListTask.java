@@ -78,7 +78,7 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        activity.startActivity(intent);
+                        activity.startActivityForResult(intent, 0);
                     };
 
                 RecyclerView recyclerView = activity.findViewById(R.id.recycler_view_buses);
