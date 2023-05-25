@@ -58,7 +58,10 @@ public class DriverListAdapter extends RecyclerView.Adapter<DriverListAdapter.Vi
         public void bind(Client client, OnDriverClickListener clickListener) {
             name.setText("Фамилия Имя: " + client.getName());
             phone.setText("Номер телефона: " + client.getPhone());
-            bus.setText("Маршрутка: " + client.getBus().get(0) + " " + client.getBus().get(1) + " " + client.getBus().get(2));
+            if(client.getBus().get(0).equals("Нет закрепленного авто"))
+                bus.setText("Маршрутка: " + client.getBus().get(0));
+            else
+                bus.setText("Маршрутка: " + client.getBus().get(0) + " " + client.getBus().get(1) + " " + client.getBus().get(2));
             itemView.setOnClickListener(v -> clickListener.onDriverClick(client));
         }
     }

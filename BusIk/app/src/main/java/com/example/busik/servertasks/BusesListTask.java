@@ -27,10 +27,10 @@ import java.util.List;
 public class BusesListTask extends AsyncTask<Integer,Void,String> {
     private Context context;
     private Activity activity;
-    private boolean manage;
+    private int manage;
     private int tripId;
 
-    public BusesListTask(Context context, boolean manage, int tripId) {
+    public BusesListTask(Context context, int manage, int tripId) {
         this.context = context;
         activity = (Activity) context;
         this.manage = manage;
@@ -39,7 +39,7 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
 
     @Override
     protected String doInBackground(Integer... integers) {
-        String request = "BUSES--" + (manage ? 1 : 0);
+        String request = "BUSES--" + manage;
         try {
             return ServerWork.sendRequest(request);
         } catch (IOException e) {
@@ -59,9 +59,18 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
                     objects.add(object);
                 }
                 BusListAdapter.OnBusClickListener onBusClickListener;
-                if(manage)
+                if(manage == 1 || manage == 2)
                     onBusClickListener = object -> {
                         Intent intent = new Intent();
+                        try {
+                            intent.putExtra("id", object.getInt("id"));
+                            intent.putExtra("mark", object.getInt("mark"));
+                            intent.putExtra("number", object.getInt("number"));
+                            intent.putExtra("color", object.getInt("color"));
+                        }catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
                         activity.setResult(Activity.RESULT_OK, intent);
                         activity.finish();
                     };

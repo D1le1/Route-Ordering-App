@@ -377,6 +377,12 @@ public class DbHandler {
                 rs = statement.executeQuery("select u.name, b.id, b.driver_id, b.mark, b.color, b.number from Buses b\n" +
                         "Inner JOIN Users u on b.driver_id = u.id");
             }
+            else if(manage == 2)
+            {
+                rs = statement.executeQuery("select u.name, b.id, b.driver_id, b.mark, b.color, b.number from Buses b\n" +
+                        "                        LEFT JOIN Users u on b.driver_id = u.id\n" +
+                        "where name is null");
+            }
             else
             {
                 rs = statement.executeQuery("select u.name, b.driver_id, b.id, b.mark, b.color, b.number from Buses b\n" +

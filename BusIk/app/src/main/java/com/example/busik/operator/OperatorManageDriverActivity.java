@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busik.R;
@@ -12,6 +13,11 @@ import com.example.busik.client.Client;
 
 public class OperatorManageDriverActivity extends AppCompatActivity {
 
+    TextView driverName;
+    TextView phoneNumber;
+    TextView busNumber;
+    TextView busMark;
+    TextView busColor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,11 +31,11 @@ public class OperatorManageDriverActivity extends AppCompatActivity {
 
     public void fillLayout(Client driver)
     {
-        TextView driverName = findViewById(R.id.driver_name);
-        TextView phoneNumber = findViewById(R.id.phone_number);
-        TextView busNumber = findViewById(R.id.bus_number);
-        TextView busMark = findViewById(R.id.bus_mark);
-        TextView busColor = findViewById(R.id.bus_color);
+        driverName = findViewById(R.id.driver_name);
+        phoneNumber = findViewById(R.id.phone_number);
+        busNumber = findViewById(R.id.bus_number);
+        busMark = findViewById(R.id.bus_mark);
+        busColor = findViewById(R.id.bus_color);
 
         driverName.setText(driver.getName());
         phoneNumber.setText(driver.getPhone());
@@ -43,5 +49,26 @@ public class OperatorManageDriverActivity extends AppCompatActivity {
             busMark.setText("Марка маршрутки: Отсутствует");
             busColor.setText("Цвет маршрутки: Отсутствует");
         }
+
+        busNumber.setOnClickListener(v -> {
+            Intent intent = new Intent(this, BusListActivity.class);
+            intent.putExtra("manage", 2);
+            startActivityForResult(intent, 0);
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        int busId = getIntent().getIntExtra("id", 0);
+        String markText = getIntent().getStringExtra("mark");
+        String nameText = getIntent().getStringExtra("name");
+        String colorText = getIntent().getStringExtra("color");
+        String numberText = getIntent().getStringExtra("number");
+
+        busColor.setText("Цвет маршрутки: " + colorText);
+        busMark.setText("Марка маршрутки: " + markText);
+        busNumber.setText("Номер маршрутки: "+ numberText);
     }
 }

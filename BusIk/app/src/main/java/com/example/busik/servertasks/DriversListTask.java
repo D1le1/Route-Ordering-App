@@ -63,7 +63,7 @@ public class DriversListTask extends AsyncTask<Integer,Void,String> {
                 List<Client> drivers = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
-                    List<String> bus = null;
+                    List<String> bus = new ArrayList<>();
                     if (object.has("mark"))
                         bus = Arrays.asList(object.getString("color"), object.getString("mark"), object.getString("number"));
                     else

@@ -28,7 +28,7 @@ public class BusListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_list);
 
-        boolean manage = getIntent().getBooleanExtra("manage", false);
+        int manage = getIntent().getIntExtra("manage", 0);
         int tripId = getIntent().getIntExtra("trip_id", 0);
 
         new BusesListTask(this, manage, tripId).execute();
@@ -39,7 +39,7 @@ public class BusListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        boolean manage = getIntent().getBooleanExtra("manage", false);
+        int manage = getIntent().getIntExtra("manage", 2);
         int tripId = getIntent().getIntExtra("trip_id", 0);
 
         new BusesListTask(this, manage, tripId).execute();
