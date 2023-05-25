@@ -409,10 +409,40 @@ public class DbHandler {
         return null;
     }
 
-    public void changeTripDriver(int driverId, int tripId) throws SQLException
+    public JSONArray getApplicationList()
     {
+        try{
+            JSONArray jsonArray = new JSONArray();
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("Select u.name, u.number, u.id, cr.role_id from Users u\n" +
+                    "Inner Join UsersRoles cr on cr.user_id = u.id\n" +
+                    "where u.apply = 0");
+            while (rs.next())
+            {
+                JSONObject object = new JSONObject();
+                object.put("name", rs.getString("name"));
+                object.put("number", rs.getString("number"));
+                object.put("id", rs.getInt("id"));
+                object.put("role", rs.getInt("role_id"));
+                jsonArray.put(object);
+            }
+            rs.close();
+            statement.close();
+            return jsonArray;
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void changeApplicationStatus(int clientId, int choose) throws SQLException {
         statement = connection.createStatement();
-        statement.executeUpdate("update trips set driver_id = " + driverId + " where id = " + tripId);
+        if(choose == 1)
+            statement.executeUpdate("Update Users set apply = " + choose + " where id = " + clientId);
+        else
+            statement.executeUpdate("Delete from UsersRoles where user_id = " + clientId);
+            statement.executeUpdate("Delete from Users where id = " + clientId);
         statement.close();
     }
 
@@ -424,6 +454,7 @@ public class DbHandler {
                 "route_id = (select id from Routes where route = \"" + route + "\"),\n" +
                 "driver_id = " + driverId + "\n"+
                 "where id = " + tripId);
+        statement.close();
     }
 
     public void updateBus(int driverId, String mark, String number, String color, int busId) throws SQLException {
@@ -434,6 +465,7 @@ public class DbHandler {
                 "number = \"" + number + "\",\n" +
                 "color = \"" + color + "\"\n"+
                 "where id = " + busId);
+        statement.close();
     }
 
     public void deleteOrder(int clientId, int tripId) throws SQLException

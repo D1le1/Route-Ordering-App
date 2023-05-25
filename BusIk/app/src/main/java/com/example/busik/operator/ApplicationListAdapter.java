@@ -6,17 +6,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
 import com.example.busik.client.Client;
-import com.example.busik.other.Trip;
-import com.example.busik.servertasks.MarkClientTask;
+import com.example.busik.servertasks.ApplicationTask;
 
 import java.util.List;
 
-public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.ClientViewHolder> {
+public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.ApplicationViewHolder> {
 
     private List<Client> clients;
 
@@ -25,16 +23,16 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     }
 
     @Override
-    public ClientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ApplicationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.application_item, parent, false);
-        return new ClientViewHolder(itemView);
+        return new ApplicationViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(ClientViewHolder holder, int position) {
+    public void onBindViewHolder(ApplicationViewHolder holder, int position) {
         Client client = clients.get(position);
-        holder.bind(client);
+        holder.bind(client, position, this);
     }
 
     @Override
@@ -42,20 +40,25 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         return clients.size();
     }
 
-    public class ClientViewHolder extends RecyclerView.ViewHolder {
+    public class ApplicationViewHolder extends RecyclerView.ViewHolder {
 
         private TextView name;
         private TextView phone;
         private TextView role;
 
-        public ClientViewHolder(View itemView) {
+        private Button accept;
+        private Button decline;
+
+        public ApplicationViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.client_name);
             phone = itemView.findViewById(R.id.client_phone);
             role = itemView.findViewById(R.id.client_role);
+            accept = itemView.findViewById(R.id.accept_button);
+            decline = itemView.findViewById(R.id.decline_button);
         }
 
-        public void bind(Client client)
+        public void bind(Client client, int position, ApplicationListAdapter adapter)
         {
             name.setText("Фамилия Имя: " + client.getName());
             if(client.getRole() == 2)
@@ -63,6 +66,9 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
             else
                 role.setText("Должность: Оператор");
             phone.setText("Номер телефона: " + client.getPhone());
+
+            accept.setOnClickListener(v -> new ApplicationTask(client, adapter, clients, position).execute(1));
+            decline.setOnClickListener(v -> new ApplicationTask(client, adapter, clients, position).execute(0));
         }
     }
 }

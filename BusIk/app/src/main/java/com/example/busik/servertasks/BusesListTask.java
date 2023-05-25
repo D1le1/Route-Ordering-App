@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,12 +62,15 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
                 BusListAdapter.OnBusClickListener onBusClickListener;
                 if(manage == 1 || manage == 2)
                     onBusClickListener = object -> {
+                        Log.v("D1le", ("Here"));
                         Intent intent = new Intent();
                         try {
+                            Log.v("D1le", object.getString("mark"));
                             intent.putExtra("id", object.getInt("id"));
-                            intent.putExtra("mark", object.getInt("mark"));
-                            intent.putExtra("number", object.getInt("number"));
-                            intent.putExtra("color", object.getInt("color"));
+                            intent.putExtra("mark", object.getString("mark"));
+                            intent.putExtra("number", object.getString("number"));
+                            intent.putExtra("color", object.getString("color"));
+
                         }catch (JSONException e)
                         {
                             e.printStackTrace();
@@ -78,6 +82,7 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
                     onBusClickListener = object -> {
                         Intent intent = new Intent(context, BusManageActivity.class);
                         try {
+                            Log.v("Dl1e", ("There"));
                             intent.putExtra("id", object.getInt("id"));
                             intent.putExtra("mark", object.getString("mark"));
                             intent.putExtra("color", object.getString("color"));

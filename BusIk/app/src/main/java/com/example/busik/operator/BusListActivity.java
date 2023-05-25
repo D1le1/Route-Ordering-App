@@ -39,7 +39,7 @@ public class BusListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        int manage = getIntent().getIntExtra("manage", 2);
+        int manage = getIntent().getIntExtra("manage", 0);
         int tripId = getIntent().getIntExtra("trip_id", 0);
 
         new BusesListTask(this, manage, tripId).execute();

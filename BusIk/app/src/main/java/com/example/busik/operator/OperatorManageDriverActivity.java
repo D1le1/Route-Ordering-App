@@ -61,14 +61,15 @@ public class OperatorManageDriverActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        int busId = getIntent().getIntExtra("id", 0);
-        String markText = getIntent().getStringExtra("mark");
-        String nameText = getIntent().getStringExtra("name");
-        String colorText = getIntent().getStringExtra("color");
-        String numberText = getIntent().getStringExtra("number");
+        if(resultCode == RESULT_OK) {
+            int busId = getIntent().getIntExtra("id", 0);
+            String markText = data.getStringExtra("mark");
+            String colorText = data.getStringExtra("color");
+            String numberText = data.getStringExtra("number");
 
-        busColor.setText("Цвет маршрутки: " + colorText);
-        busMark.setText("Марка маршрутки: " + markText);
-        busNumber.setText("Номер маршрутки: "+ numberText);
+            busColor.setText("Цвет маршрутки: " + colorText);
+            busMark.setText("Марка маршрутки: " + markText);
+            busNumber.setText("Номер маршрутки: " + numberText);
+        }
     }
 }
