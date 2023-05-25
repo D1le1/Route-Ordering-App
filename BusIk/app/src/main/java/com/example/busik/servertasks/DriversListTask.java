@@ -75,7 +75,11 @@ public class DriversListTask extends AsyncTask<Integer,Void,String> {
                     DriverListAdapter.OnDriverClickListener onDriverClickListener;
                     if(manage)
                         onDriverClickListener = driver -> {
-                            new ChangeTripDriverTask(context).execute(driver.getId(), tripId);
+//                            new ChangeTripDriverTask(context, driver).execute(driver.getId(), tripId);
+                            Intent intent = new Intent();
+                            intent.putExtra("driver", driver);
+                            activity.setResult(Activity.RESULT_OK, intent);
+                            activity.finish();
                         };
                     else
                         onDriverClickListener = driver -> {

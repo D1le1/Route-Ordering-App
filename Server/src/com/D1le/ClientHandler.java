@@ -69,6 +69,9 @@ public class ClientHandler implements Runnable {
                     case "CHANGEDR":
                         changeTripDriver(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                         break;
+                    case "UPDATE":
+                        updateInfo(parts);
+                        break;
                     case "DELETE":
                         deleteInfo(parts);
                         break;
@@ -218,6 +221,23 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
         }
         out.flush();
+    }
+
+    private void updateInfo(String[] parts)
+    {
+        switch (parts[1])
+        {
+            case "TRIP":
+                try {
+                    mDbHandler.updateTrip(parts[2], parts[3], parts[4], Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
+                    out.println("UPDATE--OK");
+                }catch (SQLException e)
+                {
+                    out.println("UPDATE--DENY");
+                    e.printStackTrace();
+                }
+                out.flush();
+        }
     }
 
     private void deleteInfo(String[] parts)

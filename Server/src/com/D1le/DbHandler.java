@@ -366,6 +366,16 @@ public class DbHandler {
         statement.close();
     }
 
+    public void updateTrip(String route, String date, String time, int driverId, int tripId) throws SQLException {
+        statement = connection.createStatement();
+        statement.executeUpdate("Update trips \n" +
+                "set time = \"" + time + "\",\n" +
+                "date = \"" + date +"\",\n" +
+                "route_id = (select id from Routes where route = \"" + route + "\"),\n" +
+                "driver_id = " + driverId + "\n"+
+                "where id = " + tripId);
+    }
+
     public void deleteOrder(int clientId, int tripId) throws SQLException
     {
         statement = connection.createStatement();

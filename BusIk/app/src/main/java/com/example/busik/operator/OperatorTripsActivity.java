@@ -31,4 +31,11 @@ public class OperatorTripsActivity extends AppCompatActivity {
 
         new TripsTask(this, client).execute();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        new TripsTask(this, client).execute();
+    }
 }

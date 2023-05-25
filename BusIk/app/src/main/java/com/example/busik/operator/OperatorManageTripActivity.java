@@ -5,12 +5,14 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busik.R;
@@ -19,6 +21,7 @@ import com.example.busik.client.HistoryActivity;
 import com.example.busik.client.SearchActivity;
 import com.example.busik.other.ServerWork;
 import com.example.busik.other.Trip;
+import com.example.busik.servertasks.UpdateTripTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -43,6 +46,10 @@ public class OperatorManageTripActivity extends AppCompatActivity {
     private List<String> departureList;
     private List<String> destinationList;
 
+    private Button confirmChanges;
+
+    private Client client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +58,6 @@ public class OperatorManageTripActivity extends AppCompatActivity {
         Trip trip = (Trip) getIntent().getSerializableExtra("trip");
         String driverName = getIntent().getStringExtra("driver_name");
         fillLayout(trip, driverName);
-
-        Client client = (Client) getIntent().getSerializableExtra("client");
 
     }
 
@@ -67,6 +72,7 @@ public class OperatorManageTripActivity extends AppCompatActivity {
         departureCity = findViewById(R.id.departure_city);
         destinationCity = findViewById(R.id.destination_city);
         driver = findViewById(R.id.driver_name);
+        confirmChanges = findViewById(R.id.btn_confirm_order);
 
 
         // Fill the departure and destination spinner lists
@@ -130,8 +136,30 @@ public class OperatorManageTripActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, DriverListActivity.class);
                 intent.putExtra("manage", true);
                 intent.putExtra("trip_id", trip.getId());
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             });
+
+            confirmChanges.setOnClickListener(v -> new UpdateTripTask(this).execute(
+                    departureSpinner.getSelectedItem().toString() + "-" + destinationSpinner.getSelectedItem().toString(),
+                    dbDate,
+                    time.getText().toString(),
+                    String.valueOf(client.getId()),
+                    String.valueOf(trip.getId())
+            ));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        client = (Client)data.getSerializableExtra("driver");
+        driver.setText("Водитель: " + client.getName());
     }
 }

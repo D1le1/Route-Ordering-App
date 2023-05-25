@@ -12,6 +12,7 @@ import com.example.busik.R;
 import com.example.busik.client.Client;
 import com.example.busik.operator.DriverListAdapter;
 import com.example.busik.operator.OperatorManageDriverActivity;
+import com.example.busik.operator.OperatorManageTripActivity;
 import com.example.busik.other.ServerWork;
 
 import org.json.JSONArray;
@@ -25,10 +26,12 @@ import java.util.List;
 public class ChangeTripDriverTask extends AsyncTask<Integer,Void,String> {
     private Context context;
     private Activity activity;
+    private Client driver;
 
-    public ChangeTripDriverTask(Context context) {
+    public ChangeTripDriverTask(Context context, Client driver) {
         this.context = context;
         activity = (Activity) context;
+        this.driver = driver;
     }
 
     @Override
@@ -45,8 +48,12 @@ public class ChangeTripDriverTask extends AsyncTask<Integer,Void,String> {
     @Override
     protected void onPostExecute(String response) {
         if(response != null) {
-            if(response.equals("CHANGEDR--OK"))
+            if(response.equals("CHANGEDR--OK")) {
+                Intent intent = new Intent(context, OperatorManageTripActivity.class);
+                intent.putExtra("driver", driver);
+                activity.setResult(Activity.RESULT_OK, intent);
                 activity.finish();
+            }
         }
     }
 }
