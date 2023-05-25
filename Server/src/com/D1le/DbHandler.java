@@ -382,4 +382,12 @@ public class DbHandler {
         statement.executeUpdate("delete from ClientsTrips where user_id = " + clientId + " and trip_id = " + tripId);
         statement.close();
     }
+
+    public void deleteTrip(int tripId) throws SQLException
+    {
+        statement = connection.createStatement();
+        statement.executeUpdate("delete from Trips where id = " + tripId);
+        statement.executeUpdate("delete from ClientsTrips where trip_id =" + tripId);
+        statement.close();
+    }
 }

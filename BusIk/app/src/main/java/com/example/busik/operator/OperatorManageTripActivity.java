@@ -21,6 +21,7 @@ import com.example.busik.client.HistoryActivity;
 import com.example.busik.client.SearchActivity;
 import com.example.busik.other.ServerWork;
 import com.example.busik.other.Trip;
+import com.example.busik.servertasks.DeleteTripTask;
 import com.example.busik.servertasks.UpdateTripTask;
 
 import java.text.SimpleDateFormat;
@@ -47,6 +48,7 @@ public class OperatorManageTripActivity extends AppCompatActivity {
     private List<String> destinationList;
 
     private Button confirmChanges;
+    private Button deleteBtn;
 
     private Client client;
 
@@ -73,6 +75,7 @@ public class OperatorManageTripActivity extends AppCompatActivity {
         destinationCity = findViewById(R.id.destination_city);
         driver = findViewById(R.id.driver_name);
         confirmChanges = findViewById(R.id.btn_confirm_order);
+        deleteBtn = findViewById(R.id.btn_confirm_order2);
 
 
         // Fill the departure and destination spinner lists
@@ -146,6 +149,8 @@ public class OperatorManageTripActivity extends AppCompatActivity {
                     String.valueOf(client.getId()),
                     String.valueOf(trip.getId())
             ));
+
+            deleteBtn.setOnClickListener(v -> new DeleteTripTask(this).execute(trip.getId()));
         }
     }
 

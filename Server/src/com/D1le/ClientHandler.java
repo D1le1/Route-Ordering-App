@@ -242,19 +242,22 @@ public class ClientHandler implements Runnable {
 
     private void deleteInfo(String[] parts)
     {
-        switch (parts[1])
-        {
-            case "ORDER":
-                try{
+        try {
+            switch (parts[1]) {
+
+                case "ORDER":
                     mDbHandler.deleteOrder(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
-                    out.println("DELETE--OK");
-                }catch (SQLException e)
-                {
-                    e.printStackTrace();
-                    out.println("DELETE--DENY");
-                }
-                out.flush();
-                break;
+                    break;
+                case "TRIP":
+                    mDbHandler.deleteTrip(Integer.parseInt(parts[2]));
+                    break;
+            }
+            out.println("DELETE--OK");
+            out.flush();
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+            out.println("DELETE--DENY");
         }
     }
 
