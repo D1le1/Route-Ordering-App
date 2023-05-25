@@ -33,10 +33,10 @@ public class OperatorManageDriverActivity extends AppCompatActivity {
 
         driverName.setText(driver.getName());
         phoneNumber.setText(driver.getPhone());
-        if(!driver.getBus().equals("Нет закрепленного авто")) {
-            busNumber.setText("Номер маршрутки: " + driver.getBus().split(" ")[2] + " " + driver.getBus().split(" ")[3]);
-            busMark.setText("Марка маршрутки: " + driver.getBus().split(" ")[1]);
-            busColor.setText("Цвет маршрутки: " + driver.getBus().split(" ")[0]);
+        if(!driver.getBus().get(0).equals("Нет закрепленного авто")) {
+            busColor.setText("Цвет маршрутки: " + driver.getBus().get(0));
+            busMark.setText("Марка маршрутки: " + driver.getBus().get(1));
+            busNumber.setText("Номер маршрутки: " + driver.getBus().get(2));
         }else
         {
             busNumber.setText("Нет закрепленного авто");

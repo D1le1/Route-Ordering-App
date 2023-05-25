@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DriversListTask extends AsyncTask<Integer,Void,String> {
@@ -62,11 +63,11 @@ public class DriversListTask extends AsyncTask<Integer,Void,String> {
                 List<Client> drivers = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
-                    String bus;
+                    List<String> bus = null;
                     if (object.has("mark"))
-                        bus = object.getString("color") + " " + object.getString("mark") + " " + object.getString("number");
+                        bus = Arrays.asList(object.getString("color"), object.getString("mark"), object.getString("number"));
                     else
-                        bus = "Нет закрепленного авто";
+                        bus.add("Нет закрепленного авто");
                     drivers.add(new Client(
                             object.getInt("id"),
                             object.getString("name"),

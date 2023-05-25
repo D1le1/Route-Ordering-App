@@ -1,6 +1,9 @@
 package com.example.busik.client;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Client implements Serializable {
 
@@ -10,9 +13,9 @@ public class Client implements Serializable {
     private String mPhone;
     private int mRole;
     private int arrived;
-    private String bus;
+    private List<String> bus;
 
-    public Client(int id, String name, String phone, String bus)
+    public Client(int id, String name, String phone, List<String> bus)
     {
         mName = name;
         mPhone = phone;
@@ -81,7 +84,7 @@ public class Client implements Serializable {
         mPhone = phone;
     }
 
-    public String getBus() {
+    public List<String> getBus() {
         return bus;
     }
 
