@@ -328,12 +328,12 @@ public class DbHandler {
             ResultSet rs;
             if(manage == 1)
             {
-                rs = statement.executeQuery("Select u.id, b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
+                rs = statement.executeQuery("Select u.id, b.id as bus_id, b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
                         "INNER JOIN Buses b on u.id = b.driver_id\n");
             }
             else if(manage == 2)
             {
-                rs = statement.executeQuery("Select u.id, b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
+                rs = statement.executeQuery("Select u.id, b.id as bus_id, b.mark, b.color, b.number, u.name, u.number as phone from Users u\n" +
                         "                        LEFT JOIN Buses b on u.id = b.driver_id\n" +
                         "                        INNER JOIN UsersRoles ur on ur.user_id = u.id\n" +
                         "                        where ur.role_id = 2 and mark is null");
@@ -447,6 +447,29 @@ public class DbHandler {
             statement.executeUpdate("Delete from UsersRoles where user_id = " + clientId);
             statement.executeUpdate("Delete from Users where id = " + clientId);
         statement.close();
+    }
+
+    public boolean addTrip(String route, String date, String time, int driverId)throws SQLException{
+        statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery("select * FROM trips t\n" +
+                "where t.date = \"" + date + "\" and t.time = \"" + time +"\" \n" +
+                "and t.route_id = (select id from Routes where route = \"" + route +"\")");
+        if(rs.next())
+        {
+            rs.close();
+            statement.close();
+            return false;
+        }
+        rs.close();
+        statement.close();
+        PreparedStatement statement = connection.prepareStatement("insert into Trips (route_id, driver_id, time, date, finished) VALUES (" +
+                "(select id from Routes where route = \"" + route + "\"), ?, ?, ?, 0)");
+        statement.setInt(1, driverId);
+        statement.setString(2, time);
+        statement.setString(3, date);
+        statement.executeUpdate();
+        statement.close();
+        return true;
     }
 
     public void updateTrip(String route, String date, String time, int driverId, int tripId) throws SQLException {

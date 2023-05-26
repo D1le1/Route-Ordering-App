@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.busik.R;
 import com.example.busik.client.HistoryInfoActivity;
 import com.example.busik.client.HistoryListAdapter;
+import com.example.busik.operator.OperatorAddTripActivity;
 import com.example.busik.operator.OperatorManageTripActivity;
 import com.example.busik.operator.OperatorTripListAdapter;
 import com.example.busik.other.ServerWork;
@@ -21,6 +22,7 @@ import com.example.busik.other.Trip;
 import com.example.busik.client.Client;
 import com.example.busik.client.TripListAdapter;
 import com.example.busik.driver.MarkClientsActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,14 +76,15 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                     if(object.has("driver_name")) {
                         driversNames.add(object.getString("driver_name"));
                     }
-                    if(object.has("driver_id"))
-                    {
-                        driversIds.add(object.getInt("driver_id"));
-                    }
                     else
                     {
                         driversNames.add("Нет закрепленного водителя");
                     }
+                    if(object.has("driver_id"))
+                    {
+                        driversIds.add(object.getInt("driver_id"));
+                    }
+
                 }
 
                 if(trips.size() == 0)
@@ -118,6 +121,12 @@ public class TripsTask extends AsyncTask<Void,Void,String> {
                         break;
                     }
                     case 3: {
+                        FloatingActionButton btn_add = activity.findViewById(R.id.add_btn);
+                        btn_add.setVisibility(View.VISIBLE);
+                        btn_add.setOnClickListener(v -> {
+                            Intent intent = new Intent(context, OperatorAddTripActivity.class);
+                            activity.startActivityForResult(intent, 0);
+                        });
                         OperatorTripListAdapter.OnTripClickListener onTripClickListener = (trip, pos) -> {
                             Intent intent = new Intent(context, OperatorManageTripActivity.class);
                             intent.putExtra("trip", trip);

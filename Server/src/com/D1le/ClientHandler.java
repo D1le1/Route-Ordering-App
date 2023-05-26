@@ -75,6 +75,9 @@ public class ClientHandler implements Runnable {
                         else
                             changeApplication(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                         break;
+                    case  "ADD":
+                        addInfo(parts);
+                        break;
                     case "UPDATE":
                         updateInfo(parts);
                         break;
@@ -242,6 +245,28 @@ public class ClientHandler implements Runnable {
         out.flush();
     }
 
+    private void addInfo(String[] parts)
+    {
+        try{
+            switch (parts[1])
+            {
+                case "TRIP":
+                    if(mDbHandler.addTrip(parts[2], parts[3], parts[4], Integer.parseInt(parts[5])))
+                        out.println("ADD--OK");
+                    else
+                        out.println("ADD-DENY");
+                    break;
+            }
+
+        }catch (SQLException e)
+        {
+            out.println("ADD--DENY");
+            e.printStackTrace();
+        }finally {
+            out.flush();
+        }
+    }
+
     private void updateInfo(String[] parts)
     {
         try {
@@ -257,10 +282,11 @@ public class ClientHandler implements Runnable {
                     break;
             }
             out.println("UPDATE--OK");
-            out.flush();
         }catch (SQLException e) {
             out.println("UPDATE--DENY");
             e.printStackTrace();
+        }finally {
+            out.flush();
         }
     }
 
@@ -277,11 +303,12 @@ public class ClientHandler implements Runnable {
                     break;
             }
             out.println("DELETE--OK");
-            out.flush();
         }catch (SQLException e)
         {
             e.printStackTrace();
             out.println("DELETE--DENY");
+        }finally {
+            out.flush();
         }
     }
 
