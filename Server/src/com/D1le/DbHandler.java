@@ -268,10 +268,11 @@ public class DbHandler {
         }
         statement.close();
         PreparedStatement statement;
-        statement = connection.prepareStatement("INSERT into users (number, password, name) values (?,?,?)");
+        statement = connection.prepareStatement("INSERT into users (number, password, name, apply) values (?,?,?, ?)");
         statement.setString(1, login);
         statement.setString(2, password);
         statement.setString(3, name);
+        statement.setString(4, role == 1 ? "1" : null);
         statement.executeUpdate();
 
         statement.close();
@@ -419,7 +420,7 @@ public class DbHandler {
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("Select u.name, u.number, u.id, cr.role_id from Users u\n" +
                     "Inner Join UsersRoles cr on cr.user_id = u.id\n" +
-                    "where u.apply = 0");
+                    "where u.apply is null");
             while (rs.next())
             {
                 JSONObject object = new JSONObject();
@@ -443,9 +444,10 @@ public class DbHandler {
         statement = connection.createStatement();
         if(choose == 1)
             statement.executeUpdate("Update Users set apply = " + choose + " where id = " + clientId);
-        else
+        else {
             statement.executeUpdate("Delete from UsersRoles where user_id = " + clientId);
             statement.executeUpdate("Delete from Users where id = " + clientId);
+        }
         statement.close();
     }
 
@@ -467,6 +469,27 @@ public class DbHandler {
         statement.setInt(1, driverId);
         statement.setString(2, time);
         statement.setString(3, date);
+        statement.executeUpdate();
+        statement.close();
+        return true;
+    }
+
+    public boolean addBus(String mark, String number, String color, int driverId)throws SQLException{
+        statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery("select * from buses where mark = \"" + mark + "\" and number = \"" + number +"\"");
+        if(rs.next())
+        {
+            rs.close();
+            statement.close();
+            return false;
+        }
+        rs.close();
+        statement.close();
+        PreparedStatement statement = connection.prepareStatement("insert into Buses (mark, number, color, driver_id) values (?, ?, ?, ?)");
+        statement.setString(1, mark);
+        statement.setString(2, number);
+        statement.setString(3, color);
+        statement.setInt(4, driverId);
         statement.executeUpdate();
         statement.close();
         return true;
@@ -514,6 +537,13 @@ public class DbHandler {
         statement = connection.createStatement();
         statement.executeUpdate("delete from Trips where id = " + tripId);
         statement.executeUpdate("delete from ClientsTrips where trip_id =" + tripId);
+        statement.close();
+    }
+
+    public void deleteBus(int busId) throws SQLException
+    {
+        statement = connection.createStatement();
+        statement.executeUpdate("delete from Buses where id = " + busId);
         statement.close();
     }
 }

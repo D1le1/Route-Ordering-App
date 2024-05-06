@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
 import com.example.busik.client.Client;
+import com.example.busik.operator.BusAddActivity;
 import com.example.busik.operator.BusListAdapter;
 import com.example.busik.operator.BusManageActivity;
 import com.example.busik.operator.DriverListAdapter;
 import com.example.busik.operator.OperatorManageDriverActivity;
 import com.example.busik.other.ServerWork;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,7 +79,6 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
                         Intent intent = new Intent();
                         try {
                             intent.putExtra("id", object.getInt("id"));
-                            Log.v("D1le", "HEre " + object.getInt("id"));
                             intent.putExtra("mark", object.getString("mark"));
                             intent.putExtra("number", object.getString("number"));
                             intent.putExtra("color", object.getString("color"));
@@ -92,7 +93,14 @@ public class BusesListTask extends AsyncTask<Integer,Void,String> {
                 else
                     onBusClickListener = object -> {
                         Intent intent = new Intent(context, BusManageActivity.class);
+                        FloatingActionButton addButton = activity.findViewById(R.id.add_btn);
+                        addButton.setVisibility(View.VISIBLE);
+
                         try {
+                            addButton.setOnClickListener(v ->{
+                                Intent intent1 = new Intent(context, BusAddActivity.class);
+                                activity.startActivityForResult(intent1, 0);
+                            });
                             intent.putExtra("id", object.getInt("id"));
                             intent.putExtra("mark", object.getString("mark"));
                             intent.putExtra("color", object.getString("color"));

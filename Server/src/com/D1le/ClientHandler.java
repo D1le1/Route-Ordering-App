@@ -256,6 +256,13 @@ public class ClientHandler implements Runnable {
                     else
                         out.println("ADD-DENY");
                     break;
+                case "BUS":
+                    if(mDbHandler.addBus(parts[2], parts[3], parts[4], Integer.parseInt(parts[5])))
+                    {
+                        out.println("ADD--OK");
+                    }else
+                        out.println("ADD--DENY");
+                    break;
             }
 
         }catch (SQLException e)
@@ -300,6 +307,9 @@ public class ClientHandler implements Runnable {
                     break;
                 case "TRIP":
                     mDbHandler.deleteTrip(Integer.parseInt(parts[2]));
+                    break;
+                case "BUS":
+                    mDbHandler.deleteBus(Integer.parseInt(parts[2]));
                     break;
             }
             out.println("DELETE--OK");
