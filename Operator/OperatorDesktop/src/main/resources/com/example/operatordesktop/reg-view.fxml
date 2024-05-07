@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.RegistrationController">
+   <VBox alignment="CENTER" layoutY="129.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <children>
+          <Label fx:id="messageText" alignment="CENTER" contentDisplay="CENTER" text="Регистрация" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+              <font>
+                <Font name="Courier New Bold" size="26.0" />
+              </font>
+          </Label>
+         <TextField fx:id="fioText" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" promptText="Фамилия Имя">
+            <font>
+               <Font name="Courier New Bold" size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </TextField>
+          <TextField fx:id="loginText" maxWidth="-Infinity" prefHeight="27.0" prefWidth="200.0" promptText="Логин">
+              <font>
+                <Font name="Courier New Bold" size="14.0" />
+              </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+          </TextField>
+         <PasswordField fx:id="passwordText" maxWidth="-Infinity" prefHeight="27.0" prefWidth="200.0" promptText="Пароль">
+            <font>
+               <Font name="Courier New Bold" size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </PasswordField>
+         <Button fx:id="regButton" mnemonicParsing="false" onAction="#onRegButtonClick" prefHeight="40.0" text="Зарегистрироваться">
+            <font>
+               <Font name="Courier New Bold" size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </Button>
+         <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClick" prefHeight="40.0" text="Вернуться">
+            <font>
+               <Font name="Courier New Bold" size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </Button>
+      </children>
+   </VBox>
+</AnchorPane>

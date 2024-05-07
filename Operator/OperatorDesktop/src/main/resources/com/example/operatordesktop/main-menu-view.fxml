@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.MainMenuController">
+   <children>
+      <VBox alignment="CENTER" layoutX="183.0" layoutY="135.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="183.0" AnchorPane.rightAnchor="183.0" AnchorPane.topAnchor="0.0">
+              <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onManageTripsClick" prefHeight="40.0" prefWidth="290.0" text="Управление рейсами" textAlignment="CENTER">
+                      <VBox.margin>
+                          <Insets />
+                      </VBox.margin>
+                      <opaqueInsets>
+                          <Insets />
+                      </opaqueInsets>
+               <font>
+                  <Font name="Courier New Bold" size="14.0" />
+               </font>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="280.0" layoutY="198.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="290.0" text="Управление маршрутными такси" textAlignment="CENTER">
+                      <opaqueInsets>
+                          <Insets />
+                      </opaqueInsets>
+                      <VBox.margin>
+                          <Insets top="10.0" />
+                      </VBox.margin>
+                      <font>
+                          <Font name="Courier New Bold" size="14.0" />
+                      </font>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="240.0" layoutY="210.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="290.0" text="Управление водителями" textAlignment="CENTER">
+                      <opaqueInsets>
+                          <Insets />
+                      </opaqueInsets>
+                      <VBox.margin>
+                          <Insets top="10.0" />
+                      </VBox.margin>
+                      <font>
+                          <Font name="Courier New Bold" size="14.0" />
+                      </font>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="240.0" layoutY="223.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="290.0" text="Управление заявками" textAlignment="CENTER">
+                      <opaqueInsets>
+                          <Insets />
+                      </opaqueInsets>
+                      <VBox.margin>
+                          <Insets top="10.0" />
+                      </VBox.margin>
+                      <font>
+                          <Font name="Courier New Bold" size="14.0" />
+                      </font>
+                  </Button>
+              </children>
+          </VBox>
+      <Button layoutX="274.0" layoutY="361.0" mnemonicParsing="false" onAction="#onBackButtonClick" prefHeight="30.0" text="Выйти" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="16.0">
+         <font>
+            <Font name="Courier New Bold" size="14.0" />
+         </font></Button>
+   </children>
+</AnchorPane>

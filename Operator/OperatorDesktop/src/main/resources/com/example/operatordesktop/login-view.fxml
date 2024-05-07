@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.LoginController">
+   <VBox alignment="CENTER" layoutY="97.0">
+      <children>
+          <Label fx:id="messageText" alignment="CENTER" prefHeight="32.0" prefWidth="600.0" text="Авторизация" textAlignment="CENTER">
+              <font>
+                <Font name="Courier New Bold" size="26.0" />
+              </font>
+          </Label>
+          <TextField fx:id="loginText" maxWidth="-Infinity" prefHeight="27.0" prefWidth="200.0" promptText="Логин">
+              <font>
+                <Font name="Courier New Bold" size="14.0" />
+              </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+          </TextField>
+         <PasswordField fx:id="passwordText" maxWidth="-Infinity" prefHeight="27.0" prefWidth="200.0" promptText="Пароль">
+            <font>
+               <Font name="Courier New Bold" size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </PasswordField>
+         <Button fx:id="loginButton" mnemonicParsing="false" onAction="#onLoginButtonClick" prefHeight="40.0" text="Авторизоваться">
+            <font>
+               <Font name="Courier New Bold" size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </Button>
+         <Button fx:id="regButton" mnemonicParsing="false" onAction="#onRegButtonClick" prefHeight="40.0" text="Регистрация">
+            <font>
+               <Font name="Courier New Bold" size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </Button>
+      </children>
+   </VBox>
+</AnchorPane>
