@@ -30,12 +30,11 @@ public class ClientHandler implements Runnable {
             while (null != (inputLine = in.nextLine())) {
                 System.out.println("Receive: " + inputLine);
                 String[] parts = inputLine.split("--");
-                if(parts.length < 2) {
+                if (parts.length < 2) {
                     out.println("Nothing to send");
                     continue;
                 }
-                switch (parts[0])
-                {
+                switch (parts[0]) {
                     case "AUTH":
                         getAuth(parts[1], parts[2]);
                         break;
@@ -70,12 +69,12 @@ public class ClientHandler implements Runnable {
                         getBuses(Integer.parseInt(parts[1]));
                         break;
                     case "APPLICATION":
-                        if(parts[1].equals("LIST"))
+                        if (parts[1].equals("LIST"))
                             getApplicationList();
                         else
                             changeApplication(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                         break;
-                    case  "ADD":
+                    case "ADD":
                         addInfo(parts);
                         break;
                     case "UPDATE":
@@ -91,40 +90,36 @@ public class ClientHandler implements Runnable {
             }
         } catch (IOException e) {
             System.out.println("Ошибка: " + e.getMessage());
-        }
-        finally {
+        } finally {
             this.close();
         }
     }
 
     private void getBookInfo(int tripId) {
         JSONObject object = mDbHandler.getBookInfo(tripId);
-        if(object != null)
+        if (object != null)
             out.println(object);
         else
             out.println("INFO--DENY");
         out.flush();
     }
 
-    private void getHistoryInfo(int userId, int tripId)
-    {
+    private void getHistoryInfo(int userId, int tripId) {
         JSONObject object = mDbHandler.getHistoryInfo(userId, tripId);
-        if(object != null)
-        {
+        if (object != null) {
             out.println(object);
-        }else
+        } else
             out.println("HISTORY--DENY");
         out.flush();
     }
 
     private void registration(String login, String password, String name, int role) {
         try {
-            if(mDbHandler.addNewUser(login, password, name, role))
+            if (mDbHandler.addNewUser(login, password, name, role))
                 out.println("REG--OK");
             else
                 out.println("REG--EXISTS");
-        }catch (SQLException e)
-        {
+        } catch (SQLException e) {
             out.println("REG--DENY");
             e.printStackTrace();
         }
@@ -135,8 +130,7 @@ public class ClientHandler implements Runnable {
         try {
             mDbHandler.setClientArrived(tripId, clientId, status);
             out.println("MARK--" + status);
-        }catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
             out.println("MARK--DENY");
         }
@@ -147,8 +141,7 @@ public class ClientHandler implements Runnable {
         JSONArray jsonArray = new JSONArray();
         List<Client> clients;
         clients = mDbHandler.getTripInfo(tripId);
-        for(Client client : clients)
-        {
+        for (Client client : clients) {
             MyJSONObject object = new MyJSONObject(client);
             jsonArray.put(object);
         }
@@ -156,35 +149,28 @@ public class ClientHandler implements Runnable {
         out.flush();
     }
 
-    private void confirmOrder(int userId, int tripId, String stop)
-    {
-        if(mDbHandler.confirmOrder(userId, tripId, stop))
-        {
+    private void confirmOrder(int userId, int tripId, String stop) {
+        if (mDbHandler.confirmOrder(userId, tripId, stop)) {
             out.println("CONFIRM--OK");
-        }else
+        } else
             out.println("CONFIRM--DENY");
         out.flush();
     }
 
-    private void getAuth(String login, String password)
-    {
+    private void getAuth(String login, String password) {
         MyJSONObject object = mDbHandler.getAuth(login, password);
-        if(object != null) {
+        if (object != null) {
             out.println(object);
-        }
-        else
-        {
+        } else {
             out.println("AUTH--DENY");
         }
         out.flush();
     }
 
-    private void getTrips(String start, String end, String date)
-    {
+    private void getTrips(String start, String end, String date) {
         JSONArray jsonArray = new JSONArray();
         List<Trip> trips = mDbHandler.getSearchTrips(start, end, date);
-        for (Trip trip : trips)
-        {
+        for (Trip trip : trips) {
             MyJSONObject object = new MyJSONObject(trip);
             jsonArray.put(object);
         }
@@ -192,94 +178,81 @@ public class ClientHandler implements Runnable {
         out.flush();
     }
 
-    private void getTrips(int id, int role)
-    {
+    private void getTrips(int id, int role) {
         JSONArray jsonArray;
-        if(role == 1)
-        {
+        if (role == 1) {
             jsonArray = mDbHandler.getHistoryTrips(id);
-        }
-        else if(role == 2)
-        {
+        } else if (role == 2) {
             jsonArray = mDbHandler.getDriverTrips(id);
-        }
-        else
-        {
+        } else {
             jsonArray = mDbHandler.getTrips();
         }
         out.println(jsonArray);
         out.flush();
     }
 
-    private void getDrivers(int manage)
-    {
+    private void getDrivers(int manage) {
         JSONArray jsonArray = mDbHandler.getDrivers(manage);
         out.println(jsonArray);
         out.flush();
     }
 
-    private void getBuses(int manage)
-    {
+    private void getBuses(int manage) {
         JSONArray jsonArray = mDbHandler.getBuses(manage);
         out.println(jsonArray);
         out.flush();
     }
 
-    private void getApplicationList()
-    {
+    private void getApplicationList() {
         JSONArray jsonArray = mDbHandler.getApplicationList();
         out.println(jsonArray);
         out.flush();
     }
 
-    private void changeApplication(int clientId, int choose)
-    {
+    private void changeApplication(int clientId, int choose) {
         try {
             mDbHandler.changeApplicationStatus(clientId, choose);
             out.println("APPLICATION--OK");
-        }catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
             out.println("APPLICATION--DENY");
         }
         out.flush();
     }
 
-    private void addInfo(String[] parts)
-    {
-        try{
-            switch (parts[1])
-            {
+    private void addInfo(String[] parts) {
+        try {
+            switch (parts[1]) {
                 case "TRIP":
-                    if(mDbHandler.addTrip(parts[2], parts[3], parts[4], Integer.parseInt(parts[5])))
-                        out.println("ADD--OK");
-                    else
+                    if (!mDbHandler.addTrip(parts[2], parts[3], parts[4], Integer.parseInt(parts[5]))) {
                         out.println("ADD--DENY");
+                        return;
+                    }
                     break;
                 case "BUS":
-                    if(mDbHandler.addBus(parts[2], parts[3], parts[4], Integer.parseInt(parts[5])))
-                    {
-                        out.println("ADD--OK");
-                    }else
+                    if (!mDbHandler.addBus(parts[2], parts[3], parts[4], Integer.parseInt(parts[5]))) {
                         out.println("ADD--DENY");
+                        return;
+                    }
                     break;
             }
-
-        }catch (SQLException e)
-        {
+            out.println("ADD--OK");
+        } catch (SQLException e) {
             out.println("ADD--DENY");
             e.printStackTrace();
-        }finally {
+        } finally {
             out.flush();
         }
     }
 
-    private void updateInfo(String[] parts)
-    {
+    private void updateInfo(String[] parts) {
         try {
             switch (parts[1]) {
                 case "TRIP":
-                    mDbHandler.updateTrip(parts[2], parts[3], parts[4], Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
+                    if (!mDbHandler.updateTrip(parts[2], parts[3], parts[4], Integer.parseInt(parts[5]), Integer.parseInt(parts[6]))) {
+                        out.println("UPDATE--DENY");
+                        return;
+                    }
                     break;
                 case "BUS":
                     mDbHandler.updateBus(Integer.parseInt(parts[2]), parts[3], parts[4], parts[5], Integer.parseInt(parts[6]));
@@ -289,16 +262,15 @@ public class ClientHandler implements Runnable {
                     break;
             }
             out.println("UPDATE--OK");
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             out.println("UPDATE--DENY");
             e.printStackTrace();
-        }finally {
+        } finally {
             out.flush();
         }
     }
 
-    private void deleteInfo(String[] parts)
-    {
+    private void deleteInfo(String[] parts) {
         try {
             switch (parts[1]) {
 
@@ -313,24 +285,21 @@ public class ClientHandler implements Runnable {
                     break;
             }
             out.println("DELETE--OK");
-        }catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
             out.println("DELETE--DENY");
-        }finally {
+        } finally {
             out.flush();
         }
     }
 
-    private void close()
-    {
+    private void close() {
         try {
             in.close();
             out.close();
             clientSocket.close();
             System.out.println("Client disconnected");
-        }catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.controllers.AddTripController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.controllers.EditTripController">
    <children>
       <VBox alignment="CENTER" layoutX="141.0" layoutY="105.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity">
          <children>
@@ -40,7 +40,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </ComboBox>
-            <Button mnemonicParsing="false" onAction="#onAddButtonClick" text="Добавить рейс">
+            <Button mnemonicParsing="false" onAction="#onEditButtonClick" text="Изменить рейс">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>

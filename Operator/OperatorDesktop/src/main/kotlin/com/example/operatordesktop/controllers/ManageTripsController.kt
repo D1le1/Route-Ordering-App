@@ -59,6 +59,21 @@ class ManageTripsController {
         initialize()
     }
 
+    fun onEditTrip(){
+        val stage = Stage()
+        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("edit-trip-view.fxml"))
+        val scene = Scene(fxmlLoader.load(), 600.0, 400.0)
+        val icon = Image(HelloApplication::class.java.getResourceAsStream("icons/app_icon-playstore.png"))
+        val trip = tripsList.selectionModel.selectedItem ?: return
+        fxmlLoader.getController<EditTripController>().setData(stage, trip)
+        stage.initModality(Modality.APPLICATION_MODAL)
+        stage.scene = scene
+        stage.title = "Изменение рейса"
+        stage.icons.add(icon)
+        stage.showAndWait()
+        initialize()
+    }
+
     fun onDeleteTrip() {
         val trip = tripsList.selectionModel.selectedItem ?: return
         if (!confirmDelete())

@@ -22,7 +22,7 @@
             <Font name="Courier New Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="editButton" layoutX="177.0" layoutY="680.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" text="Изменить рейс" AnchorPane.bottomAnchor="10.0">
+      <Button layoutX="177.0" layoutY="680.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onEditTrip" text="Изменить рейс" AnchorPane.bottomAnchor="10.0">
          <font>
             <Font name="Courier New Bold" size="16.0" />
          </font>

@@ -495,7 +495,19 @@ public class DbHandler {
         return true;
     }
 
-    public void updateTrip(String route, String date, String time, int driverId, int tripId) throws SQLException {
+    public boolean updateTrip(String route, String date, String time, int driverId, int tripId) throws SQLException {
+        statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery("select * FROM trips t\n" +
+                "where t.date = \"" + date + "\" and t.time = \"" + time +"\" \n" +
+                "and t.route_id = (select id from Routes where route = \"" + route +"\")");
+        if(rs.next())
+        {
+            rs.close();
+            statement.close();
+            return false;
+        }
+        rs.close();
+        statement.close();
         statement = connection.createStatement();
         statement.executeUpdate("Update trips \n" +
                 "set time = \"" + time + "\",\n" +
@@ -504,6 +516,8 @@ public class DbHandler {
                 "driver_id = " + driverId + "\n"+
                 "where id = " + tripId);
         statement.close();
+
+        return true;
     }
 
     public void updateBus(int driverId, String mark, String number, String color, int busId) throws SQLException {
