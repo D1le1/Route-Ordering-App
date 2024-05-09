@@ -1,5 +1,7 @@
-package com.example.operatordesktop
+package com.example.operatordesktop.controllers
 
+import com.example.operatordesktop.HelloApplication
+import com.example.operatordesktop.RootStage
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 

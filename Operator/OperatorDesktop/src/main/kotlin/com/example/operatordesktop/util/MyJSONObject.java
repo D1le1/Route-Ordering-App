@@ -3,6 +3,10 @@ package com.example.operatordesktop.util;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MyJSONObject extends JSONObject {
 
     public MyJSONObject(Trip trip) throws JSONException {
@@ -50,6 +54,20 @@ public class MyJSONObject extends JSONObject {
                 this.has("name") ? this.getString("name") : "Нет закрепленного водителя",
                 this.getString("date"),
                 this.getInt("finished")
+        );
+    }
+
+    public Client parseToDriver() throws JSONException {
+        List<String> bus = new ArrayList<>();
+        if (this.has("mark"))
+            bus = Arrays.asList(this.getString("color"), this.getString("mark"), this.getString("number"), this.getString("bus_id"));
+        else
+            bus.add("Нет закрепленного водителя");
+        return new Client(
+                this.getInt("id"),
+                this.getString("name"),
+                this.getString("phone"),
+                bus
         );
     }
 }

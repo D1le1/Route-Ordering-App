@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.RegistrationController">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.controllers.RegistrationController">
    <VBox alignment="CENTER" layoutY="129.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
       <children>
           <Label fx:id="messageText" alignment="CENTER" contentDisplay="CENTER" text="Регистрация" textAlignment="CENTER" VBox.vgrow="ALWAYS">

@@ -254,7 +254,7 @@ public class ClientHandler implements Runnable {
                     if(mDbHandler.addTrip(parts[2], parts[3], parts[4], Integer.parseInt(parts[5])))
                         out.println("ADD--OK");
                     else
-                        out.println("ADD-DENY");
+                        out.println("ADD--DENY");
                     break;
                 case "BUS":
                     if(mDbHandler.addBus(parts[2], parts[3], parts[4], Integer.parseInt(parts[5])))

@@ -1,5 +1,7 @@
-package com.example.operatordesktop
+package com.example.operatordesktop.controllers
 
+import com.example.operatordesktop.HelloApplication
+import com.example.operatordesktop.RootStage
 import com.example.operatordesktop.util.MyJSONObject
 import com.example.operatordesktop.util.ServerWork
 import com.example.operatordesktop.util.Trip
@@ -13,6 +15,9 @@ import javafx.scene.control.ButtonBar.ButtonData
 import javafx.scene.control.ButtonType
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
+import javafx.scene.image.Image
+import javafx.stage.Modality
+import javafx.stage.Stage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +30,6 @@ class ManageTripsController {
     lateinit var driverCol: TableColumn<Trip, String>
     lateinit var dateCol: TableColumn<Trip, String>
     lateinit var timeCol: TableColumn<Trip, String>
-    lateinit var finishCol: TableColumn<Trip, String>
 
     fun initialize() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -39,6 +43,20 @@ class ManageTripsController {
             tripsList.items.setAll(trips)
             fillColumns()
         }
+    }
+
+    fun onAddTrip(){
+        val stage = Stage()
+        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("add-trip-view.fxml"))
+        val scene = Scene(fxmlLoader.load(), 600.0, 400.0)
+        val icon = Image(HelloApplication::class.java.getResourceAsStream("icons/app_icon-playstore.png"))
+        fxmlLoader.getController<AddTripController>().setStage(stage)
+        stage.initModality(Modality.APPLICATION_MODAL)
+        stage.scene = scene
+        stage.title = "Добавление рейса"
+        stage.icons.add(icon)
+        stage.showAndWait()
+        initialize()
     }
 
     fun onDeleteTrip() {
@@ -70,9 +88,7 @@ class ManageTripsController {
 
         val result = confirmationDialog.showAndWait()
 
-        if (result.isPresent && result.get() == deleteButton)
-            return true
-        return false
+        return result.isPresent && result.get() == deleteButton
     }
 
     private fun fillColumns() {
@@ -86,11 +102,7 @@ class ManageTripsController {
             return@setCellValueFactory SimpleStringProperty(it.value.date)
         }
         timeCol.setCellValueFactory {
-            return@setCellValueFactory SimpleStringProperty(it.value.startTime)
-        }
-        finishCol.setCellValueFactory {
-            val value = if (it.value.finished == 1) "Завершено" else "Активен"
-            return@setCellValueFactory SimpleStringProperty(value)
+            return@setCellValueFactory SimpleStringProperty("${it.value.startTime} - ${it.value.endTime}")
         }
     }
 }

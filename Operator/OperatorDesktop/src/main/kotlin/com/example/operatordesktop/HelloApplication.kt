@@ -4,6 +4,7 @@ import com.example.operatordesktop.util.ServerWork
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
+import javafx.scene.image.Image
 import javafx.stage.Stage
 
 object RootStage{
@@ -15,8 +16,10 @@ class HelloApplication : Application() {
         stage.isResizable = false
         val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("login-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 600.0, 400.0)
+        val icon = Image(javaClass.getResourceAsStream("icons/app_icon-playstore.png"))
         stage.title = "BusIk Operator"
         stage.scene = scene
+        stage.icons.add(icon)
         stage.show()
         ServerWork.connectToServer()
     }

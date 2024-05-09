@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.controllers.AddTripController">
+   <children>
+      <VBox alignment="CENTER" layoutX="141.0" layoutY="105.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity">
+         <children>
+            <HBox alignment="CENTER">
+               <children>
+                  <ComboBox fx:id="fromCBox" prefWidth="150.0" promptText="Откуда" style="-fx-font-family: &quot;Courier New Bold&quot;; -fx-font-size: 16;">
+                     <HBox.margin>
+                        <Insets right="30.0" />
+                     </HBox.margin></ComboBox>
+                  <ComboBox fx:id="whereCBox" prefWidth="150.0" promptText="Куда" style="-fx-font-family: &quot;Courier New Bold&quot;; -fx-font-size: 16;">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ComboBox>
+               </children>
+            </HBox>
+            <DatePicker fx:id="datePicker" editable="false" maxWidth="1.7976931348623157E308" promptText="Выберите дату" style="-fx-font-family: &quot;Courier New Bold&quot;; -fx-font-size: 16; -fx-alignment: center;" styleClass="date-picker">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </DatePicker>
+            <TextField fx:id="timeText" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="300.0" promptText="Введите время (11:00)">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Courier New Bold" size="16.0" />
+               </font>
+            </TextField>
+            <ComboBox fx:id="driverCBox" maxWidth="1.7976931348623157E308" prefWidth="300.0" promptText="Выберите водителя" style="-fx-font-family: &quot;Courier New Bold&quot;; -fx-font-size: 16;">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ComboBox>
+            <Button mnemonicParsing="false" onAction="#onAddButtonClick" text="Добавить рейс">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Courier New Bold" size="16.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <Button layoutX="246.0" layoutY="356.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="Вернуться" AnchorPane.bottomAnchor="10.0">
+         <font>
+            <Font name="Courier New Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label fx:id="errorText" alignment="CENTER" contentDisplay="CENTER" layoutX="287.0" layoutY="48.0" text="Ошибка" textAlignment="CENTER" visible="false" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="24.0">
+         <font>
+            <Font name="Courier New Bold" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
