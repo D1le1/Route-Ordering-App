@@ -44,6 +44,15 @@ public class MyJSONObject extends JSONObject {
         );
     }
 
+    public Client parseToApplyClient() throws  JSONException {
+        return new Client(
+                this.getString("name"),
+                this.getString("phone"),
+                this.getInt("id"),
+                this.getInt("role")
+        );
+    }
+
     public Trip parseToTrip() throws JSONException {
         return new Trip(
                 this.getInt("id"),

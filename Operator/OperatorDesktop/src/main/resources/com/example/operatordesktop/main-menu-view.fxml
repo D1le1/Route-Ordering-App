@@ -42,7 +42,7 @@
                           <Font name="Courier New Bold" size="14.0" />
                       </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="240.0" layoutY="223.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="290.0" text="Управление заявками" textAlignment="CENTER">
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="240.0" layoutY="223.0" mnemonicParsing="false" onAction="#onManageApplyClick" prefHeight="40.0" prefWidth="290.0" text="Управление заявками" textAlignment="CENTER">
                       <opaqueInsets>
                           <Insets />
                       </opaqueInsets>

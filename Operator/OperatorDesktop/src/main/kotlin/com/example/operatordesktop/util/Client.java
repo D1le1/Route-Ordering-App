@@ -30,6 +30,13 @@ public class Client implements Serializable {
         mRole = role;
     }
 
+    public Client(String name, String phone, int id, int role) {
+        mName = name;
+        mPhone = phone;
+        mId = id;
+        mRole = role;
+    }
+
     public Client(String name, String address, String phone, int id, int role, int arrived) {
         mName = name;
         this.address = address;

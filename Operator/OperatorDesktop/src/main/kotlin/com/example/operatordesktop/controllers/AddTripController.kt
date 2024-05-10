@@ -45,6 +45,7 @@ class AddTripController {
         fromCBox.setOnAction { checkComboValues() }
         whereCBox.setOnAction { checkComboValues() }
 
+        driverCBox.items.add("Без водителя")
         CoroutineScope(Dispatchers.IO).launch {
             val response = ServerWork.sendRequest("DRIVERS--3")
             val array = JSONArray(response)
@@ -79,7 +80,7 @@ class AddTripController {
             val time = timeText.text
             var driverId = -1
             try {
-                driverId = drivers[driverCBox.selectionModel.selectedIndex].id
+                driverId = drivers[driverCBox.selectionModel.selectedIndex - 1].id
             }catch (_:Exception){}
             val response = ServerWork.sendRequest("ADD--TRIP--$route--$date--$time--$driverId")
 
@@ -114,10 +115,6 @@ class AddTripController {
             showError("Поле \"Время\" не должно быть пустым")
             return false
         }
-//        if (driverCBox.value == null) {
-//            showError("Поле \"Водитель\" не должно быть пустым")
-//            return false
-//        }
         if (!Pattern.matches("\\d\\d:\\d\\d", timeText.text)) {
             showError("Формат времени (12:30)")
             return false

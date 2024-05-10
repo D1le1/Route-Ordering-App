@@ -425,7 +425,7 @@ public class DbHandler {
             {
                 JSONObject object = new JSONObject();
                 object.put("name", rs.getString("name"));
-                object.put("number", rs.getString("number"));
+                object.put("phone", rs.getString("number"));
                 object.put("id", rs.getInt("id"));
                 object.put("role", rs.getInt("role_id"));
                 jsonArray.put(object);
@@ -443,7 +443,7 @@ public class DbHandler {
     public void changeApplicationStatus(int clientId, int choose) throws SQLException {
         statement = connection.createStatement();
         if(choose == 1)
-            statement.executeUpdate("Update Users set apply = " + choose + " where id = " + clientId);
+            statement.executeUpdate("Update Users set apply = 1 where id = " + clientId);
         else {
             statement.executeUpdate("Delete from UsersRoles where user_id = " + clientId);
             statement.executeUpdate("Delete from Users where id = " + clientId);
@@ -455,7 +455,7 @@ public class DbHandler {
         statement = connection.createStatement();
         ResultSet rs = statement.executeQuery("select * FROM trips t\n" +
                 "where t.date = \"" + date + "\" and t.time = \"" + time +"\" \n" +
-                "and t.route_id = (select id from Routes where route = \"" + route +"\")");
+                "and t.route_id = (select id from Routes where route = \"" + route +"\") and driver_id = " + driverId);
         if(rs.next())
         {
             rs.close();
@@ -499,7 +499,7 @@ public class DbHandler {
         statement = connection.createStatement();
         ResultSet rs = statement.executeQuery("select * FROM trips t\n" +
                 "where t.date = \"" + date + "\" and t.time = \"" + time +"\" \n" +
-                "and t.route_id = (select id from Routes where route = \"" + route +"\")");
+                "and t.route_id = (select id from Routes where route = \"" + route +"\") and driver_id = " + driverId);
         if(rs.next())
         {
             rs.close();

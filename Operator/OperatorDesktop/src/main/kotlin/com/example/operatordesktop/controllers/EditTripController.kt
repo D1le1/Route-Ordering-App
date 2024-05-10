@@ -58,6 +58,7 @@ class EditTripController {
         fromCBox.setOnAction { checkComboValues() }
         whereCBox.setOnAction { checkComboValues() }
 
+        driverCBox.items.add("Без водителя")
         CoroutineScope(Dispatchers.IO).launch {
             val response = ServerWork.sendRequest("DRIVERS--3")
             val array = JSONArray(response)
@@ -93,7 +94,7 @@ class EditTripController {
             val time = timeText.text
             var driverId = -1
             try {
-                driverId = drivers[driverCBox.selectionModel.selectedIndex].id
+                driverId = drivers[driverCBox.selectionModel.selectedIndex - 1].id
             } catch (_: Exception) {
             }
             val response = ServerWork.sendRequest("UPDATE--TRIP--$route--$date--$time--$driverId--${trip.id}")

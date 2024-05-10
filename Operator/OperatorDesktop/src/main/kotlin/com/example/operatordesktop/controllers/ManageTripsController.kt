@@ -13,8 +13,10 @@ import javafx.scene.control.Alert
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.ButtonBar.ButtonData
 import javafx.scene.control.ButtonType
+import javafx.scene.control.Label
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
+import javafx.scene.control.TextField
 import javafx.scene.image.Image
 import javafx.stage.Modality
 import javafx.stage.Stage
@@ -32,6 +34,7 @@ class ManageTripsController {
     lateinit var timeCol: TableColumn<Trip, String>
 
     fun initialize() {
+        tripsList.placeholder = Label("Таблица пуста")
         CoroutineScope(Dispatchers.IO).launch {
             val response = ServerWork.sendRequest("TRIPS--0--3") ?: return@launch
             val jsonArray = JSONArray(response)
