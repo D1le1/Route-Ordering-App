@@ -60,4 +60,8 @@ public class Trip implements Serializable {
     public String getDriverName() {
         return driverName;
     }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
 }

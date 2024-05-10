@@ -290,10 +290,11 @@ public class DbHandler {
         try {
             JSONArray jsonArray = new JSONArray();
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, finished, t2.time as trip_time, route, u.name, u.id as driver_id " +
+            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, finished, t2.time as trip_time, route, u.name, u.id as driver_id, b.mark " +
                     "FROM trips t1 " +
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
                     "LEFT JOIN users u on t1.driver_id = u.id " +
+                    "LEFT JOIN buses b on u.id = b.driver_id " +
                     "WHERE t1.finished = 0 " +
                     "GROUP BY t1.id");
             while (rs.next())
@@ -301,6 +302,7 @@ public class DbHandler {
                 MyJSONObject object = new MyJSONObject(new Trip(rs, true));
                 object.put("driver_name", rs.getString("name"));
                 object.put("driver_id", rs.getInt("driver_id"));
+                object.put("mark", rs.getString("mark"));
                 jsonArray.put(object);
             }
             rs.close();

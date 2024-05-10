@@ -41,14 +41,16 @@ class ManageTripsController {
             val trips = FXCollections.observableArrayList<Trip>()
             for (i in 0 until jsonArray.length()) {
                 val obj = MyJSONObject(jsonArray.getJSONObject(i))
-                trips.add(obj.parseToTrip())
+                val trip = obj.parseToTrip()
+                trip.driverName += if (!obj.has("mark") && obj.get("driver_id") as Int > 0) " (нет авто)" else ""
+                trips += trip
             }
             tripsList.items.setAll(trips)
             fillColumns()
         }
     }
 
-    fun onAddTrip(){
+    fun onAddTrip() {
         val stage = Stage()
         val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("add-trip-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 600.0, 400.0)
@@ -62,7 +64,7 @@ class ManageTripsController {
         initialize()
     }
 
-    fun onEditTrip(){
+    fun onEditTrip() {
         val stage = Stage()
         val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("edit-trip-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 600.0, 400.0)
@@ -79,8 +81,7 @@ class ManageTripsController {
 
     fun onDeleteTrip() {
         val trip = tripsList.selectionModel.selectedItem ?: return
-        if (!confirmDelete())
-            return
+        if (!confirmDelete()) return
 
         CoroutineScope(Dispatchers.IO).launch {
             ServerWork.sendRequest("DELETE--TRIP--${trip.id}")
@@ -114,7 +115,7 @@ class ManageTripsController {
             return@setCellValueFactory SimpleStringProperty(it.value.route)
         }
         driverCol.setCellValueFactory {
-            return@setCellValueFactory SimpleStringProperty(it.value.driverName)
+            return@setCellValueFactory SimpleStringProperty("${it.value.driverName}")
         }
         dateCol.setCellValueFactory {
             return@setCellValueFactory SimpleStringProperty(it.value.date)

@@ -71,7 +71,7 @@ public class MyJSONObject extends JSONObject {
         if (this.has("mark"))
             bus = Arrays.asList(this.getString("color"), this.getString("mark"), this.getString("number"), this.getString("bus_id"));
         else
-            bus.add("Нет закрепленного водителя");
+            bus.add("Нет закрепленного автомобиля");
         return new Client(
                 this.getInt("id"),
                 this.getString("name"),
