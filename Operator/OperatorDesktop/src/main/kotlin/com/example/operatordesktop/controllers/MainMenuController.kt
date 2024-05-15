@@ -13,9 +13,15 @@ class MainMenuController {
         RootStage.stage.scene = scene
     }
 
-    fun OnManageBuses(){
+    fun onManageBusesClick(){
         val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("manage-buses-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 960.0, 720.0)
+        RootStage.stage.scene = scene
+    }
+
+    fun onManageDriversClick(){
+        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("manage-drivers-view.fxml"))
+        val scene = Scene(fxmlLoader.load(), 600.0, 400.0)
         RootStage.stage.scene = scene
     }
 

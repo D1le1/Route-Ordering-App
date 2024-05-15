@@ -20,7 +20,7 @@
                   <Font name="Courier New Bold" size="14.0" />
                </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="280.0" layoutY="198.0" mnemonicParsing="false" onAction="#OnManageBuses" prefHeight="40.0" prefWidth="290.0" text="Управление маршрутными такси" textAlignment="CENTER">
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="280.0" layoutY="198.0" mnemonicParsing="false" onAction="#onManageBusesClick" prefHeight="40.0" prefWidth="290.0" text="Управление маршрутными такси" textAlignment="CENTER">
                       <opaqueInsets>
                           <Insets />
                       </opaqueInsets>
@@ -31,7 +31,7 @@
                           <Font name="Courier New Bold" size="14.0" />
                       </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="240.0" layoutY="210.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="290.0" text="Управление водителями" textAlignment="CENTER">
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="240.0" layoutY="210.0" mnemonicParsing="false" onAction="#onManageDriversClick" prefHeight="40.0" prefWidth="290.0" text="Управление водителями" textAlignment="CENTER">
                       <opaqueInsets>
                           <Insets />
                       </opaqueInsets>

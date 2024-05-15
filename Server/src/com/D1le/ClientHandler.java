@@ -261,7 +261,10 @@ public class ClientHandler implements Runnable {
                     }
                     break;
                 case "DRIVER":
-                    mDbHandler.updateDriver(parts[2], parts[3], Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
+                    if(!mDbHandler.updateDriver(parts[2], parts[3], Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]))){
+                        out.println("UPDATE--DENY");
+                        return;
+                    }
                     break;
             }
             out.println("UPDATE--OK");

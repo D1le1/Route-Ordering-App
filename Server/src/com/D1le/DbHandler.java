@@ -493,12 +493,23 @@ public class DbHandler {
         return true;
     }
 
-    public void updateDriver(String name, String phone, int driverId, int busId, int currentBusId) throws SQLException {
+    public Boolean updateDriver(String name, String phone, int driverId, int busId, int currentBusId) throws SQLException {
+        statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery("select * from users where name = \"" + name + "\" and number = \"" + phone + "\"");
+        if (rs.next() && busId == currentBusId) {
+            rs.close();
+            statement.close();
+            return false;
+        }
+        rs.close();
+        statement.close();
         statement = connection.createStatement();
         statement.executeUpdate("Update Users set name = \"" + name + "\", number = \"" + phone + "\" where id = " + driverId);
         statement.executeUpdate("Update Buses set driver_id = null where id = " + currentBusId);
         statement.executeUpdate("Update Buses set driver_id = " + driverId + " where id = " + busId);
         statement.close();
+
+        return true;
     }
 
     public void deleteOrder(int clientId, int tripId) throws SQLException {
