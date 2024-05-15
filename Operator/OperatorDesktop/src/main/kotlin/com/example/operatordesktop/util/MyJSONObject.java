@@ -66,6 +66,19 @@ public class MyJSONObject extends JSONObject {
         );
     }
 
+    public Bus parseToBus() throws JSONException {
+        Bus bus = new Bus();
+        bus.setId(this.getInt("id"));
+        bus.setMark(this.getString("mark"));
+        bus.setNumber(this.getString("number"));
+        bus.setColor(this.getString("color"));
+        if(this.has("name"))
+            bus.setDriverName(this.getString("name"));
+        else
+            bus.setDriverName("Нет закрепленного водителя");
+        return bus;
+    }
+
     public Client parseToDriver() throws JSONException {
         List<String> bus = new ArrayList<>();
         if (this.has("mark"))

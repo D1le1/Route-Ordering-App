@@ -2,9 +2,9 @@ package com.example.operatordesktop.controllers
 
 import com.example.operatordesktop.HelloApplication
 import com.example.operatordesktop.RootStage
+import com.example.operatordesktop.util.Bus
 import com.example.operatordesktop.util.MyJSONObject
 import com.example.operatordesktop.util.ServerWork
-import com.example.operatordesktop.util.Trip
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.fxml.FXMLLoader
@@ -16,7 +16,6 @@ import javafx.scene.control.ButtonType
 import javafx.scene.control.Label
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
-import javafx.scene.control.TextField
 import javafx.scene.image.Image
 import javafx.stage.Modality
 import javafx.stage.Stage
@@ -26,66 +25,65 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 
 
-class ManageTripsController {
-    lateinit var tripsList: TableView<Trip>
-    lateinit var routeCol: TableColumn<Trip, String>
-    lateinit var driverCol: TableColumn<Trip, String>
-    lateinit var dateCol: TableColumn<Trip, String>
-    lateinit var timeCol: TableColumn<Trip, String>
+class ManageBusesController {
+    lateinit var busesList: TableView<Bus>
+    lateinit var markCol: TableColumn<Bus, String>
+    lateinit var numberCol: TableColumn<Bus, String>
+    lateinit var colorCol: TableColumn<Bus, String>
+    lateinit var driverCol: TableColumn<Bus, String>
 
     fun initialize() {
-        tripsList.placeholder = Label("Таблица пуста")
+        busesList.placeholder = Label("Таблица пуста")
         CoroutineScope(Dispatchers.IO).launch {
-            val response = ServerWork.sendRequest("TRIPS--0--3") ?: return@launch
+            val response = ServerWork.sendRequest("BUSES--3") ?: return@launch
             val jsonArray = JSONArray(response)
-            val trips = FXCollections.observableArrayList<Trip>()
+            val buses = FXCollections.observableArrayList<Bus>()
             for (i in 0 until jsonArray.length()) {
                 val obj = MyJSONObject(jsonArray.getJSONObject(i))
-                val trip = obj.parseToTrip()
-                trip.driverName += if (!obj.has("mark") && obj.get("driver_id") as Int > 0) " (нет авто)" else ""
-                trips += trip
+                val bus = obj.parseToBus()
+                buses.add(bus)
             }
-            tripsList.items.setAll(trips)
+            busesList.items.setAll(buses)
             fillColumns()
         }
     }
 
-    fun onAddTrip() {
+    fun onAddBus() {
         val stage = Stage()
-        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("add-trip-view.fxml"))
+        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("add-bus-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 600.0, 400.0)
         val icon = Image(HelloApplication::class.java.getResourceAsStream("icons/app_icon-playstore.png"))
-        fxmlLoader.getController<AddTripController>().setStage(stage)
+        fxmlLoader.getController<AddBusController>().setStage(stage)
         stage.initModality(Modality.APPLICATION_MODAL)
         stage.scene = scene
-        stage.title = "Добавление рейса"
+        stage.title = "Добавление авто"
         stage.icons.add(icon)
         stage.showAndWait()
         initialize()
     }
 
-    fun onEditTrip() {
+    fun onEditBus() {
         val stage = Stage()
-        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("edit-trip-view.fxml"))
+        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("edit-bus-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 600.0, 400.0)
         val icon = Image(HelloApplication::class.java.getResourceAsStream("icons/app_icon-playstore.png"))
-        val trip = tripsList.selectionModel.selectedItem ?: return
-        fxmlLoader.getController<EditTripController>().setData(stage, trip)
+        val bus = busesList.selectionModel.selectedItem ?: return
+        fxmlLoader.getController<EditBusController>().setData(stage, bus)
         stage.initModality(Modality.APPLICATION_MODAL)
         stage.scene = scene
-        stage.title = "Изменение рейса"
+        stage.title = "Изменение авто"
         stage.icons.add(icon)
         stage.showAndWait()
         initialize()
     }
 
-    fun onDeleteTrip() {
-        val trip = tripsList.selectionModel.selectedItem ?: return
+    fun onDeleteBus() {
+        val bus = busesList.selectionModel.selectedItem ?: return
         if (!confirmDelete()) return
 
         CoroutineScope(Dispatchers.IO).launch {
-            ServerWork.sendRequest("DELETE--TRIP--${trip.id}")
-            tripsList.items.remove(trip)
+            ServerWork.sendRequest("DELETE--BUS--${bus.id}")
+            busesList.items.remove(bus)
         }
     }
 
@@ -111,17 +109,17 @@ class ManageTripsController {
     }
 
     private fun fillColumns() {
-        routeCol.setCellValueFactory {
-            return@setCellValueFactory SimpleStringProperty(it.value.route)
+        markCol.setCellValueFactory {
+            return@setCellValueFactory SimpleStringProperty(it.value.mark)
+        }
+        numberCol.setCellValueFactory {
+            return@setCellValueFactory SimpleStringProperty(it.value.number)
+        }
+        colorCol.setCellValueFactory {
+            return@setCellValueFactory SimpleStringProperty(it.value.color)
         }
         driverCol.setCellValueFactory {
             return@setCellValueFactory SimpleStringProperty(it.value.driverName)
-        }
-        dateCol.setCellValueFactory {
-            return@setCellValueFactory SimpleStringProperty(it.value.date)
-        }
-        timeCol.setCellValueFactory {
-            return@setCellValueFactory SimpleStringProperty("${it.value.startTime} - ${it.value.endTime}")
         }
     }
 }

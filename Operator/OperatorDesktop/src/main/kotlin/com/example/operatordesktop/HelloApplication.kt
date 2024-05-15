@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.image.Image
 import javafx.stage.Stage
+import java.util.regex.Pattern
 
 object RootStage{
    lateinit var stage: Stage

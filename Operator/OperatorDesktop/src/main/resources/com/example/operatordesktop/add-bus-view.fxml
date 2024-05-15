@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.controllers.AddBusController">
+   <children>
+      <VBox alignment="CENTER" layoutX="141.0" layoutY="105.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity">
+         <children>
+            <TextField fx:id="markText" alignment="CENTER" layoutX="10.0" layoutY="20.0" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="300.0" promptText="Введите марку авто">
+               <font>
+                  <Font name="Courier New Bold" size="16.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="numberText" alignment="CENTER" layoutX="10.0" layoutY="20.0" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="300.0" promptText="Введите номер авто">
+               <font>
+                  <Font name="Courier New Bold" size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </TextField>
+            <TextField fx:id="colorText" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="300.0" promptText="Введите цвет авто">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Courier New Bold" size="16.0" />
+               </font>
+            </TextField>
+            <ComboBox fx:id="driverCBox" maxWidth="1.7976931348623157E308" prefWidth="300.0" promptText="Выберите водителя" style="-fx-font-family: &quot;Courier New Bold&quot;; -fx-font-size: 16;">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ComboBox>
+            <Button mnemonicParsing="false" onAction="#onAddButtonClick" text="Добавить авто">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Courier New Bold" size="16.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <Button layoutX="237.0" layoutY="356.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="Вернуться" AnchorPane.bottomAnchor="14.0">
+         <font>
+            <Font name="Courier New Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label fx:id="errorText" alignment="CENTER" contentDisplay="CENTER" layoutX="287.0" layoutY="48.0" text="Ошибка" textAlignment="CENTER" visible="false" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="24.0">
+         <font>
+            <Font name="Courier New Bold" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

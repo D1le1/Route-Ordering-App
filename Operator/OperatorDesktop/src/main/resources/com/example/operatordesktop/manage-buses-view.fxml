@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.controllers.ManageBusesController">
+   <children>
+      <TableView fx:id="busesList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-font-family: &quot;Courier New Bold&quot;; -fx-font-size: 14;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+          <TableColumn fx:id="markCol" editable="false" minWidth="-1.0" prefWidth="100.0" text="Марка авто" />
+          <TableColumn fx:id="numberCol" minWidth="-1.0" prefWidth="100.0" text="Номер авто" />
+          <TableColumn fx:id="colorCol" minWidth="-1.0" prefWidth="100.0" text="Цвет авто" />
+          <TableColumn fx:id="driverCol" minWidth="-1.0" prefWidth="100.0" text="Водитель" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Button fx:id="addButton" layoutX="21.0" layoutY="681.0" mnemonicParsing="false" onAction="#onAddBus" text="Добавить авто" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0">
+         <font>
+            <Font name="Courier New Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="177.0" layoutY="680.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onEditBus" text="Изменить авто" AnchorPane.bottomAnchor="10.0">
+         <font>
+            <Font name="Courier New Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteButton" layoutX="333.0" layoutY="680.0" mnemonicParsing="false" onAction="#onDeleteBus" text="Удалить авто" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="489.0">
+         <font>
+            <Font name="Courier New Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="808.0" layoutY="680.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="Вернуться" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0">
+         <font>
+            <Font name="Courier New Bold" size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
