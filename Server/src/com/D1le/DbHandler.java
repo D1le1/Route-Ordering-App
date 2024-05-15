@@ -530,4 +530,10 @@ public class DbHandler {
         statement.executeUpdate("delete from Buses where id = " + busId);
         statement.close();
     }
+
+    public void finishTrip(String status, String tripId) throws SQLException{
+        statement = connection.createStatement();
+        statement.executeUpdate("update trips set finished = " + status + " where id = " + tripId);
+        statement.close();
+    }
 }

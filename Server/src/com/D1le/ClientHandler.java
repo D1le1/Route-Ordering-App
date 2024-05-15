@@ -74,6 +74,9 @@ public class ClientHandler implements Runnable {
                         else
                             changeApplication(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
                         break;
+                    case "FINISH":
+                        finishTrip(parts[1], parts[2]);
+                        break;
                     case "ADD":
                         addInfo(parts);
                         break;
@@ -93,6 +96,18 @@ public class ClientHandler implements Runnable {
         } finally {
             this.close();
         }
+    }
+
+    private void finishTrip(String status, String tripId) {
+        try {
+            mDbHandler.finishTrip(status, tripId);
+            out.println("FINISH--DENY");
+        }catch (SQLException e){
+            out.println("FINISH--DENY");
+        }finally {
+            out.flush();
+        }
+
     }
 
     private void getBookInfo(int tripId) {
