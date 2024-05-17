@@ -54,6 +54,15 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
                 activity.findViewById(R.id.linearLayout).setVisibility(View.VISIBLE);
                 JSONObject object = new JSONObject(response);
                 List<String> stops = Arrays.asList(object.getString("stops").split(","));
+                if(!object.has("mark")){
+                    object.put("mark", "Нет информации");
+                    object.put("number", "Нет информации");
+                    object.put("color", "Нет информации");
+                }
+                if(!object.has("name")){
+                    object.put("name", "Нет информации");
+                    object.put("phone", "Нет информации");
+                }
 
                 fillLayout(
                         stops, object.getString("name"),

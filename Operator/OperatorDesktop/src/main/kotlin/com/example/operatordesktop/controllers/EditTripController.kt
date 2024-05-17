@@ -65,9 +65,10 @@ class EditTripController {
             for (i in 0 until array.length()) {
                 val obj = MyJSONObject(array.getJSONObject(i))
                 val driver = obj.parseToDriver()
-                val warning = if (obj.has("mark")) "" else "(нет авто)"
+                val warning = if (obj.has("mark")) "" else " (нет авто)"
+                driver.name = "${driver.name}$warning"
                 drivers.add(driver)
-                driverCBox.items.add("${driver.name} $warning")
+                driverCBox.items.add(driver.name)
             }
 
         }

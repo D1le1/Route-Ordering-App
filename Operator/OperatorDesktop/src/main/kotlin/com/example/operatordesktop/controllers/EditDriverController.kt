@@ -37,6 +37,7 @@ class EditDriverController {
             busCBox.value = driver.bus[1]
             colorText.text = driver.bus[0]
             numberText.text = driver.bus[2]
+            println(driver.bus[3])
         }
     }
 
@@ -76,12 +77,15 @@ class EditDriverController {
             val driverId = driver.id
             var busId = -1
             var curBusId = -1
-            try {
+            if(driver.bus.size > 1){
                 curBusId = driver.bus[3].toInt()
-            } catch (_: Exception) {
+                busId = curBusId
             }
             try {
-                busId = buses[busCBox.selectionModel.selectedIndex - 1].id
+                busId = if(busCBox.selectionModel.selectedIndex == 0)
+                    -1
+                else
+                    buses[busCBox.selectionModel.selectedIndex - 1].id
             } catch (_: Exception) {
             }
             val response = ServerWork.sendRequest("UPDATE--DRIVER--$name--$phone--$driverId--$busId--$curBusId")

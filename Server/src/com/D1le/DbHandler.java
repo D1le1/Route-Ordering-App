@@ -23,7 +23,8 @@ public class DbHandler {
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("Select t1.role_id, t2.id, t2.name, t2.number, t2.apply" +
                     " from usersroles t1 inner join users t2" +
-                    " on t1.user_id = t2.id where t2.number = " + login + " and t2.password = \"" + password + "\"");
+                    " on t1.user_id = t2.id" +
+                    " where t2.number = " + login + " and t2.password = \"" + password + "\"");
             while (rs.next()) {
                 Client client = new Client(
                         rs.getString("name"),
@@ -101,7 +102,7 @@ public class DbHandler {
                     "FROM ClientsTrips ct \n" +
                     "INNER JOIN Routes r ON r.id = t.route_id\n" +
                     "INNER JOIN Trips t on ct.trip_id = t.id\n" +
-                    "INNER JOIN Users u on u.id = t.driver_id\n" +
+                    "LEFT JOIN Users u on u.id = t.driver_id\n" +
                     "WHERE ct.user_id = " + clientId + "\n" +
                     "ORDER BY ct.id DESC");
             while (rs.next()) {
@@ -121,23 +122,33 @@ public class DbHandler {
     public JSONObject getHistoryInfo(int clientId, int tripId) {
         try {
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select s.name as stop, u.name, u.number as phone, b.mark, b.number, b.color, r.cost\n" +
+            ResultSet rs = statement.executeQuery("select s.name as stop, u.name, u.number as phone, b.mark, b.number, b.color, r.cost, ct.arrived\n" +
                     "from stops s\n" +
                     "INNER join ClientsTrips ct on s.id = ct.stop_id\n" +
                     "INNER Join Trips t on t.id = ct.trip_id\n" +
-                    "Inner join Users u on u.id = t.driver_id\n" +
-                    "Inner join Buses b on b.driver_id = t.driver_id\n" +
+                    "LEFT join Users u on u.id = t.driver_id\n" +
+                    "LEFT join Buses b on b.driver_id = t.driver_id\n" +
                     "Inner Join Routes r on r.id = t.route_id\n" +
                     "where ct.user_id = " + clientId + " and t.id = " + tripId);
             JSONObject object = new JSONObject();
+            object.put("mark", "Нет информации");
+            object.put("color", "Нет информации");
+            object.put("number", "Нет информации");
+            object.put("phone", "Нет информации");
+            object.put("name", "Нет информации");
             while (rs.next()) {
-                object.put("name", rs.getString("name"));
-                object.put("number", rs.getString("number"));
-                object.put("phone", rs.getString("phone"));
-                object.put("mark", rs.getString("mark"));
-                object.put("color", rs.getString("color"));
+                if(rs.getString("name") != null) {
+                    object.put("name", rs.getString("name"));
+                    object.put("phone", rs.getString("phone"));
+                }
                 object.put("cost", rs.getString("cost"));
                 object.put("stop", rs.getString("stop"));
+                object.put("arrived", rs.getInt("arrived"));
+                if(rs.getString("mark") != null) {
+                    object.put("number", rs.getString("number"));
+                    object.put("mark", rs.getString("mark"));
+                    object.put("color", rs.getString("color"));
+                }
             }
             rs.close();
             statement.close();
@@ -209,10 +220,10 @@ public class DbHandler {
             ResultSet rs = statement.executeQuery("SELECT u.name, u.number AS phone, b.number, b.mark, b.color, r.cost,\n" +
                     "(SELECT GROUP_CONCAT(sorted.name) FROM (SELECT s.name FROM Stops s WHERE s.route_id = r.id ORDER BY s.'order' ASC)" +
                     " AS sorted) AS stops_list\n" +
-                    "FROM users u\n" +
-                    "INNER JOIN Trips t ON u.id = t.driver_id\n" +
+                    "FROM Trips t\n" +
+                    "LEFT JOIN Users u ON u.id = t.driver_id\n" +
                     "INNER JOIN Routes r ON r.id = t.route_id\n" +
-                    "INNER JOIN Buses b ON b.driver_id = u.id\n" +
+                    "LEFT JOIN Buses b ON b.driver_id = u.id\n" +
                     "WHERE t.id = " + tripId);
             JSONObject object = new JSONObject();
 

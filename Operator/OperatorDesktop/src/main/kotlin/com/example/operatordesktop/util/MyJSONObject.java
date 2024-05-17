@@ -72,8 +72,10 @@ public class MyJSONObject extends JSONObject {
         bus.setMark(this.getString("mark"));
         bus.setNumber(this.getString("number"));
         bus.setColor(this.getString("color"));
-        if(this.has("name"))
+        if(this.has("name")) {
             bus.setDriverName(this.getString("name"));
+            bus.setDriverId(this.getInt("driver_id"));
+        }
         else
             bus.setDriverName("Нет закрепленного водителя");
         return bus;

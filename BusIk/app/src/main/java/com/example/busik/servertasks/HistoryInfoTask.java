@@ -3,6 +3,7 @@ package com.example.busik.servertasks;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,6 +29,7 @@ public class HistoryInfoTask extends AsyncTask<Integer,Void,String> {
     private Activity activity;
     private Client client;
     private Trip trip;
+    private int arrived;
 
     public HistoryInfoTask(Client client, Trip trip, Context context) {
         this.client = client;
@@ -53,6 +55,7 @@ public class HistoryInfoTask extends AsyncTask<Integer,Void,String> {
             try {
                 activity.findViewById(R.id.linearLayout).setVisibility(View.VISIBLE);
                 JSONObject object = new JSONObject(response);
+                arrived = object.getInt("arrived");
                 fillLayout(
                         object.getString("stop"),
                         object.getString("name"),
@@ -104,7 +107,7 @@ public class HistoryInfoTask extends AsyncTask<Integer,Void,String> {
         busColor.setText("Цвет маршрутки: " + color);
         tripCost.setText("Цена: " + cost + " руб.");
 
-        if(trip.getFinished() != 1)
+        if(trip.getFinished() == 0 && arrived == 0)
         {
             declineOrder.setVisibility(View.VISIBLE);
             declineOrder.setOnClickListener(v -> new DeleteOrderTask(context).execute(client.getId(), trip.getId()));

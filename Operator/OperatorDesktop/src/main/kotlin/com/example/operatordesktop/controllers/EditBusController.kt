@@ -67,7 +67,7 @@ class EditBusController {
             val mark = markText.text
             val number = numberText.text
             val color = colorText.text
-            var driverId = -1
+            var driverId = bus.driverId
             try{
                 driverId = drivers[driverCBox.selectionModel.selectedIndex - 1].id
             }catch (_:Exception){}
