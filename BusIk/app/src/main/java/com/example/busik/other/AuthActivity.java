@@ -8,6 +8,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busik.R;
+import com.example.busik.databinding.ActivityAuthBinding;
 import com.example.busik.servertasks.AuthTask;
 
 import java.security.MessageDigest;
@@ -20,16 +21,18 @@ public class AuthActivity extends AppCompatActivity {
 
     private EditText login;
     private EditText password;
+    private ActivityAuthBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_auth);
+        binding = ActivityAuthBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         fillLayout();
 
-        // Подключение к серверу
-        ServerWork.connectToServer();
+        ServerWork.ip = getSharedPreferences("settings", MODE_PRIVATE).getString("ip", "");
+        ServerWork.connectToServer(ServerWork.ip);
 
         // Обработка нажатия на кнопку "Зарегистрироваться"
         registerButton.setOnClickListener(v -> {
@@ -40,6 +43,11 @@ public class AuthActivity extends AppCompatActivity {
         // Обработка нажатия на кнопку "Авторизоваться"
         loginButton.setOnClickListener(v ->
                 new AuthTask(this).execute(login.getText().toString(), hashPassword(password.getText().toString())));
+
+        binding.logoImageView.setOnLongClickListener(v -> {
+            Ut.showIpDialog(this);
+            return false;
+        });
     }
 
     // Метод заполнения объектов страницы
@@ -79,4 +87,5 @@ public class AuthActivity extends AppCompatActivity {
             return " ";
         }
     }
+
 }

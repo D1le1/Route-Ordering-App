@@ -1,5 +1,6 @@
 package com.example.busik.servertasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.busik.client.Client;
@@ -16,11 +17,14 @@ public class ApplicationTask extends AsyncTask<Integer,Void,String> {
     private ApplicationListAdapter adapter;
     private int position;
 
+    private Context context;
+
     public ApplicationTask(Client client, ApplicationListAdapter adapter, List<Client> clients, int position) {
         this.client = client;
         this.adapter = adapter;
         this.clients = clients;
         this.position = position;
+        this.context = context;
     }
 
     @Override

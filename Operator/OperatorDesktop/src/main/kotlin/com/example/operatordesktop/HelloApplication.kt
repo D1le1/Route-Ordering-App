@@ -15,7 +15,7 @@ class HelloApplication : Application() {
     override fun start(stage: Stage) {
         RootStage.stage = stage
         stage.isResizable = false
-        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("login-view.fxml"))
+        val fxmlLoader = FXMLLoader(javaClass.getResource("login-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 600.0, 400.0)
         val icon = Image(javaClass.getResourceAsStream("icons/app_icon-playstore.png"))
         stage.title = "BusIk Operator"

@@ -1,5 +1,7 @@
 package com.example.busik.other;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Switch;
@@ -18,11 +20,11 @@ public class ServerWork  {
     private static boolean requestInProgress = false;
     private static Object mutex = new Object();
     private static Thread connectThread;
-
-    public static void connectToServer() {
+    public static String ip = "";
+    public static void connectToServer(String ip) {
         connectThread = new Thread(() -> {
             try {
-                socket = new Socket("192.168.90.99", 8001);
+                socket = new Socket(ip, 8001);
                 connected = true;
                 output = new PrintWriter(socket.getOutputStream());
                 input = new Scanner(socket.getInputStream());
@@ -36,7 +38,7 @@ public class ServerWork  {
     public static String sendRequest(String request) throws IOException {
         if(!connected)
         {
-            connectToServer();
+            connectToServer(ip);
             try{
                 Thread.sleep(400);
             }catch (InterruptedException e)
