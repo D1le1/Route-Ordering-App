@@ -60,6 +60,11 @@
           <artifactId>kotlinx-coroutines-javafx</artifactId>
           <version>1.8.0</version>
       </dependency>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.13.2</version>
+      </dependency>
 
   </dependencies>
 
