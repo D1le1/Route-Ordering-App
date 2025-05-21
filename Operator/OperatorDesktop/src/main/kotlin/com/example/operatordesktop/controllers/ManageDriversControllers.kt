@@ -56,7 +56,7 @@ class ManageDriversControllers {
         fxmlLoader.getController<EditDriverController>().setData(stage, driver)
         stage.initModality(Modality.APPLICATION_MODAL)
         stage.scene = scene
-        stage.title = "Изменение авто"
+        stage.title = "Изменение водителя"
         stage.icons.add(icon)
         stage.showAndWait()
         initialize()
