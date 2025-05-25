@@ -3,6 +3,7 @@ package com.example.operatordesktop.controllers
 import com.example.operatordesktop.HelloApplication
 import com.example.operatordesktop.RootStage
 import com.example.operatordesktop.util.Client
+import com.example.operatordesktop.util.CryptoUtils
 import com.example.operatordesktop.util.MyJSONObject
 import com.example.operatordesktop.util.ServerWork
 import com.example.operatordesktop.util.Trip
@@ -96,7 +97,7 @@ class ManageApplyController {
             return@setCellValueFactory SimpleStringProperty("Пользователь")
         }
         numberCol.setCellValueFactory {
-            return@setCellValueFactory SimpleStringProperty(it.value.phone)
+            return@setCellValueFactory SimpleStringProperty(CryptoUtils.decrypt(it.value.phone))
         }
     }
 }

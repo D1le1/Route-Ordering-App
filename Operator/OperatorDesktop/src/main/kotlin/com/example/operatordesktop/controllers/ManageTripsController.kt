@@ -14,6 +14,7 @@ import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.ButtonBar.ButtonData
 import javafx.scene.control.ButtonType
 import javafx.scene.control.Label
+import javafx.scene.control.SelectionMode
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.TextField
@@ -27,6 +28,9 @@ import org.json.JSONArray
 
 
 class ManageTripsController {
+    private val mainScope = CoroutineScope(Dispatchers.Main)
+    private val backScope = CoroutineScope(Dispatchers.IO)
+
     lateinit var tripsList: TableView<Trip>
     lateinit var routeCol: TableColumn<Trip, String>
     lateinit var driverCol: TableColumn<Trip, String>
@@ -42,10 +46,14 @@ class ManageTripsController {
             for (i in 0 until jsonArray.length()) {
                 val obj = MyJSONObject(jsonArray.getJSONObject(i))
                 val trip = obj.parseToTrip()
-                trip.driverName += if (!obj.has("mark") && obj.get("driver_id") as Int > 0) " (нет авто)" else ""
+                val busNumber = if(obj.has("bus_number")) " (${obj.getString("bus_number")})" else ""
+                trip.driverName += if (!obj.has("bus_number") && obj.get("driver_id") as Int > 0) " (нет авто)" else busNumber
                 trips += trip
             }
-            tripsList.items.setAll(trips)
+            mainScope.launch {
+                tripsList.items.setAll(trips)
+            }
+            tripsList.selectionModel.selectionMode = SelectionMode.MULTIPLE
             fillColumns()
         }
     }
@@ -80,13 +88,29 @@ class ManageTripsController {
     }
 
     fun onDeleteTrip() {
-        val trip = tripsList.selectionModel.selectedItem ?: return
+        val trips = tripsList.selectionModel.selectedItems ?: return
         if (!confirmDelete()) return
 
         CoroutineScope(Dispatchers.IO).launch {
-            ServerWork.sendRequest("DELETE--TRIP--${trip.id}")
-            tripsList.items.remove(trip)
+            for(i in trips.size - 1 downTo 0){
+                ServerWork.sendRequest("DELETE--TRIP--${trips[i].id}")
+                tripsList.items.remove(trips[i])
+            }
         }
+    }
+
+    fun onCreateSch() {
+        val stage = Stage()
+        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("create-schedule-view.fxml"))
+        val scene = Scene(fxmlLoader.load(), 600.0, 400.0)
+        val icon = Image(HelloApplication::class.java.getResourceAsStream("icons/app_icon-playstore.png"))
+        fxmlLoader.getController<CreateScheduleController>().setStage(stage)
+        stage.initModality(Modality.APPLICATION_MODAL)
+        stage.scene = scene
+        stage.title = "Создание цепочки рейсов"
+        stage.icons.add(icon)
+        stage.showAndWait()
+        initialize()
     }
 
     fun onBackButtonClick() {
@@ -99,7 +123,7 @@ class ManageTripsController {
         val confirmationDialog = Alert(AlertType.WARNING)
         confirmationDialog.title = "Подтверждение удаления"
         confirmationDialog.headerText = null
-        confirmationDialog.contentText = "Вы уверены, что хотите удалить этот элемент?"
+        confirmationDialog.contentText = "Вы уверены, что хотите удалить этот(эти) элемент(ы)?"
 
         val deleteButton = ButtonType("Удалить", ButtonData.APPLY)
         val cancelButton = ButtonType("Отмена", ButtonData.CANCEL_CLOSE)

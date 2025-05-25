@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="16dp"
-        android:text="Нет соединения с сервером"
+        android:text="Произошла ошибка при получении данных. Попробуйте позже"
         android:textColor="@android:color/darker_gray"
         android:textSize="24sp"
         android:textStyle="bold"

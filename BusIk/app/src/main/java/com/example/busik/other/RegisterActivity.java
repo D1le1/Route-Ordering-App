@@ -1,5 +1,6 @@
 package com.example.busik.other;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busik.R;
@@ -27,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private TextView error;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
             if(validation(radioButton))
             {
                 new RegisterTask(this).execute(
-                        login.getText().toString(),
-                        AuthActivity.hashPassword(password.getText().toString()),
+                        CryptoUtils.encrypt(login.getText().toString()),
+                        CryptoUtils.encrypt(password.getText().toString()),
                         userName.getText().toString(),
                         radioButton.getTag().toString()
                 );

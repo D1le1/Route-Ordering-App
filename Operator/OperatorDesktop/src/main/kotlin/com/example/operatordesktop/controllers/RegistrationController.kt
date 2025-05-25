@@ -2,6 +2,7 @@ package com.example.operatordesktop.controllers
 
 import com.example.operatordesktop.HelloApplication
 import com.example.operatordesktop.RootStage
+import com.example.operatordesktop.util.CryptoUtils
 import com.example.operatordesktop.util.ServerWork
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -30,7 +31,7 @@ class RegistrationController {
             if(!validateTextFields())
                 return@launch
 
-            val response = ServerWork.sendRequest("REG--${loginText.text}--${hashPassword(passwordText.text)}--${fioText.text}--3")
+            val response = ServerWork.sendRequest("REG--${CryptoUtils.encrypt(loginText.text)}--${CryptoUtils.encrypt(passwordText.text)}--${fioText.text}--3")
             if (response == null) {
                 showMessage("Нет подключения к серверу")
                 return@launch
@@ -87,34 +88,6 @@ class RegistrationController {
     private fun showMessage(text: String) {
         CoroutineScope(Dispatchers.Main).launch {
             messageText.text = text
-        }
-    }
-
-    private fun hashPassword(password: String): String? {
-        return if (password != "") {
-            try {
-                // Получаем экземпляр класса MessageDigest с алгоритмом SHA-256
-                val messageDigest = MessageDigest.getInstance("SHA-256")
-
-                // Преобразуем пароль в байтовый массив
-                val passwordBytes = password.toByteArray()
-
-                // Вычисляем хэш-код пароля
-                val hashBytes = messageDigest.digest(passwordBytes)
-
-                // Преобразуем хэш-код в шестнадцатеричную строку
-                val stringBuilder = StringBuilder()
-                for (b in hashBytes) {
-                    stringBuilder.append(String.format("%02x", b))
-                }
-                stringBuilder.toString()
-            } catch (e: NoSuchAlgorithmException) {
-                // Обработка исключения
-                e.printStackTrace()
-                null
-            }
-        } else {
-            " "
         }
     }
 }

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Оператор"
+        android:text="@string/operator_role"
         android:background="?attr/colorPrimary"
         android:textColor="@color/white"
         android:textSize="24sp"

@@ -1,15 +1,18 @@
 package com.example.busik.operator;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
 import com.example.busik.client.Client;
+import com.example.busik.other.CryptoUtils;
 import com.example.busik.other.Trip;
 
 import java.util.List;
@@ -55,9 +58,10 @@ public class DriverListAdapter extends RecyclerView.Adapter<DriverListAdapter.Vi
             bus = itemView.findViewById(R.id.bus_name);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Client client, OnDriverClickListener clickListener) {
             name.setText("Фамилия Имя: " + client.getName());
-            phone.setText("Номер телефона: " + client.getPhone());
+            phone.setText("Номер телефона: " + CryptoUtils.decrypt(client.getPhone()));
             if(client.getBus().get(0).equals("Нет закрепленного авто"))
                 bus.setText("Маршрутка: " + client.getBus().get(0));
             else

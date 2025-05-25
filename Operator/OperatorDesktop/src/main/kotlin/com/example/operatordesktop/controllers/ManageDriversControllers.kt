@@ -3,10 +3,12 @@ package com.example.operatordesktop.controllers
 import com.example.operatordesktop.HelloApplication
 import com.example.operatordesktop.RootStage
 import com.example.operatordesktop.util.Client
+import com.example.operatordesktop.util.CryptoUtils
 import com.example.operatordesktop.util.MyJSONObject
 import com.example.operatordesktop.util.ServerWork
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
+import javafx.collections.ObservableList
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.control.Alert
@@ -23,6 +25,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 class ManageDriversControllers {
@@ -31,12 +35,14 @@ class ManageDriversControllers {
     lateinit var phoneCol: TableColumn<Client, String>
     lateinit var nameCol: TableColumn<Client, String>
 
+    lateinit var drivers: ObservableList<Client>
+
     fun initialize() {
         driversList.placeholder = Label("Таблица пуста")
         CoroutineScope(Dispatchers.IO).launch {
             val response = ServerWork.sendRequest("DRIVERS--3") ?: return@launch
             val jsonArray = JSONArray(response)
-            val drivers = FXCollections.observableArrayList<Client>()
+            drivers = FXCollections.observableArrayList()
             for (i in 0 until jsonArray.length()) {
                 val obj = MyJSONObject(jsonArray.getJSONObject(i))
                 val driver = obj.parseToDriver()
@@ -62,6 +68,24 @@ class ManageDriversControllers {
         initialize()
     }
 
+    fun onCreateSch() {
+        val stage = Stage()
+        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("create-schedule-view.fxml"))
+        val scene = Scene(fxmlLoader.load(), 600.0, 400.0)
+        val icon = Image(HelloApplication::class.java.getResourceAsStream("icons/app_icon-playstore.png"))
+        val driver = driversList.selectionModel.selectedItem
+        if(driver != null)
+            fxmlLoader.getController<CreateScheduleController>().setParams(stage, driver)
+        else
+            fxmlLoader.getController<CreateScheduleController>().setStage(stage)
+        stage.initModality(Modality.APPLICATION_MODAL)
+        stage.scene = scene
+        stage.title = "Создание цепочки рейсов"
+        stage.icons.add(icon)
+        stage.showAndWait()
+        initialize()
+    }
+
     fun onBackButtonClick() {
         val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("main-menu-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 700.0, 400.0)
@@ -71,12 +95,12 @@ class ManageDriversControllers {
     private fun fillColumns() {
         markCol.setCellValueFactory {
             if(it.value.bus.size > 1)
-                return@setCellValueFactory SimpleStringProperty(it.value.bus[1])
+                return@setCellValueFactory SimpleStringProperty("${it.value.bus[1]} (${it.value.bus[2]})")
             else
                 return@setCellValueFactory SimpleStringProperty(it.value.bus[0])
         }
         phoneCol.setCellValueFactory {
-            return@setCellValueFactory SimpleStringProperty(it.value.phone)
+            return@setCellValueFactory SimpleStringProperty(CryptoUtils.decrypt(it.value.phone))
         }
         nameCol.setCellValueFactory {
             return@setCellValueFactory SimpleStringProperty(it.value.name)

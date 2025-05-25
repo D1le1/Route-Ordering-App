@@ -2,6 +2,7 @@ package com.example.operatordesktop.controllers
 
 import com.example.operatordesktop.HelloApplication
 import com.example.operatordesktop.RootStage
+import com.example.operatordesktop.util.CryptoUtils
 import com.example.operatordesktop.util.MyJSONObject
 import com.example.operatordesktop.util.ServerWork
 import javafx.fxml.FXMLLoader
@@ -28,7 +29,7 @@ class LoginController {
 
     fun onLoginButtonClick() {
         CoroutineScope(Dispatchers.IO).launch {
-            val response = ServerWork.sendRequest("AUTH--${loginText.text}--${hashPassword(passwordText.text)}")
+            val response = ServerWork.sendRequest("AUTH--${CryptoUtils.encrypt(loginText.text)}--${CryptoUtils.encrypt(passwordText.text)}")
             if (response == null) {
                 CoroutineScope(Dispatchers.Main).launch {
                     messageText.text = "Нет соеденения с сервером"
@@ -69,33 +70,5 @@ class LoginController {
         val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("reg-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 700.0, 500.0)
         RootStage.stage.scene = scene
-    }
-
-    private fun hashPassword(password: String): String? {
-        return if (password != "") {
-            try {
-                // Получаем экземпляр класса MessageDigest с алгоритмом SHA-256
-                val messageDigest = MessageDigest.getInstance("SHA-256")
-
-                // Преобразуем пароль в байтовый массив
-                val passwordBytes = password.toByteArray()
-
-                // Вычисляем хэш-код пароля
-                val hashBytes = messageDigest.digest(passwordBytes)
-
-                // Преобразуем хэш-код в шестнадцатеричную строку
-                val stringBuilder = StringBuilder()
-                for (b in hashBytes) {
-                    stringBuilder.append(String.format("%02x", b))
-                }
-                stringBuilder.toString()
-            } catch (e: NoSuchAlgorithmException) {
-                // Обработка исключения
-                e.printStackTrace()
-                null
-            }
-        } else {
-            " "
-        }
     }
 }

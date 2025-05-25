@@ -47,6 +47,9 @@ public class ClientHandler implements Runnable {
                     case "TRIP":
                         getTripInfo(Integer.parseInt(parts[1]));
                         break;
+                    case "ROUTE":
+                        getRouteInfo(parts[1]);
+                        break;
                     case "INFO":
                         getBookInfo(Integer.parseInt(parts[1]));
                         break;
@@ -161,6 +164,12 @@ public class ClientHandler implements Runnable {
             jsonArray.put(object);
         }
         out.println(jsonArray);
+        out.flush();
+    }
+
+    private void getRouteInfo(String route){
+        JSONObject object = mDbHandler.getRouteInfo(route);
+        out.println(object);
         out.flush();
     }
 

@@ -60,7 +60,7 @@ public class DriverTripInfoTask extends AsyncTask<Integer,Void,String> {
 
                 if(clients.size() == 0)
                 {
-                    error.setText("Нет доступных клиентов");
+                    error.setText("Нет доступных пассажиров");
                     error.setVisibility(View.VISIBLE);
                 }
 

@@ -1,16 +1,19 @@
 package com.example.busik.client;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busik.R;
+import com.example.busik.other.CryptoUtils;
 import com.example.busik.other.Trip;
 import com.example.busik.servertasks.MarkClientTask;
 
@@ -36,12 +39,13 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
         return new ClientViewHolder(itemView);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(ClientViewHolder holder, int position) {
         Client client = clients.get(position);
-        holder.mNameTextView.setText("Имя клиента: " + client.getName());
+        holder.mNameTextView.setText("Имя пассажира: " + client.getName());
         holder.mAddressTextView.setText("Адрес: " + client.getAddress());
-        holder.mPhoneTextView.setText("Телефон: " + client.getPhone());
+        holder.mPhoneTextView.setText("Телефон: " + CryptoUtils.decrypt(client.getPhone()));
         if(client.getArrived() != 0)
             holder.mClientCard.setCardBackgroundColor(client.getArrived() == 1 ? 0xCC1AF876 : 0xCCFF0000);
 

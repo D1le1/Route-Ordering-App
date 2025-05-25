@@ -1,16 +1,19 @@
 package com.example.busik.operator;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busik.R;
 import com.example.busik.client.Client;
+import com.example.busik.other.CryptoUtils;
 import com.example.busik.servertasks.UpdateDriverTask;
 
 public class OperatorManageDriverActivity extends AppCompatActivity {
@@ -39,6 +42,7 @@ public class OperatorManageDriverActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void fillLayout(Client driver)
     {
         driverName = findViewById(R.id.driver_name);
@@ -49,7 +53,7 @@ public class OperatorManageDriverActivity extends AppCompatActivity {
         confirmChanges = findViewById(R.id.btn_confirm_order);
 
         driverName.setText(driver.getName());
-        phoneNumber.setText(driver.getPhone());
+        phoneNumber.setText(CryptoUtils.decrypt(driver.getPhone()));
         if(!driver.getBus().get(0).equals("Нет закрепленного авто")) {
             busColor.setText("Цвет маршрутки: " + driver.getBus().get(0));
             busMark.setText("Марка маршрутки: " + driver.getBus().get(1));
@@ -70,7 +74,7 @@ public class OperatorManageDriverActivity extends AppCompatActivity {
         confirmChanges.setOnClickListener(v -> {
             new UpdateDriverTask(this).execute(
                     driverName.getText().toString(),
-                    phoneNumber.getText().toString(),
+                    CryptoUtils.encrypt(phoneNumber.getText().toString()),
                     String.valueOf(driver.getId()),
                     String.valueOf(busId),
                     String.valueOf(currentBusId)

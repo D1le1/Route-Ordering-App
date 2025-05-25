@@ -2,6 +2,7 @@ package com.example.operatordesktop.controllers
 
 import com.example.operatordesktop.util.Bus
 import com.example.operatordesktop.util.Client
+import com.example.operatordesktop.util.CryptoUtils
 import com.example.operatordesktop.util.MyJSONObject
 import com.example.operatordesktop.util.ServerWork
 import javafx.collections.FXCollections
@@ -13,6 +14,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 class EditDriverController {
     private var buses = FXCollections.observableArrayList<Bus>()
@@ -31,7 +34,7 @@ class EditDriverController {
         this.driver = driver
 
         nameText.text = driver.name
-        phoneText.text = driver.phone
+        phoneText.text = CryptoUtils.decrypt(driver.phone)
 
         if (driver.bus.size > 1) {
             busCBox.value = driver.bus[1]
@@ -51,7 +54,7 @@ class EditDriverController {
                 val obj = MyJSONObject(array.getJSONObject(i))
                 val bus = obj.parseToBus()
                 buses.add(bus)
-                busCBox.items.add(bus.mark)
+                busCBox.items.add("${bus.mark} (${bus.number})")
             }
         }
 
@@ -88,7 +91,7 @@ class EditDriverController {
                     buses[busCBox.selectionModel.selectedIndex - 1].id
             } catch (_: Exception) {
             }
-            val response = ServerWork.sendRequest("UPDATE--DRIVER--$name--$phone--$driverId--$busId--$curBusId")
+            val response = ServerWork.sendRequest("UPDATE--DRIVER--$name--${CryptoUtils.encrypt(phone)}--$driverId--$busId--$curBusId")
             CoroutineScope(Dispatchers.Main).launch {
                 if (response != "UPDATE--OK") {
                     showError("Ошибка изменения. Возможно такое авто уже существует")

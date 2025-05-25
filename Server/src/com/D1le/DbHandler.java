@@ -24,7 +24,7 @@ public class DbHandler {
             ResultSet rs = statement.executeQuery("Select t1.role_id, t2.id, t2.name, t2.number, t2.apply" +
                     " from usersroles t1 inner join users t2" +
                     " on t1.user_id = t2.id" +
-                    " where t2.number = " + login + " and t2.password = \"" + password + "\"");
+                    " where t2.number = \"" + login + "\" and t2.password = \"" + password + "\"");
             while (rs.next()) {
                 Client client = new Client(
                         rs.getString("name"),
@@ -71,6 +71,24 @@ public class DbHandler {
         return null;
     }
 
+    public JSONObject getRouteInfo(String route) {
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from routes where route = '" + route + "'");
+            JSONObject object = new JSONObject();
+            object.put("id", rs.getInt("id"));
+            object.put("route", rs.getString("route"));
+            object.put("time", rs.getFloat("time"));
+            object.put("cost", rs.getInt("cost"));
+            rs.close();
+            statement.close();
+            return object;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public JSONArray getDriverTrips(int driverId) {
         try {
             JSONArray jsonArray = new JSONArray();
@@ -80,7 +98,7 @@ public class DbHandler {
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
                     "LEFT JOIN ClientsTrips t3 ON t3.trip_id = t1.id and arrived < 2 " +
                     "WHERE driver_id = " + driverId + " and t1.finished = 0" +
-                    " GROUP BY t1.id");
+                    " GROUP BY t1.id ORDER BY t1.time");
             while (rs.next()) {
                 MyJSONObject object = new MyJSONObject(new Trip(rs, false));
                 jsonArray.put(object);
@@ -137,14 +155,14 @@ public class DbHandler {
             object.put("phone", "Нет информации");
             object.put("name", "Нет информации");
             while (rs.next()) {
-                if(rs.getString("name") != null) {
+                if (rs.getString("name") != null) {
                     object.put("name", rs.getString("name"));
                     object.put("phone", rs.getString("phone"));
                 }
                 object.put("cost", rs.getString("cost"));
                 object.put("stop", rs.getString("stop"));
                 object.put("arrived", rs.getInt("arrived"));
-                if(rs.getString("mark") != null) {
+                if (rs.getString("mark") != null) {
                     object.put("number", rs.getString("number"));
                     object.put("mark", rs.getString("mark"));
                     object.put("color", rs.getString("color"));
@@ -167,7 +185,7 @@ public class DbHandler {
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
                     "LEFT JOIN ClientsTrips t3 ON t3.trip_id = t1.id and arrived < 2 " +
                     "WHERE route = '" + start + "-" + end + "' and date = '" + date + "' " + "and t1.finished = 0 " +
-                    "GROUP BY t1.id");
+                    "GROUP BY t1.id ORDER BY t1.time");
             List<Trip> trips = new ArrayList<>();
             while (rs.next()) {
                 trips.add(new Trip(rs, false));
@@ -217,8 +235,12 @@ public class DbHandler {
         try {
             statement = connection.createStatement();
 
-            ResultSet rs = statement.executeQuery("SELECT u.name, u.number AS phone, b.number, b.mark, b.color, r.cost,\n" +
-                    "(SELECT GROUP_CONCAT(sorted.name) FROM (SELECT s.name FROM Stops s WHERE s.route_id = r.id ORDER BY s.'order' ASC)" +
+            ResultSet rs = statement.executeQuery("select * from trips where id = " + tripId);
+            int routeStopId = rs.getInt("route_id");
+            if (routeStopId > 3)
+                routeStopId -= 3;
+            rs = statement.executeQuery("SELECT u.name, u.number AS phone, b.number, b.mark, b.color, r.cost,\n" +
+                    "(SELECT GROUP_CONCAT(sorted.name) FROM (SELECT s.name FROM Stops s WHERE s.route_id = " + routeStopId + " ORDER BY s.'order' ASC)" +
                     " AS sorted) AS stops_list\n" +
                     "FROM Trips t\n" +
                     "LEFT JOIN Users u ON u.id = t.driver_id\n" +
@@ -236,6 +258,7 @@ public class DbHandler {
                 object.put("cost", rs.getString("cost"));
                 object.put("stops", rs.getString("stops_list"));
             }
+            System.out.println(object.toString());
             statement.close();
             return object;
         } catch (SQLException e) {
@@ -246,7 +269,7 @@ public class DbHandler {
 
     public boolean addNewUser(String login, String password, String name, int role) throws SQLException {
         statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery("select * from users where number = " + login);
+        ResultSet rs = statement.executeQuery("select * from users where number = '" + login + "'");
         if (rs.next()) {
             statement.close();
             return false;
@@ -275,7 +298,7 @@ public class DbHandler {
         try {
             JSONArray jsonArray = new JSONArray();
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, finished, t2.time as trip_time, route, u.name, u.id as driver_id, b.mark " +
+            ResultSet rs = statement.executeQuery("SELECT t1.id, t1.date, t1.time, finished, t2.time as trip_time, route, u.name, u.id as driver_id, b.mark, b.number " +
                     "FROM trips t1 " +
                     "INNER JOIN routes t2 ON t2.id = t1.route_id " +
                     "LEFT JOIN users u on t1.driver_id = u.id " +
@@ -287,6 +310,7 @@ public class DbHandler {
                 object.put("driver_name", rs.getString("name"));
                 object.put("driver_id", rs.getInt("driver_id"));
                 object.put("mark", rs.getString("mark"));
+                object.put("bus_number", rs.getString("number"));
                 jsonArray.put(object);
             }
             rs.close();
@@ -542,7 +566,7 @@ public class DbHandler {
         statement.close();
     }
 
-    public void finishTrip(String status, String tripId) throws SQLException{
+    public void finishTrip(String status, String tripId) throws SQLException {
         statement = connection.createStatement();
         statement.executeUpdate("update trips set finished = " + status + " where id = " + tripId);
         statement.close();

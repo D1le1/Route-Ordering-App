@@ -3,6 +3,8 @@ package com.example.busik.servertasks;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,8 +12,11 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+
 import com.example.busik.R;
 import com.example.busik.client.Client;
+import com.example.busik.other.CryptoUtils;
 import com.example.busik.other.ServerWork;
 import com.example.busik.other.Trip;
 
@@ -47,12 +52,13 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
         return null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onPostExecute(String response) {
         if (response != null) {
             try {
-                activity.findViewById(R.id.linearLayout).setVisibility(View.VISIBLE);
                 JSONObject object = new JSONObject(response);
+                Log.d("DDD1", object.toString());
                 List<String> stops = Arrays.asList(object.getString("stops").split(","));
                 if(!object.has("mark")){
                     object.put("mark", "Нет информации");
@@ -72,10 +78,11 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
                         object.getString("color"),
                         object.getString("cost")
                 );
-
+                activity.findViewById(R.id.linearLayout).setVisibility(View.VISIBLE);
             } catch (JSONException e) {
                 e.printStackTrace();
                 activity.findViewById(R.id.error).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.linearLayout).setVisibility(View.INVISIBLE);
             }
         }
         else
@@ -85,6 +92,7 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void fillLayout(List<String> stops, String name, String phone, String number, String mark, String color, String cost)
     {
         TextView driverName = activity.findViewById(R.id.driver_name);
@@ -108,7 +116,7 @@ public class ClientTripInfoTask extends AsyncTask<Integer,Void,String> {
         destinationCity.setText(trip.getRoute().split("-")[1]);
 
         driverName.setText("Водитель: " + name);
-        driverPhone.setText("Номер телефона: " + phone);
+        driverPhone.setText("Номер телефона: " + CryptoUtils.decrypt(phone));
         busMark.setText("Марка маршрутки: " + mark);
         busNumber.setText("Номер маршрутки: " + number);
         busColor.setText("Цвет маршрутки: " + color);

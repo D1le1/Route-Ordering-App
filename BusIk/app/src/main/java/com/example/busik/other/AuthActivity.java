@@ -1,10 +1,12 @@
 package com.example.busik.other;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busik.R;
@@ -13,6 +15,7 @@ import com.example.busik.servertasks.AuthTask;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import com.example.busik.other.CryptoUtils;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -23,6 +26,7 @@ public class AuthActivity extends AppCompatActivity {
     private EditText password;
     private ActivityAuthBinding binding;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +35,7 @@ public class AuthActivity extends AppCompatActivity {
 
         fillLayout();
 
+        CryptoUtils.loadConfig(this);
         ServerWork.ip = getSharedPreferences("settings", MODE_PRIVATE).getString("ip", "");
         ServerWork.connectToServer(ServerWork.ip);
 
@@ -42,7 +47,7 @@ public class AuthActivity extends AppCompatActivity {
 
         // Обработка нажатия на кнопку "Авторизоваться"
         loginButton.setOnClickListener(v ->
-                new AuthTask(this).execute(login.getText().toString(), hashPassword(password.getText().toString())));
+                new AuthTask(this).execute(CryptoUtils.encrypt(login.getText().toString()), CryptoUtils.encrypt(password.getText().toString())));
 
         binding.logoImageView.setOnLongClickListener(v -> {
             Ut.showIpDialog(this);

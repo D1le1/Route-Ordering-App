@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.controllers.ManageDriversControllers">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.operatordesktop.controllers.ManageDriversControllers">
    <children>
       <TableView fx:id="driversList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-font-family: &quot;Courier New Bold&quot;; -fx-font-size: 14;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
@@ -22,6 +22,11 @@
          </font>
       </Button>
       <Button layoutX="808.0" layoutY="680.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="Вернуться" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0">
+         <font>
+            <Font name="Courier New Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="227.0" layoutY="360.0" mnemonicParsing="false" onAction="#onCreateSch" text="Создать расписание">
          <font>
             <Font name="Courier New Bold" size="16.0" />
          </font>

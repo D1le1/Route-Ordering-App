@@ -3,6 +3,7 @@ package com.example.busik.servertasks;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -56,10 +57,11 @@ public class OperatorApplicationListTask extends AsyncTask<Integer,Void,String> 
                 List<Client> clients = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
+                    Log.d("DDD1", object.toString());
                     clients.add(new Client(
                             object.getString("name"),
                             "",
-                            object.getString("number"),
+                            object.getString("phone"),
                             object.getInt("id"),
                             object.getInt("role")
                     ));
